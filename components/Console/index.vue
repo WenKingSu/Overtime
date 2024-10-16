@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import CommonSetting from "~/components/Console/common-setting.vue";
 </script>
 
 <template>
@@ -6,7 +7,7 @@
     <Tabs value="0">
       <TabList>
         <Tab value="0">時間控制台</Tab>
-        <Tab value="1">預留</Tab>
+        <Tab value="1">通用設定</Tab>
         <Tab value="2">預留</Tab>
       </TabList>
       <TabPanels>
@@ -17,7 +18,7 @@
         </TabPanel>
         <TabPanel value="1">
           <p class="m-0">
-            預留 1
+            <CommonSetting/>
           </p>
         </TabPanel>
         <TabPanel value="2">
