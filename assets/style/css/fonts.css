@@ -1,0 +1,57 @@
+/*常規體*/
+@font-face {
+    font-family: 'GenSenRoundedJP-R';
+    src: local('/fonts/GenSenRounded-R.ttc'),
+    url(../../fonts/GenSenRounded-R.ttc) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*粗體*/
+@font-face {
+    font-family: 'GenSenRoundedJP-B';
+    src: local('/fonts/GenSenRounded-B.ttc'),
+    url(../../fonts/GenSenRounded-B.ttc) format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/*輕體*/
+@font-face {
+    font-family: 'GenSenRoundedJP-L';
+    src: local('/fonts/GenSenRounded-L.ttc'),
+    url(../../fonts/GenSenRounded-L.ttc) format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/*中等體*/
+@font-face {
+    font-family: 'GenSenRoundedJP-M';
+    src: local('/fonts/GenSenRounded-M.ttc'),
+    url(../../fonts/GenSenRounded-M.ttc) format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/*中粗體*/
+@font-face {
+    font-family: 'GenSenRoundedJP-H';
+    src: local('/fonts/GenSenRounded-H.ttc'),
+    url(../../fonts/GenSenRounded-H.ttc) format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/*薄體*/
+@font-face {
+    font-family: 'GenSenRoundedJP-EL';
+    src: local('/fonts/GenSenRounded-EL.ttc'),
+    url(../../fonts/GenSenRounded-EL.ttc) format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+body {
+    font-family: "GenSenRoundedJP-R", serif;
+}
