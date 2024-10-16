@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+const files = import.meta.glob("@/assets/fonts/*");
+console.log(files)
+
 </script>
 
 <template>

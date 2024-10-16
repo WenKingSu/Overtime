@@ -51,96 +51,96 @@ const calcTime = ref(0)
     </Fieldset>
 
     <Fieldset legend="快速加時" class="w-full">
-      <div class="flex justify-around gap-x-3">
-        <InputGroup class="fast">
-          <InputNumber v-model="plus1" placeholder="0"/>
-          <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
-        </InputGroup>
-        <InputGroup class="fast">
-          <InputNumber v-model="plus2" placeholder="0"/>
-          <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
-        </InputGroup>
-        <InputGroup class="fast">
-          <InputNumber v-model="plus3" placeholder="0"/>
-          <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
-        </InputGroup>
-        <InputGroup class="fast">
-          <InputNumber v-model="plus4" placeholder="0"/>
-          <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
-        </InputGroup>
-        <InputGroup class="fast">
-          <InputNumber v-model="plus5" placeholder="0"/>
-          <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
-        </InputGroup>
-      </div>
-    </Fieldset>
+          <div class="flex justify-around gap-x-3">
+            <InputGroup class="fast">
+              <InputNumber v-model="plus1" placeholder="0"/>
+              <InputGroupAddon>分鐘</InputGroupAddon>
+              <Button icon="pi pi-plus" severity="warn"/>
+            </InputGroup>
+            <InputGroup class="fast">
+              <InputNumber v-model="plus2" placeholder="0"/>
+              <InputGroupAddon>分鐘</InputGroupAddon>
+              <Button icon="pi pi-plus" severity="warn"/>
+            </InputGroup>
+            <InputGroup class="fast">
+              <InputNumber v-model="plus3" placeholder="0"/>
+              <InputGroupAddon>分鐘</InputGroupAddon>
+              <Button icon="pi pi-plus" severity="warn"/>
+            </InputGroup>
+            <InputGroup class="fast">
+              <InputNumber v-model="plus4" placeholder="0"/>
+              <InputGroupAddon>分鐘</InputGroupAddon>
+              <Button icon="pi pi-plus" severity="warn"/>
+            </InputGroup>
+            <InputGroup class="fast">
+              <InputNumber v-model="plus5" placeholder="0"/>
+              <InputGroupAddon>分鐘</InputGroupAddon>
+              <Button icon="pi pi-plus" severity="warn"/>
+            </InputGroup>
+          </div>
+        </Fieldset>
 
-    <Fieldset legend="金額換算加時" class="w-full">
-      <div class="flex justify-around gap-x-3">
-        <InputGroup class="custom">
-          <InputGroupAddon>
-            設定
-          </InputGroupAddon>
-          <InputNumber v-model="money" placeholder="0"/>
-          <InputGroupAddon>
-            <i class="pi pi-dollar"></i>
-          </InputGroupAddon>
-          <InputGroupAddon>
-            <i class="pi pi-angle-right"></i>
-          </InputGroupAddon>
-          <InputNumber v-model="tranMin" placeholder="0"/>
-          <InputGroupAddon>
-            <i class="pi pi-clock"></i>
-          </InputGroupAddon>
-        </InputGroup>
+        <Fieldset legend="金額換算加時" class="w-full">
+          <div class="flex justify-around gap-x-3">
+            <InputGroup class="custom">
+              <InputGroupAddon>
+                設定
+              </InputGroupAddon>
+              <InputNumber v-model="money" placeholder="0"/>
+              <InputGroupAddon>
+                <i class="pi pi-dollar"></i>
+              </InputGroupAddon>
+              <InputGroupAddon>
+                <i class="pi pi-angle-right"></i>
+              </InputGroupAddon>
+              <InputNumber v-model="tranMin" placeholder="0"/>
+              <InputGroupAddon>
+                <i class="pi pi-clock"></i>
+              </InputGroupAddon>
+            </InputGroup>
 
-        <InputGroup class="donate">
-          <InputGroupAddon>
-            Donate金額
-          </InputGroupAddon>
-          <InputNumber v-model="donate" placeholder="0"/>
-          <InputGroupAddon>
-            <i class="pi pi-dollar"></i>
-          </InputGroupAddon>
-          <InputGroupAddon>
-            <i class="pi pi-angle-right"></i>
-          </InputGroupAddon>
-          <InputNumber v-model="calcTime" placeholder="0" disabled/>
-          <InputGroupAddon>
-            <i class="pi pi-clock"></i>
-          </InputGroupAddon>
-          <Button icon="pi pi-check" severity="success"/>
-        </InputGroup>
-      </div>
-    </Fieldset>
+            <InputGroup class="donate">
+              <InputGroupAddon>
+                Donate金額
+              </InputGroupAddon>
+              <InputNumber v-model="donate" placeholder="0"/>
+              <InputGroupAddon>
+                <i class="pi pi-dollar"></i>
+              </InputGroupAddon>
+              <InputGroupAddon>
+                <i class="pi pi-angle-right"></i>
+              </InputGroupAddon>
+              <InputNumber v-model="calcTime" placeholder="0" disabled/>
+              <InputGroupAddon>
+                <i class="pi pi-clock"></i>
+              </InputGroupAddon>
+              <Button icon="pi pi-check" severity="success"/>
+            </InputGroup>
+          </div>
+        </Fieldset>
+
   </div>
 </template>
 
 <style lang="scss" scoped>
 #Time-Control {
-}
+  .p-inputgroup {
 
-.p-inputgroup {
+    &.main {
+      width: 30rem;
+    }
 
-  &.main {
-    width: 30rem;
-  }
+    &.fast {
+      width: 10rem;
+    }
 
-  &.fast {
-    width: 10rem;
-  }
+    &.custom {
+      width: 20rem;
+    }
 
-  &.custom {
-    width: 20rem;
-  }
-
-  &.donate {
-    width: 30rem;
+    &.donate {
+      width: 30rem;
+    }
   }
 }
 </style>
