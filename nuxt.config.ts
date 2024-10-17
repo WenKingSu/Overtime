@@ -27,6 +27,7 @@ export default defineNuxtConfig({
         }
       }
     },
+    assetsInclude: ['**/*.ttc'],
   },
   primevue: {
     usePrimeVue: true,
