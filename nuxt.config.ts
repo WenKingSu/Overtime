@@ -16,6 +16,7 @@ export default defineNuxtConfig({
   modules: [
     '@primevue/nuxt-module',
     '@unocss/nuxt',
+    '@pinia/nuxt',
   ],
   vite: {
     css: {

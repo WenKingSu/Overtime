@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import {useDisplayStore} from "~/store/displayStore";
+
+const displayStore = useDisplayStore();
+const {bgColor} = storeToRefs(displayStore)
+
 const files = import.meta.glob("@/assets/fonts/*");
 const selectedFont = ref();
 const fontOptions = computed(() => {
@@ -14,9 +19,8 @@ const setClockFont = () => {
   console.log(selectedFont.value)
 }
 
-const bgColor = ref()
 const setBgColor = () => {
-  console.log(bgColor.value)
+  displayStore.setBgColor(bgColor.value)
 }
 </script>
 
@@ -55,7 +59,6 @@ const setBgColor = () => {
             <ColorPicker v-model="bgColor" format="hex" inline/>
           </InputGroup>
         </div>
-        <Button label="設定" icon="pi pi-cog" severity="success" @click="setBgColor"/>
       </div>
     </Fieldset>
 

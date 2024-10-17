@@ -5,12 +5,18 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@pinia/nuxt':
+    specifier: ^0.5.5
+    version: 0.5.5(vue@3.5.12)
   '@primevue/themes':
     specifier: ^4.1.1
     version: 4.1.1
   nuxt:
     specifier: ^3.13.2
     version: 3.13.2(sass-embedded@1.79.5)(vite@5.4.9)
+  pinia:
+    specifier: ^2.2.4
+    version: 2.2.4(vue@3.5.12)
   primeicons:
     specifier: ^7.0.0
     version: 7.0.0
@@ -1415,6 +1421,21 @@ packages:
       '@parcel/watcher-win32-arm64': 2.4.1
       '@parcel/watcher-win32-ia32': 2.4.1
       '@parcel/watcher-win32-x64': 2.4.1
+
+  /@pinia/nuxt@0.5.5(vue@3.5.12):
+    resolution: {integrity: sha512-wjxS7YqIesh4OLK+qE3ZjhdOJ5pYZQ+VlEmZNtTwzQn1Kavei/khovx7mzXVXNA/mvSPXVhb9xBzhyS3XMURtw==}
+    dependencies:
+      '@nuxt/kit': 3.13.2(magicast@0.3.5)
+      pinia: 2.2.4(vue@3.5.12)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - magicast
+      - rollup
+      - supports-color
+      - typescript
+      - vue
+      - webpack-sources
+    dev: false
 
   /@pkgjs/parseargs@0.11.0:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -4677,6 +4698,23 @@ packages:
     resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
     engines: {node: '>=12'}
 
+  /pinia@2.2.4(vue@3.5.12):
+    resolution: {integrity: sha512-K7ZhpMY9iJ9ShTC0cR2+PnxdQRuwVIsXDO/WIEV/RnMC/vmSoKDTKW/exNQYPI+4ij10UjXqdNiEHwn47McANQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.3.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.6.4
+      vue: 3.5.12
+      vue-demi: 0.14.10(vue@3.5.12)
+    dev: false
+
   /pkg-types@1.2.1:
     resolution: {integrity: sha512-sQoqa8alT3nHjGuTjuKgOnvjo4cljkufdtLMnO2LBP/wRwuDlo1tkaEdMxCRhyGRPacv/ztlZgDPm2b7FAmEvw==}
     dependencies:
@@ -6276,7 +6314,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.5.12
-    dev: true
 
   /vue-devtools-stub@0.1.0:
     resolution: {integrity: sha512-RutnB7X8c5hjq39NceArgXg28WZtZpGc3+J16ljMiYnFhKvd8hITxSWQSQ5bvldxMDU6gG5mkxl1MTQLXckVSQ==}
