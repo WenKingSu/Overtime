@@ -2,10 +2,9 @@
 import {useDisplayStore} from "~/store/displayStore";
 
 const displayStore = useDisplayStore();
-const {bgColor} = storeToRefs(displayStore)
-
+const {bgColor, clockFont} = storeToRefs(displayStore)
 const files = import.meta.glob("@/assets/fonts/*");
-const selectedFont = ref();
+const selectedFont = ref(clockFont.value);
 const fontOptions = computed(() => {
   const options = []
   for (const path of Object.keys(files)) {
@@ -16,7 +15,9 @@ const fontOptions = computed(() => {
   return options
 })
 const setClockFont = () => {
-  console.log(selectedFont.value)
+  console.log('default',clockFont.value)
+  console.log('selectedFont', selectedFont.value)
+  console.log(fontOptions.value)
 }
 
 const setBgColor = () => {
@@ -37,6 +38,7 @@ const setBgColor = () => {
             <Select v-model="selectedFont"
                     :options="fontOptions"
                     optionLabel="name"
+                    optionValue="value"
                     placeholder="時間字型"
                     checkmark
                     :highlightOnSelect="false"
