@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Monitor from "~/components/monitor.vue";
+import Monitor from "~/components/Monitor/index.vue";
 </script>
 
 <template>
