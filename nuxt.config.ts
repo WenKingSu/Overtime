@@ -17,6 +17,15 @@ export default defineNuxtConfig({
     '@primevue/nuxt-module',
     '@unocss/nuxt',
   ],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: "modern-compiler"
+        }
+      }
+    }
+  },
   primevue: {
     usePrimeVue: true,
     autoImport: true,
