@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     '@primevue/nuxt-module',
     '@unocss/nuxt',
     '@pinia/nuxt',
+    '@vueuse/nuxt',
   ],
   vite: {
     css: {
@@ -25,7 +26,7 @@ export default defineNuxtConfig({
           api: "modern-compiler"
         }
       }
-    }
+    },
   },
   primevue: {
     usePrimeVue: true,

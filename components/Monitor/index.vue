@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {useDisplayStore} from "~/store/displayStore";
-const displayStore = useDisplayStore();
+import {useDisplaySettingStore} from "~/store/displaySettingStore";
+const displayStore = useDisplaySettingStore();
 const {bgColor} = storeToRefs(displayStore)
 </script>
 
@@ -13,7 +13,7 @@ const {bgColor} = storeToRefs(displayStore)
         <Tab value="2">預留</Tab>
       </TabList>
       <TabPanels class="w-full h-full" :style="{backgroundColor: `#${bgColor}`}">
-        <TabPanel value="0">
+        <TabPanel value="0" class="h-full">
           <MonitorClock/>
         </TabPanel>
 <!--        <TabPanel value="1">-->

@@ -1,66 +1,77 @@
 <script lang="ts" setup>
-import {useDisplayStore} from "~/store/displayStore";
+import {useDisplaySettingStore} from "~/store/displaySettingStore";
+import {useFontStore} from "~/store/fontStore";
 
-const displayStore = useDisplayStore();
-const {bgColor, clockFont} = storeToRefs(displayStore)
-const files = import.meta.glob("@/assets/fonts/*");
-const selectedFont = ref(clockFont.value);
-const fontOptions = computed(() => {
-  const options = []
-  for (const path of Object.keys(files)) {
-    const split = path.split('/')
-    const name = split[split.length - 1]
-    options.push({name: name, value: name})
-  }
-  return options
-})
-const setClockFont = () => {
-  console.log('default',clockFont.value)
-  console.log('selectedFont', selectedFont.value)
-  console.log(fontOptions.value)
-}
+const displaySettingStore = useDisplaySettingStore();
+const {
+  bgColor,
+  clockFont,
+  clockFontSize,
+  remainingTimeColor,
+  elapsedTimeColor,
+} = storeToRefs(displaySettingStore)
 
-const setBgColor = () => {
-  displayStore.setBgColor(bgColor.value)
-}
+const fontStore = useFontStore();
 </script>
 
 <template>
   <div id="Display-Setting">
 
     <Fieldset legend="時間字型設定" class="w-full">
-      <div class="flex justify-between gap-3">
-        <div class="grow-1">
-          <InputGroup class="clock-font">
-            <InputGroupAddon>
-              時間字型
-            </InputGroupAddon>
-            <Select v-model="selectedFont"
-                    :options="fontOptions"
-                    optionLabel="name"
-                    optionValue="value"
-                    placeholder="時間字型"
-                    checkmark
-                    :highlightOnSelect="false"
-                    class="w-full md:w-56"
-            />
-          </InputGroup>
-        </div>
-        <Button label="設定" icon="pi pi-cog" severity="success" @click="setClockFont"/>
+      <div class="flex flex-col justify-between gap-y-3">
+        <InputGroup class="clock-font">
+          <InputGroupAddon>
+            時間字型
+          </InputGroupAddon>
+          <Select v-model="clockFont"
+                  :options="fontStore.fontOptions"
+                  optionLabel="name"
+                  optionValue="value"
+                  placeholder="時間字型"
+                  checkmark
+                  :highlightOnSelect="false"
+                  class="w-full md:w-56"
+          />
+        </InputGroup>
+        <InputGroup class="clock-font">
+          <InputGroupAddon>
+            字型大小
+          </InputGroupAddon>
+          <InputNumber v-model="clockFontSize" inputId="minmax-buttons" mode="decimal" showButtons :min="12" :max="144"
+                       fluid/>
+          <InputGroupAddon>
+            px
+          </InputGroupAddon>
+        </InputGroup>
+        <!--        <Button label="設定" icon="pi pi-cog" severity="success" @click="setClockFont"/>-->
       </div>
     </Fieldset>
 
-    <Fieldset legend="顯示背景顏色" class="w-full">
+    <Fieldset legend="顏色設定" class="w-full">
       <div class="flex justify-between gap-3">
-        <div class="grow-1">
-          <InputGroup class="clock-font">
-            <InputGroupAddon>
-              顏色
-            </InputGroupAddon>
-            <InputText v-model="bgColor"/>
-            <ColorPicker v-model="bgColor" format="hex" inline/>
-          </InputGroup>
-        </div>
+        <InputGroup class="clock-font">
+          <InputGroupAddon>
+            背景顏色
+          </InputGroupAddon>
+          <InputText v-model="bgColor"/>
+          <ColorPicker v-model="bgColor" format="hex" inline/>
+        </InputGroup>
+
+        <InputGroup class="clock-font">
+          <InputGroupAddon>
+            剩餘時間
+          </InputGroupAddon>
+          <InputText v-model="remainingTimeColor"/>
+          <ColorPicker v-model="remainingTimeColor" format="hex" inline/>
+        </InputGroup>
+
+        <InputGroup class="clock-font">
+          <InputGroupAddon>
+            已過時間
+          </InputGroupAddon>
+          <InputText v-model="elapsedTimeColor"/>
+          <ColorPicker v-model="elapsedTimeColor" format="hex" inline/>
+        </InputGroup>
       </div>
     </Fieldset>
 

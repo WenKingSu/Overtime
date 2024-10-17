@@ -1,5 +1,39 @@
 <script lang="ts" setup>
-import Monitor from "~/components/Monitor/index.vue";
+import {useFontStore} from "~/store/fontStore";
+import {useClockSettingStore} from "~/store/clockSettingStore";
+
+const fontStore = useFontStore()
+const clockSettingStore = useClockSettingStore();
+const {run} = storeToRefs(clockSettingStore)
+
+const getFontList = () => {
+  const style = document.createElement('style')
+  style.type = 'text/css'
+  let fonts = ''
+  for (const fontInfo of fontStore.fontInfos) {
+    let fontItem = `
+    @font-face {
+      font-family: '${fontInfo.name}';
+      src: local('${fontInfo.url}'),
+      url(.${fontInfo.url}) format('truetype');
+    }
+    `
+    fonts += fontItem
+  }
+  style.innerHTML = fonts
+  document.head.appendChild(style)
+}
+
+onMounted(() => {
+  getFontList()
+
+  window.setInterval(() => {
+    if (run.value) {
+      clockSettingStore.minusSecond()
+    }
+  }, 1000)
+})
+
 </script>
 
 <template>

@@ -1,0 +1,20 @@
+{
+    "display": {
+        "bgColor": "00b140",
+        "remainingTimeColor": "C1CB15",
+        "elapsedTimeColor": "3FC21B",
+        "clockFont": "GenSenRounded-B",
+        "clockFontSize": 36
+    },
+    "clock": {
+        "remainingTime": "300:0:5",
+        "elapsedTime": "33:59:55",
+        "plus1": 60,
+        "plus2": 15,
+        "plus3": 10,
+        "plus4": 3,
+        "plus5": 1,
+        "transDonateUnit": 100,
+        "transTimeUnit": 8
+    }
+}

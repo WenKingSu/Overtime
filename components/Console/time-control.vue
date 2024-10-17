@@ -1,18 +1,39 @@
 <script lang="ts" setup>
-const hour = ref(0)
-const min = ref(0)
-const sec = ref(0)
+import {useClockSettingStore} from "~/store/clockSettingStore";
 
-const plus1 = ref(0)
-const plus2 = ref(0)
-const plus3 = ref(0)
-const plus4 = ref(0)
-const plus5 = ref(0)
+const clockSettingStore = useClockSettingStore()
+const {
+  run,
+  plus1,
+  plus2,
+  plus3,
+  plus4,
+  plus5,
+  transDonateUnit,
+  transTimeUnit,
+  remainingHour,
+  remainingMinutes,
+  remainingSecond,
+  elapsedHour,
+  elapsedMinutes,
+  elapsedSecond,
+} = storeToRefs(clockSettingStore)
 
-const money = ref(0)
-const tranMin = ref(0)
 const donate = ref(0)
-const calcTime = ref(0)
+const calcTime = computed(() => {
+  if (donate.value) {
+    return (donate.value / transDonateUnit.value) * transTimeUnit.value
+  }
+  return 0
+})
+
+const start = () => {
+  run.value = true
+}
+
+const stop = () => {
+  run.value = false
+}
 
 </script>
 
@@ -25,99 +46,99 @@ const calcTime = ref(0)
             <InputGroupAddon>
               剩餘時間
             </InputGroupAddon>
-            <InputNumber v-model="hour" placeholder="Hour"/>
+            <InputNumber v-model="remainingHour" placeholder="Hour"/>
             <InputGroupAddon>小時</InputGroupAddon>
-            <InputNumber v-model="min" placeholder="Minute"/>
+            <InputNumber v-model="remainingMinutes" placeholder="Minute"/>
             <InputGroupAddon>分鐘</InputGroupAddon>
-            <InputNumber v-model="sec" placeholder="Second"/>
+            <InputNumber v-model="remainingSecond" placeholder="Second"/>
             <InputGroupAddon>秒</InputGroupAddon>
           </InputGroup>
           <InputGroup class="main">
             <InputGroupAddon>
               已過時間
             </InputGroupAddon>
-            <InputNumber v-model="hour" placeholder="Hour" disabled/>
+            <InputNumber v-model="elapsedHour" placeholder="Hour" disabled/>
             <InputGroupAddon>小時</InputGroupAddon>
-            <InputNumber v-model="min" placeholder="Minute" disabled/>
+            <InputNumber v-model="elapsedMinutes" placeholder="Minute" disabled/>
             <InputGroupAddon>分鐘</InputGroupAddon>
-            <InputNumber v-model="sec" placeholder="Second" disabled/>
+            <InputNumber v-model="elapsedSecond" placeholder="Second" disabled/>
             <InputGroupAddon>秒</InputGroupAddon>
           </InputGroup>
         </div>
-        <Button label="開始" icon="pi pi-play" severity="success"/>
-        <Button label="暫停" icon="pi pi-stop" severity="danger"/>
+        <Button label="開始" icon="pi pi-play" severity="success" @click="start" :disabled="run"/>
+        <Button label="暫停" icon="pi pi-stop" severity="danger" @click="stop" :disabled="!run"/>
         <Button label="重設" icon="pi pi-sync" severity="warn"/>
       </div>
     </Fieldset>
 
     <Fieldset legend="快速加時" class="w-full">
-          <div class="flex justify-around gap-x-3">
-            <InputGroup class="fast">
-              <InputNumber v-model="plus1" placeholder="0"/>
-              <InputGroupAddon>分鐘</InputGroupAddon>
-              <Button icon="pi pi-plus" severity="warn"/>
-            </InputGroup>
-            <InputGroup class="fast">
-              <InputNumber v-model="plus2" placeholder="0"/>
-              <InputGroupAddon>分鐘</InputGroupAddon>
-              <Button icon="pi pi-plus" severity="warn"/>
-            </InputGroup>
-            <InputGroup class="fast">
-              <InputNumber v-model="plus3" placeholder="0"/>
-              <InputGroupAddon>分鐘</InputGroupAddon>
-              <Button icon="pi pi-plus" severity="warn"/>
-            </InputGroup>
-            <InputGroup class="fast">
-              <InputNumber v-model="plus4" placeholder="0"/>
-              <InputGroupAddon>分鐘</InputGroupAddon>
-              <Button icon="pi pi-plus" severity="warn"/>
-            </InputGroup>
-            <InputGroup class="fast">
-              <InputNumber v-model="plus5" placeholder="0"/>
-              <InputGroupAddon>分鐘</InputGroupAddon>
-              <Button icon="pi pi-plus" severity="warn"/>
-            </InputGroup>
-          </div>
-        </Fieldset>
+      <div class="flex justify-around gap-x-3">
+        <InputGroup class="fast">
+          <InputNumber v-model="plus1" placeholder="0"/>
+          <InputGroupAddon>分鐘</InputGroupAddon>
+          <Button icon="pi pi-plus" severity="warn"/>
+        </InputGroup>
+        <InputGroup class="fast">
+          <InputNumber v-model="plus2" placeholder="0"/>
+          <InputGroupAddon>分鐘</InputGroupAddon>
+          <Button icon="pi pi-plus" severity="warn"/>
+        </InputGroup>
+        <InputGroup class="fast">
+          <InputNumber v-model="plus3" placeholder="0"/>
+          <InputGroupAddon>分鐘</InputGroupAddon>
+          <Button icon="pi pi-plus" severity="warn"/>
+        </InputGroup>
+        <InputGroup class="fast">
+          <InputNumber v-model="plus4" placeholder="0"/>
+          <InputGroupAddon>分鐘</InputGroupAddon>
+          <Button icon="pi pi-plus" severity="warn"/>
+        </InputGroup>
+        <InputGroup class="fast">
+          <InputNumber v-model="plus5" placeholder="0"/>
+          <InputGroupAddon>分鐘</InputGroupAddon>
+          <Button icon="pi pi-plus" severity="warn"/>
+        </InputGroup>
+      </div>
+    </Fieldset>
 
-        <Fieldset legend="金額換算加時" class="w-full">
-          <div class="flex justify-around gap-x-3">
-            <InputGroup class="custom">
-              <InputGroupAddon>
-                設定
-              </InputGroupAddon>
-              <InputNumber v-model="money" placeholder="0"/>
-              <InputGroupAddon>
-                <i class="pi pi-dollar"></i>
-              </InputGroupAddon>
-              <InputGroupAddon>
-                <i class="pi pi-angle-right"></i>
-              </InputGroupAddon>
-              <InputNumber v-model="tranMin" placeholder="0"/>
-              <InputGroupAddon>
-                <i class="pi pi-clock"></i>
-              </InputGroupAddon>
-            </InputGroup>
+    <Fieldset legend="金額換算加時" class="w-full">
+      <div class="flex justify-around gap-x-3">
+        <InputGroup class="custom">
+          <InputGroupAddon>
+            設定
+          </InputGroupAddon>
+          <InputNumber v-model="transDonateUnit" placeholder="0"/>
+          <InputGroupAddon>
+            <i class="pi pi-dollar"></i>
+          </InputGroupAddon>
+          <InputGroupAddon>
+            <i class="pi pi-angle-right"></i>
+          </InputGroupAddon>
+          <InputNumber v-model="transTimeUnit" placeholder="0"/>
+          <InputGroupAddon>
+            <i class="pi pi-clock"></i>
+          </InputGroupAddon>
+        </InputGroup>
 
-            <InputGroup class="donate">
-              <InputGroupAddon>
-                Donate金額
-              </InputGroupAddon>
-              <InputNumber v-model="donate" placeholder="0"/>
-              <InputGroupAddon>
-                <i class="pi pi-dollar"></i>
-              </InputGroupAddon>
-              <InputGroupAddon>
-                <i class="pi pi-angle-right"></i>
-              </InputGroupAddon>
-              <InputNumber v-model="calcTime" placeholder="0" disabled/>
-              <InputGroupAddon>
-                <i class="pi pi-clock"></i>
-              </InputGroupAddon>
-              <Button icon="pi pi-check" severity="success"/>
-            </InputGroup>
-          </div>
-        </Fieldset>
+        <InputGroup class="donate">
+          <InputGroupAddon>
+            Donate金額
+          </InputGroupAddon>
+          <InputNumber v-model="donate" placeholder="0"/>
+          <InputGroupAddon>
+            <i class="pi pi-dollar"></i>
+          </InputGroupAddon>
+          <InputGroupAddon>
+            <i class="pi pi-angle-right"></i>
+          </InputGroupAddon>
+          <InputNumber v-model="calcTime" placeholder="0" disabled/>
+          <InputGroupAddon>
+            <i class="pi pi-clock"></i>
+          </InputGroupAddon>
+          <Button icon="pi pi-check" severity="success"/>
+        </InputGroup>
+      </div>
+    </Fieldset>
 
   </div>
 </template>
