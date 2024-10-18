@@ -9,6 +9,7 @@ export default defineNuxtConfig({
       title: '加班台小工具',
     },
   },
+  ssr: false,
   css: [
     '@/assets/style/css/global.css',
     '@/assets/style/css/fonts.css',
@@ -18,7 +19,25 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@pinia/nuxt',
     '@vueuse/nuxt',
+    'nuxt-electron'
   ],
+  electron: {
+    build: [
+      {
+        // Main-Process entry file of the Electron App.
+        entry: 'electron/main.ts',
+      },
+      {
+        entry: 'electron/preload.ts',
+        onstart(args) {
+          // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
+          // instead of restarting the entire Electron App.
+          args.reload()
+        },
+      },
+    ],
+    renderer: {},
+  },
   vite: {
     css: {
       preprocessorOptions: {
