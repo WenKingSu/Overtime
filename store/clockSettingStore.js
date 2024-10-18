@@ -30,8 +30,10 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
 
     const plusMinutes = (minutes) => {
         const value = remainingMinutes.value + minutes
-        if (value > 60) {
+        if (value >= 60) {
             remainingHour.value += value / 60
+            remainingMinutes.value = value % 60
+        } else {
             remainingMinutes.value = value % 60
         }
     }

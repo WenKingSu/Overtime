@@ -35,6 +35,10 @@ const stop = () => {
   run.value = false
 }
 
+const plusMinutes = (value) => {
+  clockSettingStore.plusMinutes(value)
+}
+
 </script>
 
 <template>
@@ -76,27 +80,27 @@ const stop = () => {
         <InputGroup class="fast">
           <InputNumber v-model="plus1" placeholder="0"/>
           <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
+          <Button icon="pi pi-plus" severity="warn" @click="plusMinutes(plus1)"/>
         </InputGroup>
         <InputGroup class="fast">
           <InputNumber v-model="plus2" placeholder="0"/>
           <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
+          <Button icon="pi pi-plus" severity="warn" @click="plusMinutes(plus2)"/>
         </InputGroup>
         <InputGroup class="fast">
           <InputNumber v-model="plus3" placeholder="0"/>
           <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
+          <Button icon="pi pi-plus" severity="warn" @click="plusMinutes(plus3)"/>
         </InputGroup>
         <InputGroup class="fast">
           <InputNumber v-model="plus4" placeholder="0"/>
           <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
+          <Button icon="pi pi-plus" severity="warn" @click="plusMinutes(plus4)"/>
         </InputGroup>
         <InputGroup class="fast">
           <InputNumber v-model="plus5" placeholder="0"/>
           <InputGroupAddon>分鐘</InputGroupAddon>
-          <Button icon="pi pi-plus" severity="warn"/>
+          <Button icon="pi pi-plus" severity="warn" @click="plusMinutes(plus5)"/>
         </InputGroup>
       </div>
     </Fieldset>

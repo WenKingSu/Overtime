@@ -11,7 +11,6 @@ export default defineNuxtConfig({
   },
   css: [
     '@/assets/style/css/global.css',
-    '@/assets/style/css/fonts.css',
   ],
   modules: [
     '@primevue/nuxt-module',
