@@ -7,8 +7,8 @@
       <TabList>
         <Tab value="0">時間控制台</Tab>
         <Tab value="1">顯示設定</Tab>
-        <Tab value="2">通用設定</Tab>
-        <Tab value="3">預留</Tab>
+        <Tab value="2">聊天室設定</Tab>
+        <Tab value="3">通用設定</Tab>
       </TabList>
       <TabPanels>
         <TabPanel value="0">
@@ -18,13 +18,11 @@
           <ConsoleDisplaySetting/>
         </TabPanel>
         <TabPanel value="2">
+          <ConsoleChatSetting/>
+        </TabPanel>
+        <TabPanel value="3">
           <ConsoleCommonSetting/>
         </TabPanel>
-        <!--        <TabPanel value="2">-->
-        <!--          <p class="m-0">-->
-        <!--            預留 2-->
-        <!--          </p>-->
-        <!--        </TabPanel>-->
       </TabPanels>
     </Tabs>
   </div>

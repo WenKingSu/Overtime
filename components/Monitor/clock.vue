@@ -4,6 +4,7 @@ import {useClockSettingStore} from "~/store/clockSettingStore";
 
 const displaySettingStore = useDisplaySettingStore()
 const {
+  bgColor,
   clockFont,
   clockFontSize,
   remainingTimeColor,
@@ -22,7 +23,11 @@ const {
 </script>
 
 <template>
-  <div id="monitor-clock" class="w-full h-full flex-y-center justify-center gap-3">
+  <div
+      id="monitor-clock"
+      class="w-full h-full flex-y-center justify-center gap-3"
+      :style="{backgroundColor: `#${bgColor}`}"
+  >
     <div id="remaining-time" class="flex justify-between gap-3">
       <span :style="{fontSize: `${clockFontSize}px`}">
         剩餘開台時間：

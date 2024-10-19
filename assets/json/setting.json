@@ -16,5 +16,19 @@
         "plus5": 1,
         "transDonateUnit": 100,
         "transTimeUnit": 8
+    },
+    "chat": {
+        "twitch": {
+            "client_id": "9o1hnhvop15z5ezmzx0d0sbv7nb4et",
+            "client_secret": "mjxffofavi1vk33noln5z3n4ftymnr",
+            "channel": "hageeshow",
+            "code": "4ecqyp7ozsfs7hgguk87ljc9vvx0ts",
+            "access_token": "v21y254ghg4g2g1kw0bt1uemj1v7lu",
+            "refresh_token": "wpwm82f78qe8x2r0l2ujgcad93s6vajkxdvx19y9443ox058ls"
+        },
+        "youtube": {
+            "token": "AIzaSyDfsRf-D_unyJM29u4JUY2jR9jz_o4wMuw",
+            "videoId": ""
+        }
     }
 }
