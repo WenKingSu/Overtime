@@ -1,12 +1,18 @@
 <script lang="ts" setup>
 
 import {useChatSettingStore} from "~/store/chatSettingStore";
+import {useSpeakSettingStore} from "~/store/speakSettingStore";
 
 const chatSettingStore = useChatSettingStore()
 const {
   twitchChannel,
   twitchAccessToken,
 } = storeToRefs(chatSettingStore)
+const speakSettingStore = useSpeakSettingStore()
+const {
+  queue
+} = storeToRefs(speakSettingStore)
+
 
 const twitch = useTwitch()
 
@@ -58,6 +64,7 @@ const parseMessage = async (message) => {
           content: content
         }
     )
+    queue.value.push(content)
   }
 }
 
