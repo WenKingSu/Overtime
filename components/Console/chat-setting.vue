@@ -11,7 +11,8 @@ const {
   twitchAccessToken,
   twitchCode,
   youtubeToken,
-  youtubeVideoId
+  youtubeVideoId,
+  youtubeRefreshTime
 } = storeToRefs(chatSettingStore)
 
 const twitch = useTwitch()
@@ -29,11 +30,17 @@ const twitch = useTwitch()
           </InputGroupAddon>
           <InputText v-model="youtubeVideoId"/>
         </InputGroup>
+<!--        <InputGroup>-->
+<!--          <InputGroupAddon class="w-8rem" style="justify-content: left">-->
+<!--            Token-->
+<!--          </InputGroupAddon>-->
+<!--          <InputText v-model="youtubeToken"/>-->
+<!--        </InputGroup>-->
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">
-            Token
+            更新時間
           </InputGroupAddon>
-          <InputText v-model="youtubeToken"/>
+          <InputNumber v-model="youtubeRefreshTime" :min="3" placeholder="秒"/>
         </InputGroup>
       </div>
     </Fieldset>

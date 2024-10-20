@@ -38,5 +38,16 @@ export default defineNuxtConfig({
         preset: Aura,
       }
     }
-  }
+  },
+  vite: {
+    server: {
+      proxy: {
+        '/youtube-api': {
+          target: 'https://www.youtube.com', // YouTube 服务器
+          changeOrigin: true, // 允许跨域
+          rewrite: (path) => path.replace(/^\/youtube-api/, ''), // 移除前缀
+        },
+      },
+    },
+  },
 })

@@ -5,60 +5,83 @@ export const useYouTube = () => {
     const {
         youtubeToken,
         youtubeVideoId,
+        youtubeMessages
     } = storeToRefs(chatSettingStore)
 
-    const popoutUrl = `https://www.youtube.com/live_chat?is_popout=1&v=${youtubeVideoId.value}`
+    // const popoutUrl = `https://www.youtube.com/live_chat?is_popout=1&v=${youtubeVideoId.value}`
+    const popoutUrl = `/youtube-api/live_chat?is_popout=1&v=${youtubeVideoId.value}`
 
     const fetchLiveChat = async () => {
-        let response = await $fetch(popoutUrl);
-        console.log('fetchLiveChat', response)
-
-        // if (response.status === 200) {
-        //     let data = await response.text();
-        //     let data_obj = JSON.parse(data);
-        //     let chat_array = [];
-        //
-        //     for (let i = 0; i < data_obj.length; i++) {
-        //         let this_array = new Array();
-        //         this_array["id"] = data_obj[i].id.slice(-64);
-        //         this_array["name"] = data_obj[i].name;
-        //         this_array["msg"] = data_obj[i].msg;
-        //         this_array["ts"] = data_obj[i].ts;
-        //         chat_array.push(this_array);
-        //     }
-
-        // displayChatItems(chat_array);
+        try {
+            const chatHtml = ref('')
+            // 通过代理请求 YouTube 数据
+            // const response = await fetch(`/youtube-api/live_chat?v=${youtubeVideoId.value}`)
+            const response = await fetch(popoutUrl)
+            chatHtml.value = await response.text();
+            extractChatMessages(chatHtml.value)
+        } catch (error) {
+            console.error('Error fetching chat data:', error);
+        }
     }
 
-    const displayChatItems = (chat_array) => {
-        let chatbox = document.getElementById('chatbox');
-        let len = chat_array.length;
-        let current_li = [];
-        let remove_count = 0;
+    const extractChatMessages = (html) => {
+        youtubeMessages.value = []
+        // 使用 DOMParser 解析 HTML
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
 
-        document.querySelectorAll(".chat-item").forEach(function (item) {
-            current_li.push(item.getAttribute('data-attr'));
-        });
-
-        for (var i = 0; i < chat_array.length; i++) {
-            const this_id = chat_array[i]["id"];
-            const this_name = chat_array[i]["name"];
-            const this_msg = chat_array[i]["msg"];
-            const this_ts = chat_array[i]["ts"];
-
-            if (!current_li.includes(this_id)) {
-                chatbox.innerHTML += '<div data-attr="' + this_id + '" class="d-flex chat-item"><p><span class="user-name">' + this_name + ' : </span><span class="user-message">' + this_msg + '</span><br><i>' + this_ts + '</i></p></div>';
-            }
-        }
-
-        if (remove_count != len) {
-            for (var i = 0; i < remove_count; i++) {
-                document.querySelector(".chat-item").remove();
+        // 假设聊天消息在某个特定的 class 中，例如 '.chat-message'
+        const scriptTags = doc.querySelectorAll('script[nonce]'); // 替换为实际的选择器
+        const json = JSON.parse(selectContentOfScriptTags(scriptTags))
+        const contents = json['contents']
+        const liveChatRenderer = contents['liveChatRenderer']
+        const actions = liveChatRenderer['actions']
+        for (let action of actions) {
+            const item = extractMessage(action)
+            if (item) {
+                youtubeMessages.value.push(item)
             }
         }
     }
+
+    const extractMessage = (action) => {
+        if (action['addChatItemAction']) {
+            const addChatItemAction = action['addChatItemAction']
+            const item = addChatItemAction['item']
+            if (item['liveChatTextMessageRenderer']) {
+                const liveChatTextMessageRenderer = item['liveChatTextMessageRenderer']
+                const runs = liveChatTextMessageRenderer['message']['runs']
+                let content = ""
+                for (let run of runs) {
+                    if (run['emoji']) {
+                        const imageUrl = run['emoji']['image']['thumbnails'][0]
+                        content += `<Image src="${imageUrl.url}" alt="Image" />`
+                    } else {
+                        content += run['text']
+                    }
+                }
+                return {
+                    displayName: liveChatTextMessageRenderer['authorName']['simpleText'],
+                    content: content
+                }
+            }
+        }
+    }
+
+    const selectContentOfScriptTags = (tags) => {
+        for (let script of tags) {
+            const scriptContent = script.innerHTML;
+            const match = scriptContent.match(/window\["ytInitialData"\]/);
+
+            if (match) {
+                return match.input.replace("window\[\"ytInitialData\"\] = ", "")
+                    .replaceAll(";", "")
+            }
+        }
+        return "{}"
+    }
+
     return {
         fetchLiveChat,
-        displayChatItems
     }
 }

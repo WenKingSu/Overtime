@@ -4,12 +4,12 @@
 <template>
   <div id="monitor" class="w-full h-full">
     <Tabs value="0" class="w-full h-full">
-      <TabList>
+      <TabList class="h-10%">
         <Tab value="0">時間顯示</Tab>
         <Tab value="1">聊天室</Tab>
         <Tab value="2">預留</Tab>
       </TabList>
-      <TabPanels class="w-full h-full">
+      <TabPanels class="h-90%">
         <TabPanel value="0" class="h-full">
           <MonitorClock/>
         </TabPanel>

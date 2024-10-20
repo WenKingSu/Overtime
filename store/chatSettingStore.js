@@ -10,10 +10,13 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
     const twitchAccessToken= ref(settingJson.chat.twitch.access_token)
     const twitchRefreshToken= ref(settingJson.chat.twitch.refresh_token)
     const twitchCode = ref(settingJson.chat.twitch.code)
+    const twitchMessages= ref([])
 
     //YouTube
     const youtubeToken = ref(settingJson.chat.youtube.token)
     const youtubeVideoId = ref(settingJson.chat.youtube.videoId)
+    const youtubeRefreshTime= ref(settingJson.chat.youtube.refreshTime)
+    const youtubeMessages = ref([])
 
 
     return {
@@ -22,8 +25,11 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         twitchAccessToken,
         twitchRefreshToken,
         twitchChannel,
+        twitchMessages,
         twitchCode,
         youtubeToken,
-        youtubeVideoId
+        youtubeVideoId,
+        youtubeMessages,
+        youtubeRefreshTime
     }
 })
