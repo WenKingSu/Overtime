@@ -19,15 +19,15 @@
     },
     "chat": {
         "twitch": {
-            "client_id": "9o1hnhvop15z5ezmzx0d0sbv7nb4et",
-            "client_secret": "mjxffofavi1vk33noln5z3n4ftymnr",
-            "channel": "hageeshow",
-            "code": "vczln0gug9wb4dqxt9l6sh6wvmm33y",
-            "access_token": "b6xv1ij4nuxe6az1ltzflvn1jniu7w",
-            "refresh_token": "nmf7y4cqlqca18pfq2wxf27itmnbp0bec983t2rkdjw0olvrn4"
+            "client_id": "",
+            "client_secret": "",
+            "channel": "",
+            "code": "",
+            "access_token": "",
+            "refresh_token": ""
         },
         "youtube": {
-            "token": "AIzaSyDfsRf-D_unyJM29u4JUY2jR9jz_o4wMuw",
+            "token": "",
             "videoId": ""
         }
     }
