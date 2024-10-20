@@ -2,7 +2,6 @@
 import {useChatSettingStore} from "~/store/chatSettingStore";
 import {useSpeakSettingStore} from "~/store/speakSettingStore";
 import {useTwitch} from "~/composables/useTwitch";
-import {useSpeak} from "~/composables/useSpeak";
 
 const chatSettingStore = useChatSettingStore()
 const {
@@ -19,47 +18,27 @@ const {
 
 const speakSettingStore = useSpeakSettingStore()
 const {
+  voices,
   rate,
   pitch,
   voice
 } = storeToRefs(speakSettingStore)
 
 const twitch = useTwitch()
-const speaker = useSpeak()
+const speak = useSpeak()
 
-const synth = ref()
-const voices = ref([]);
+const testText = ref('')
 
-const populateVoiceList = () => {
-  voices.value = synth.value
-      .getVoices()
-      .sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
-
-  // console.log('voices清單', voices.value);
-  if (!voice.value && voices.value.length > 0) {
-    voice.value = voices.value.filter(i => i.default == true)[0].name;
-  }
-};
-
-onBeforeMount(async () => {
-  synth.value = window.speechSynthesis
-  await nextTick()
-})
-
-onMounted(() => {
-  if (synth.value.onvoiceschanged !== undefined) {
-    synth.value = window.speechSynthesis;
-    synth.value.onvoiceschanged = populateVoiceList
-    console.log('SpeechSynthesis is supported.');
-  } else {
-    console.log('SpeechSynthesis is not supported.');
-  }
-});
+const testSpeak = () => {
+  console.log(speak)
+  console.log(testText.value)
+  speak.speak(testText.value)
+}
 
 </script>
 
 <template>
-  <div id="Chat-Setting">
+  <div id="Chat-Setting" class="overflow-y-auto">
     <Fieldset legend="語音設定" class="w-full">
       <InputGroup>
         <InputGroupAddon class="w-8rem" style="justify-content: left">
@@ -79,22 +58,29 @@ onMounted(() => {
         <InputGroupAddon>
           語音模型
         </InputGroupAddon>
-                <Select v-model="voice"
-                        :options="voices"
-                        optionLabel="name"
-                        optionValue="name"
-                        :highlightOnSelect="false"
-                        class="w-full md:w-56"
-                >
-                  <template #value="slotProps">
-                    {{ slotProps.value }}
-                  </template>
-                  <template #option="slotProps">
-                    <div class="flex items-center">
-                      <div>{{ slotProps.option.name }} ( {{ slotProps.option.lang }} )</div>
-                    </div>
-                  </template>
-                </Select>
+        <Select v-model="voice"
+                :options="voices"
+                optionLabel="name"
+                optionValue="name"
+                :highlightOnSelect="false"
+                class="w-full md:w-56"
+        >
+          <template #value="slotProps">
+            {{ slotProps.value }}
+          </template>
+          <template #option="slotProps">
+            <div class="flex items-center">
+              <div>{{ slotProps.option.name }} ( {{ slotProps.option.lang }} )</div>
+            </div>
+          </template>
+        </Select>
+      </InputGroup>
+      <InputGroup class="my-3">
+        <InputGroupAddon class="w-8rem" style="justify-content: left">
+          測試區
+        </InputGroupAddon>
+        <InputText v-model="testText"/>
+        <Button label="測試" icon="pi pi-send" severity="warn" @click="testSpeak"/>
       </InputGroup>
     </Fieldset>
 

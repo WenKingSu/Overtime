@@ -42,7 +42,7 @@ onMounted(() => {
       <SplitterPanel>
         <Monitor/>
       </SplitterPanel>
-      <SplitterPanel>
+      <SplitterPanel style="overflow-y: auto">
         <Console/>
       </SplitterPanel>
     </Splitter>

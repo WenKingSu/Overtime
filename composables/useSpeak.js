@@ -3,28 +3,19 @@ import {useSpeakSettingStore} from "~/store/speakSettingStore.js";
 export const useSpeak = () => {
     const speakSettingStore = useSpeakSettingStore()
     const {
+        synth,
         rate,
         pitch,
         voice,
+        voices,
         queue
     } = storeToRefs(speakSettingStore)
 
-    const synth = ref()
-    const voices = ref([]);
-
-    const populateVoiceList = () => {
-        voices.value = synth.value
-            .getVoices()
-            .sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
-
-        // console.log('voices清單', voices.value);
-        if (!voice.value && voices.value.length > 0) {
-            voice.value = voices.value.filter(i => i.default == true)[0].name;
+    const speak = (message) => {
+        if (message.startsWith("!")){
+            return true;
         }
-    };
-
-    const speak = (synth, voices, message) => {
-        if (synth.speaking) {
+        if (synth.value.speaking) {
             console.log('speechSynthesis.speaking');
             return false;
         }
@@ -48,7 +39,8 @@ export const useSpeak = () => {
             }
             utterThis.pitch = pitch.value;
             utterThis.rate = rate.value;
-            synth.speak(utterThis);
+            console.log('utterThis', utterThis);
+            synth.value.speak(utterThis);
             return true;
         }
     };
@@ -57,26 +49,14 @@ export const useSpeak = () => {
         console.log('speak queue:', queue.value)
         if (queue.value.length > 0) {
             const message = queue.value[0]
-            if (synth.value, voice.value, message){
-                message.value.pop(0)
+            const result = speak(message)
+            if (result){
+                queue.value.shift()
+                console.log('queue', queue.value)
             }
         }
     }
 
-    onBeforeMount(async () => {
-        synth.value = window.speechSynthesis
-        await nextTick()
-    })
-
-    onMounted(() => {
-        if (synth.value.onvoiceschanged !== undefined) {
-            synth.value = window.speechSynthesis;
-            synth.value.onvoiceschanged = populateVoiceList
-            console.log('SpeechSynthesis is supported.');
-        } else {
-            console.log('SpeechSynthesis is not supported.');
-        }
-    });
     return {
         speak,
         speakWithQueue
