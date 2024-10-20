@@ -1,4 +1,5 @@
 import {useChatSettingStore} from "~/store/chatSettingStore.js";
+import * as repl from "node:repl";
 
 export const useTwitch = () => {
     const chatSettingStore = useChatSettingStore()
@@ -28,50 +29,64 @@ export const useTwitch = () => {
     }
 
     const getTwitchAccessToken = async () => {
-        const {data} = await useFetch(twitchAuthUrl, {
-            method: 'post',
-            body: {
-                client_id: twitchClientId,
-                client_secret: twitchClientSecret,
-                grant_type: "authorization_code",
-                code: twitchCode.value,
-                redirect_uri: host
+        const postData = {
+            client_id: twitchClientId.value,
+            client_secret: twitchClientSecret.value,
+            grant_type: "authorization_code",
+            code: twitchCode.value,
+            redirect_uri: host
+        }
+        try {
+            const response = await $fetch(twitchAuthUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(postData),
+            })
+            if (response) {
+                twitchAccessToken.value = response['access_token']
+                twitchRefreshToken.value = response['refresh_token']
             }
-        })
-        if (data) {
-            twitchAccessToken.value = data.value.access_token
-            twitchRefreshToken.value = data.value.refresh_token
+        } catch (error) {
+            console.error('Error:', error)
         }
     }
 
     const getTwitchRefreshToken = async () => {
-        const {data} = await useFetch(twitchAuthUrl, {
-            method: 'post',
-            body: {
-                client_id: twitchClientId,
-                client_secret: twitchClientSecret,
-                grant_type: "refresh_token",
-                refresh_token: twitchRefreshToken.value
+        const postData = {
+            client_id: twitchClientId.value,
+            client_secret: twitchClientSecret.value,
+            grant_type: "refresh_token",
+            refresh_token: twitchRefreshToken.value
+        }
+        try {
+            const response = await $fetch(twitchAuthUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(postData),
+            })
+            if (response) {
+                twitchAccessToken.value = response['access_token']
+                twitchRefreshToken.value = response['refresh_token']
             }
-        })
-
-        if (data) {
-            twitchAccessToken.value = data.value.access_token
-            twitchRefreshToken.value = data.value.refresh_token
+        } catch (error) {
+            console.error('Error:', error)
         }
     }
 
     const fetchDisplayName = async (id) => {
         const url = `https://api.twitch.tv/helix/users?login=${id}`
-        const {data} = await useFetch(url, {
+        const {data} = await $fetch(url, {
             method: 'get',
             headers: {
                 'Authorization': `Bearer ${twitchAccessToken.value}`,
                 'Client-ID': twitchClientId.value,
             }
         })
-
-        return data.value.data[0]['display_name']
+        return data[0]['display_name']
     }
 
     return {
