@@ -6,7 +6,9 @@
     <SplitterPanel class="flex items-start justify-start">
       <MonitorChatTwitch/>
     </SplitterPanel>
-    <SplitterPanel class="flex items-center justify-center"> Panel 2</SplitterPanel>
+    <SplitterPanel class="flex items-start justify-start">
+      <MonitorChatYoutube/>
+    </SplitterPanel>
   </Splitter>
 </template>
 
