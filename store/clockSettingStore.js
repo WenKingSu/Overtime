@@ -1,27 +1,28 @@
 import {defineStore} from "pinia";
 import settingJson from "assets/json/setting.json"
+import {useStorage} from "@vueuse/core";
 
 export const useClockSettingStore = defineStore("ClockSettingStore", () => {
 
     const run = ref(false)
 
-    const remainingTime = ref(settingJson.clock.remainingTime)
-    const elapsedTime = ref(settingJson.clock.elapsedTime)
+    let remainingTime = ref("300:00:00")
+    let elapsedTime = ref("00:00:00")
     //加時設定
-    const plus1 = ref(settingJson.clock.plus1)
-    const plus2 = ref(settingJson.clock.plus2)
-    const plus3 = ref(settingJson.clock.plus3)
-    const plus4 = ref(settingJson.clock.plus4)
-    const plus5 = ref(settingJson.clock.plus5)
+    let plus1 = ref(0)
+    let plus2 = ref(0)
+    let plus3 = ref(0)
+    let plus4 = ref(0)
+    let plus5 = ref(0)
 
     //金額換算時間
-    const transDonateUnit = ref(settingJson.clock.transDonateUnit)
-    const transTimeUnit = ref(settingJson.clock.transTimeUnit)
+    let transDonateUnit = ref(1)
+    let transTimeUnit = ref(1)
 
     // 剩餘時間
-    const remainingHour = ref(parseInt(remainingTime.value.split(":")[0]))
-    const remainingMinutes = ref(parseInt(remainingTime.value.split(":")[1]))
-    const remainingSecond = ref(parseInt(remainingTime.value.split(":")[2]))
+    let remainingHour = ref(parseInt(remainingTime.value.split(":")[0]))
+    let remainingMinutes = ref(parseInt(remainingTime.value.split(":")[1]))
+    let remainingSecond = ref(parseInt(remainingTime.value.split(":")[2]))
 
     // 經過時間
     const elapsedHour = ref(parseInt(elapsedTime.value.split(":")[0]))
@@ -74,6 +75,71 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
             }
         }
     }
+
+    onMounted(() => {
+        remainingTime = useStorage(
+            'remainingTime',
+            localStorage.getItem('remainingTime') ? localStorage.getItem('remainingTime') : settingJson.clock.remainingTime,
+            localStorage,
+            {mergeDefaults: true}
+        )
+
+        elapsedTime = useStorage(
+            'elapsedTime',
+            localStorage.getItem('elapsedTime') ? localStorage.getItem('elapsedTime') : settingJson.clock.elapsedTime,
+            localStorage,
+            {mergeDefaults: true}
+        )
+
+        plus1 = useStorage(
+            'plus1',
+            localStorage.getItem('plus1') ? localStorage.getItem('plus1') : settingJson.clock.plus1,
+            localStorage,
+            {mergeDefaults: true}
+        )
+
+        plus2 = useStorage(
+            'plus2',
+            localStorage.getItem('plus2') ? localStorage.getItem('plus2') : settingJson.clock.plus2,
+            localStorage,
+            {mergeDefaults: true}
+        )
+
+        plus3 = useStorage(
+            'plus3',
+            localStorage.getItem('plus3') ? localStorage.getItem('plus3') : settingJson.clock.plus3,
+            localStorage,
+            {mergeDefaults: true}
+        )
+
+        plus4 = useStorage(
+            'plus4',
+            localStorage.getItem('plus4') ? localStorage.getItem('plus4') : settingJson.clock.plus4,
+            localStorage,
+            {mergeDefaults: true}
+        )
+
+        plus5 = useStorage(
+            'plus5',
+            localStorage.getItem('plus5') ? localStorage.getItem('plus5') : settingJson.clock.plus5,
+            localStorage,
+            {mergeDefaults: true}
+        )
+
+        transDonateUnit = useStorage(
+            'transDonateUnit',
+            localStorage.getItem('transDonateUnit') ? localStorage.getItem('transDonateUnit') : settingJson.clock.transDonateUnit,
+            localStorage,
+            {mergeDefaults: true}
+        )
+
+        transTimeUnit = useStorage(
+            'transTimeUnit',
+            localStorage.getItem('transTimeUnit') ? localStorage.getItem('transTimeUnit') : settingJson.clock.transTimeUnit,
+            localStorage,
+            {mergeDefaults: true}
+        )
+    })
 
     return {
         run,

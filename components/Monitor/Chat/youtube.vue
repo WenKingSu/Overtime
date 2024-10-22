@@ -14,12 +14,12 @@ const scrollBarBottom = () => {
 }
 
 onMounted(() => {
-  youtube.fetchLiveChat()
-  scrollBarBottom()
-  setInterval(()=>{
-    youtube.fetchLiveChat()
-    scrollBarBottom()
-  }, (youtubeRefreshTime.value * 1000))
+  // youtube.fetchLiveChat()
+  // scrollBarBottom()
+  // setInterval(()=>{
+  //   youtube.fetchLiveChat()
+  //   scrollBarBottom()
+  // }, (youtubeRefreshTime.value * 1000))
 })
 </script>
 
