@@ -12,6 +12,7 @@ const {
 } = storeToRefs(displaySettingStore)
 
 const fontStore = useFontStore();
+
 </script>
 
 <template>

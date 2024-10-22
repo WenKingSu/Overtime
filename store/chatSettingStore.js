@@ -1,75 +1,60 @@
 import {defineStore} from "pinia";
+import {useLocalStorage} from '@vueuse/core'
 import settingJson from "assets/json/setting.json"
-import {useStorage} from '@vueuse/core'
 
 export const useChatSettingStore = defineStore("ChatSettingStore", () => {
 
     //Twitch
-    let twitchClientId = ref('')
-    let twitchClientSecret = ref('')
-    let twitchChannel = ref('')
-    let twitchAccessToken = ref('')
-    let twitchRefreshToken = ref('')
-    let twitchCode = ref('')
-    let twitchMessages = ref([])
+    const twitchClientId = useLocalStorage(
+        'twitchClientId',
+        localStorage.getItem('twitchClientId') ? localStorage.getItem('twitchClientId') : settingJson.chat.twitch.clientId,
+        localStorage,
+        {mergeDefaults: true}
+    )
+    const twitchClientSecret= useLocalStorage(
+        'twitchClientSecret',
+        localStorage.getItem('twitchClientSecret') ? localStorage.getItem('twitchClientSecret') : settingJson.chat.twitch.clientSecret,
+        {mergeDefaults: true}
+    )
+    const twitchChannel = useLocalStorage(
+        'twitchChannel',
+        localStorage.getItem('twitchChannel') ? localStorage.getItem('twitchChannel') : settingJson.chat.twitch.channel,
+        {mergeDefaults: true}
+    )
+    const twitchAccessToken = useLocalStorage(
+        'twitchAccessToken',
+        localStorage.getItem('twitchAccessToken') ? localStorage.getItem('twitchAccessToken') : settingJson.chat.twitch.accessToken,
+        {mergeDefaults: true}
+    )
+    const twitchRefreshToken = useLocalStorage(
+        'twitchRefreshToken',
+        localStorage.getItem('twitchRefreshToken') ? localStorage.getItem('twitchRefreshToken') : settingJson.chat.twitch.refreshToken,
+        {mergeDefaults: true}
+    )
+    const twitchCode = useLocalStorage(
+        'twitchCode',
+        localStorage.getItem('twitchCode') ? localStorage.getItem('twitchCode') : settingJson.chat.twitch.code,
+        {mergeDefaults: true}
+    )
+    const twitchMessages = ref([])
 
     //YouTube
-    let youtubeToken = ref('')
-    let youtubeVideoId = ref('')
-    let youtubeRefreshTime = ref(5)
-    let youtubeMessages = ref([])
-
-    onMounted(() => {
-        twitchClientId = useStorage(
-            'twitchClientId',
-            localStorage.getItem('twitchClientId') ? localStorage.getItem('twitchClientId') : settingJson.chat.twitch.client_id,
-            localStorage,
-            {mergeDefaults: true}
-        )
-        twitchClientSecret = useStorage(
-            'twitchClientSecret',
-            localStorage.getItem('twitchClientSecret') ? localStorage.getItem('twitchClientSecret') : settingJson.chat.twitch.client_secret,
-            localStorage,
-            {mergeDefaults: true}
-        )
-        twitchChannel = useStorage(
-            'twitchChannel',
-            localStorage.getItem('twitchChannel') ? localStorage.getItem('twitchChannel') : settingJson.chat.twitch.channel,
-            localStorage,
-            {mergeDefaults: true}
-        )
-        twitchAccessToken = useStorage(
-            'twitchAccessToken',
-            localStorage.getItem('twitchAccessToken') ? localStorage.getItem('twitchAccessToken') : settingJson.chat.twitch.access_token,
-            localStorage,
-            {mergeDefaults: true}
-        )
-        twitchCode = useStorage(
-            'twitchAccessToken',
-            localStorage.getItem('twitchAccessToken') ? localStorage.getItem('twitchAccessToken') : settingJson.chat.twitch.code,
-            localStorage,
-            {mergeDefaults: true}
-        )
-
-        youtubeToken = useStorage(
-            'youtubeToken',
-            localStorage.getItem('youtubeToken') ? localStorage.getItem('youtubeToken') : settingJson.chat.youtube.token,
-            localStorage,
-            {mergeDefaults: true}
-        )
-        youtubeVideoId = useStorage(
-            'youtubeVideoId',
-            localStorage.getItem('youtubeVideoId') ? localStorage.getItem('youtubeVideoId') : settingJson.chat.youtube.videoId,
-            localStorage,
-            {mergeDefaults: true}
-        )
-        youtubeRefreshTime = useStorage(
-            'youtubeRefreshTime',
-            localStorage.getItem('youtubeRefreshTime') ? parseInt(localStorage.getItem('youtubeRefreshTime')) : parseInt(settingJson.chat.youtube.refreshTime),
-            localStorage,
-            {mergeDefaults: true}
-        )
-    })
+    const youtubeToken = useLocalStorage(
+        'youtubeToken',
+        localStorage.getItem('youtubeToken') ? localStorage.getItem('youtubeToken') : settingJson.chat.youtube.token,
+        {mergeDefaults: true}
+    )
+    const youtubeVideoId = useLocalStorage(
+        'youtubeVideoId',
+        localStorage.getItem('youtubeVideoId') ? localStorage.getItem('youtubeVideoId') : settingJson.chat.youtube.videoId,
+        {mergeDefaults: true}
+    )
+    const youtubeRefreshTime = useLocalStorage(
+        'youtubeRefreshTime',
+        localStorage.getItem('youtubeRefreshTime') ? parseInt(localStorage.getItem('youtubeRefreshTime')) : settingJson.chat.youtube.refreshTime,
+        {mergeDefaults: true}
+    )
+    const youtubeMessages = ref([])
 
     return {
         twitchClientId,

@@ -8,17 +8,16 @@ export const useYouTube = () => {
         youtubeMessages
     } = storeToRefs(chatSettingStore)
 
-    // const popoutUrl = `https://www.youtube.com/live_chat?is_popout=1&v=${youtubeVideoId.value}`
-    const popoutUrl = `/youtube-api/live_chat?is_popout=1&v=${youtubeVideoId.value}`
-
     const fetchLiveChat = async () => {
         try {
-            const chatHtml = ref('')
-            // 通过代理请求 YouTube 数据
-            // const response = await fetch(`/youtube-api/live_chat?v=${youtubeVideoId.value}`)
-            const response = await fetch(popoutUrl)
-            chatHtml.value = await response.text();
-            extractChatMessages(chatHtml.value)
+            if (youtubeVideoId.value) {
+                const chatHtml = ref('')
+                // 通过代理请求 YouTube 数据
+                const popoutUrl = `/youtube-api/live_chat?is_popout=1&v=${youtubeVideoId.value}`
+                const response = await fetch(popoutUrl)
+                chatHtml.value = await response.text();
+                extractChatMessages(chatHtml.value)
+            }
         } catch (error) {
             console.error('Error fetching chat data:', error);
         }

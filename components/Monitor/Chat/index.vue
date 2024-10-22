@@ -36,9 +36,9 @@ onMounted(() => {
     console.log('SpeechSynthesis is not supported.');
   }
 
-  setInterval(() => {
-    speak.speakWithQueue()
-  }, 5000)
+  // setInterval(() => {
+  //   speak.speakWithQueue()
+  // }, 5000)
 });
 
 </script>

@@ -30,8 +30,6 @@ const speak = useSpeak()
 const testText = ref('')
 
 const testSpeak = () => {
-  console.log(speak)
-  console.log(testText.value)
   speak.speak(testText.value)
 }
 

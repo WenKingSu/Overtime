@@ -1,23 +1,59 @@
 import {defineStore} from "pinia";
 import settingJson from "assets/json/setting.json"
-import {useStorage} from "@vueuse/core";
+import {useLocalStorage} from "@vueuse/core";
 
 export const useClockSettingStore = defineStore("ClockSettingStore", () => {
 
     const run = ref(false)
 
-    let remainingTime = ref("300:00:00")
-    let elapsedTime = ref("00:00:00")
+    const remainingTime = useLocalStorage(
+        'remainingTime',
+        localStorage.getItem('remainingTime') ? localStorage.getItem('remainingTime') : settingJson.clock.remainingTime,
+        {mergeDefaults: true}
+    )
+    const elapsedTime = useLocalStorage(
+        'elapsedTime',
+        localStorage.getItem('elapsedTime') ? localStorage.getItem('elapsedTime') : settingJson.clock.elapsedTime,
+        {mergeDefaults: true}
+    )
     //加時設定
-    let plus1 = ref(0)
-    let plus2 = ref(0)
-    let plus3 = ref(0)
-    let plus4 = ref(0)
-    let plus5 = ref(0)
+    const plus1 = useLocalStorage(
+        'plus1',
+        localStorage.getItem('plus1') ? parseInt(localStorage.getItem('plus1')) : settingJson.clock.plus1,
+        {mergeDefaults: true}
+    )
+    const plus2 = useLocalStorage(
+        'plus2',
+        localStorage.getItem('plus2') ? parseInt(localStorage.getItem('plus2')) : settingJson.clock.plus2,
+        {mergeDefaults: true}
+    )
+    const plus3 = useLocalStorage(
+        'plus3',
+        localStorage.getItem('plus3') ? parseInt(localStorage.getItem('plus3')) : settingJson.clock.plus3,
+        {mergeDefaults: true}
+    )
+    const plus4 = useLocalStorage(
+        'plus4',
+        localStorage.getItem('plus4') ? parseInt(localStorage.getItem('plus4')) : settingJson.clock.plus4,
+        {mergeDefaults: true}
+    )
+    const plus5 = useLocalStorage(
+        'plus5',
+        localStorage.getItem('plus5') ? parseInt(localStorage.getItem('plus5')) : settingJson.clock.plus5,
+        {mergeDefaults: true}
+    )
 
     //金額換算時間
-    let transDonateUnit = ref(1)
-    let transTimeUnit = ref(1)
+    const transDonateUnit = useLocalStorage(
+        'transDonateUnit',
+        localStorage.getItem('transDonateUnit') ? parseInt(localStorage.getItem('transDonateUnit')) : settingJson.clock.transDonateUnit,
+        {mergeDefaults: true}
+    )
+    const transTimeUnit = useLocalStorage(
+        'transTimeUnit',
+        localStorage.getItem('transTimeUnit') ? parseInt(localStorage.getItem('transTimeUnit')) : settingJson.clock.transTimeUnit,
+        {mergeDefaults: true}
+    )
 
     // 剩餘時間
     let remainingHour = ref(parseInt(remainingTime.value.split(":")[0]))
@@ -75,71 +111,6 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
             }
         }
     }
-
-    onMounted(() => {
-        remainingTime = useStorage(
-            'remainingTime',
-            localStorage.getItem('remainingTime') ? localStorage.getItem('remainingTime') : settingJson.clock.remainingTime,
-            localStorage,
-            {mergeDefaults: true}
-        )
-
-        elapsedTime = useStorage(
-            'elapsedTime',
-            localStorage.getItem('elapsedTime') ? localStorage.getItem('elapsedTime') : settingJson.clock.elapsedTime,
-            localStorage,
-            {mergeDefaults: true}
-        )
-
-        plus1 = useStorage(
-            'plus1',
-            localStorage.getItem('plus1') ? localStorage.getItem('plus1') : settingJson.clock.plus1,
-            localStorage,
-            {mergeDefaults: true}
-        )
-
-        plus2 = useStorage(
-            'plus2',
-            localStorage.getItem('plus2') ? localStorage.getItem('plus2') : settingJson.clock.plus2,
-            localStorage,
-            {mergeDefaults: true}
-        )
-
-        plus3 = useStorage(
-            'plus3',
-            localStorage.getItem('plus3') ? localStorage.getItem('plus3') : settingJson.clock.plus3,
-            localStorage,
-            {mergeDefaults: true}
-        )
-
-        plus4 = useStorage(
-            'plus4',
-            localStorage.getItem('plus4') ? localStorage.getItem('plus4') : settingJson.clock.plus4,
-            localStorage,
-            {mergeDefaults: true}
-        )
-
-        plus5 = useStorage(
-            'plus5',
-            localStorage.getItem('plus5') ? localStorage.getItem('plus5') : settingJson.clock.plus5,
-            localStorage,
-            {mergeDefaults: true}
-        )
-
-        transDonateUnit = useStorage(
-            'transDonateUnit',
-            localStorage.getItem('transDonateUnit') ? localStorage.getItem('transDonateUnit') : settingJson.clock.transDonateUnit,
-            localStorage,
-            {mergeDefaults: true}
-        )
-
-        transTimeUnit = useStorage(
-            'transTimeUnit',
-            localStorage.getItem('transTimeUnit') ? localStorage.getItem('transTimeUnit') : settingJson.clock.transTimeUnit,
-            localStorage,
-            {mergeDefaults: true}
-        )
-    })
 
     return {
         run,
