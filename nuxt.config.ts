@@ -18,16 +18,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
   ],
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: "modern-compiler"
-        }
-      }
-    },
-    assetsInclude: ['**/*.ttc'],
-  },
   primevue: {
     usePrimeVue: true,
     autoImport: true,
@@ -40,6 +30,14 @@ export default defineNuxtConfig({
     }
   },
   vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: "modern-compiler"
+        }
+      }
+    },
+    assetsInclude: ['**/*.ttc'],
     server: {
       proxy: {
         '/youtube-api': {
