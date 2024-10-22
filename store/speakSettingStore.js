@@ -5,7 +5,7 @@ import {useLocalStorage} from "@vueuse/core";
 export const useSpeakSettingStore = defineStore("SpeakSettingStore", () => {
 
     const synth = ref()
-    const voices = ref()
+    const voices = ref([])
     const rate = useLocalStorage(
         'rate',
         localStorage.getItem('rate') ? parseFloat(localStorage.getItem('rate')) : settingJson.chat.speak.rate,

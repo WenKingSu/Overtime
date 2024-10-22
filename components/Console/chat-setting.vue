@@ -18,7 +18,7 @@ const {
 
 const speakSettingStore = useSpeakSettingStore()
 const {
-  voices,
+  // voices,
   rate,
   pitch,
   voice
@@ -27,11 +27,43 @@ const {
 const twitch = useTwitch()
 const speak = useSpeak()
 
-const testText = ref('')
+// const voice = ref<SpeechSynthesisVoice>(undefined as unknown as SpeechSynthesisVoice)
+// const pitch = ref(1)
+// const rate = ref(1)
+const testText = ref('測試 加班台小工具')
+const speech = useSpeechSynthesis(testText, {
+  voice,
+  pitch,
+  rate,
+})
+
+let synth: SpeechSynthesis
+
+const voices = ref<SpeechSynthesisVoice[]>([])
 
 const testSpeak = () => {
-  speak.speak(testText.value)
+  if (speech.status.value === 'pause') {
+    console.log('resume')
+    window.speechSynthesis.resume()
+  }
+  else {
+    speech.speak()
+  }
 }
+
+onMounted(() => {
+  if (speech.isSupported.value) {
+    // load at last
+    setTimeout(() => {
+      synth = window.speechSynthesis
+      voices.value = synth.getVoices()
+      voice.value = voices.value[0]
+      console.log(synth)
+      console.log(voices.value)
+      console.log(voice.value)
+    })
+  }
+})
 
 </script>
 

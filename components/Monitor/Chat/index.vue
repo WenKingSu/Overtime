@@ -46,10 +46,10 @@ onMounted(() => {
 <template>
   <Splitter id="Monitor-Chat" class="w-full h-full">
     <SplitterPanel class="flex items-start justify-start">
-      <MonitorChatTwitch/>
+<!--      <MonitorChatTwitch/>-->
     </SplitterPanel>
     <SplitterPanel class="flex items-start justify-start">
-      <MonitorChatYoutube/>
+<!--      <MonitorChatYoutube/>-->
     </SplitterPanel>
   </Splitter>
 </template>
