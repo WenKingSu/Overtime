@@ -10,7 +10,7 @@
       <MonitorClock/>
     </SplitterPanel>
     <SplitterPanel class="flex items-start justify-start" :size="33">
-      <MonitorClock/>
+      <MonitorChatOverview/>
     </SplitterPanel>
   </Splitter>
 </template>

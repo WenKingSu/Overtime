@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 import {useChatSettingStore} from "~/store/chatSettingStore";
 import {useSpeakSettingStore} from "~/store/speakSettingStore";
 
@@ -7,16 +6,17 @@ const chatSettingStore = useChatSettingStore()
 const {
   twitchChannel,
   twitchAccessToken,
+  twitchMessages,
+  messages
 } = storeToRefs(chatSettingStore)
 const speakSettingStore = useSpeakSettingStore()
 const {
   queue
 } = storeToRefs(speakSettingStore)
 
-
+const stringUtils = useStringUtils()
 const twitch = useTwitch()
 
-const messages = ref([]);
 const message = ref('');
 let ws;
 
@@ -57,14 +57,29 @@ const parseMessage = async (message) => {
     const displayName = await twitch.fetchDisplayName(username)
     const content = message.split('PRIVMSG')[1].split(':', 2)[1]
 
+    const item = {
+      id: stringUtils.buildChatId(Date.now(), displayName),
+      channelType: "Twitch",
+      displayName: displayName,
+      content: content
+    }
     // 将消息添加到messages数组
-    messages.value.push({
-          id: Date.now(),
-          displayName: displayName,
-          content: content
-        }
-    )
-    queue.value.push(content)
+
+    const checkExist = messages.value.some(i => {
+      return i.id === item.id && i.displayName === item.displayName
+    });
+    if (!checkExist) {
+      twitchMessages.value.push({}
+      )
+      messages.value.push({
+            id: Date.now(),
+            channelType: "Twitch",
+            displayName: displayName,
+            content: content
+          }
+      )
+      queue.value.push(content)
+    }
   }
 }
 
@@ -85,7 +100,7 @@ onMounted(() => {
 <template>
   <div id="Monitor-Chat-Twitch" class="m-3">
     <div
-        v-for="msg in messages"
+        v-for="msg in twitchMessages"
         :key="msg.id"
         class="my-2"
     >

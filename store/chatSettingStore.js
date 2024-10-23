@@ -56,6 +56,8 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
     )
     const youtubeMessages = ref([])
 
+    const messages = ref([])
+
     return {
         twitchClientId,
         twitchClientSecret,
@@ -67,6 +69,7 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         youtubeToken,
         youtubeVideoId,
         youtubeMessages,
-        youtubeRefreshTime
+        youtubeRefreshTime,
+        messages
     }
 })

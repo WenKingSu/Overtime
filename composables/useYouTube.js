@@ -1,12 +1,22 @@
 import {useChatSettingStore} from "~/store/chatSettingStore.js";
+import {useSpeakSettingStore} from "~/store/speakSettingStore.js";
+import {useStringUtils} from "~/composables/useStringUtils.js";
 
 export const useYouTube = () => {
     const chatSettingStore = useChatSettingStore()
     const {
         youtubeToken,
         youtubeVideoId,
-        youtubeMessages
+        youtubeMessages,
+        messages
     } = storeToRefs(chatSettingStore)
+
+    const speakSettingStore = useSpeakSettingStore()
+    const {
+        queue
+    } = storeToRefs(speakSettingStore)
+
+    const stringUtils = useStringUtils()
 
     const fetchLiveChat = async () => {
         try {
@@ -38,7 +48,14 @@ export const useYouTube = () => {
         for (let action of actions) {
             const item = extractMessage(action)
             if (item) {
-                youtubeMessages.value.push(item)
+                const checkExist = messages.value.some(i => {
+                    return i.id === item.id && i.displayName === item.displayName
+                });
+                if (item && !checkExist) {
+                    youtubeMessages.value.push(item)
+                    messages.value.push(item)
+                    queue.value.push(item.content)
+                }
             }
         }
     }
@@ -59,8 +76,12 @@ export const useYouTube = () => {
                         content += run['text']
                     }
                 }
+                const displayName = liveChatTextMessageRenderer['authorName']['simpleText']
+                const id = stringUtils.buildChatId(parseTimestampToDate(liveChatTextMessageRenderer['timestampUsec']), displayName)
                 return {
-                    displayName: liveChatTextMessageRenderer['authorName']['simpleText'],
+                    id: id,
+                    channelType: "YouTube",
+                    displayName: displayName,
                     content: content
                 }
             }
@@ -78,6 +99,10 @@ export const useYouTube = () => {
             }
         }
         return "{}"
+    }
+
+    const parseTimestampToDate = (timestamp) => {
+        return new Date(parseInt(timestamp))
     }
 
     return {
