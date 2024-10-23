@@ -1,5 +1,4 @@
 import {useChatSettingStore} from "~/store/chatSettingStore.js";
-import * as repl from "node:repl";
 
 export const useTwitch = () => {
     const chatSettingStore = useChatSettingStore()
@@ -13,10 +12,11 @@ export const useTwitch = () => {
     } = storeToRefs(chatSettingStore)
 
     const host = `http://${encodeURIComponent(useRequestURL().hostname)}`
+    const twitchCodeUrl = `http://${encodeURIComponent(useRequestURL().host)}/getTwitchCode`
     const twitchAuthUrl = "https://id.twitch.tv/oauth2/token"
 
     const getTwitchCode = async () => {
-        const url = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientId.value}&redirect_uri=${host}&response_type=code&scope=chat:read chat:edit&state=${twitchChannel.value}`
+        const url = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientId.value}&redirect_uri=${twitchCodeUrl}&response_type=code&scope=chat:read chat:edit&state=${twitchChannel.value}`
         await navigateTo(url, {
             open: {
                 target: '_blank',

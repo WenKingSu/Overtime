@@ -25,30 +25,37 @@ const {
 } = storeToRefs(speakSettingStore)
 
 const twitch = useTwitch()
-const speak = useSpeak()
+// const speak = useSpeak()
+//
 
-// const voice = ref<SpeechSynthesisVoice>(undefined as unknown as SpeechSynthesisVoice)
-// const pitch = ref(1)
-// const rate = ref(1)
+const voices = ref<SpeechSynthesisVoice[]>([])
+
+let synth: SpeechSynthesis
+const selectVoice = ref<SpeechSynthesisVoice>(undefined as unknown as SpeechSynthesisVoice)
 const testText = ref('測試 加班台小工具')
 const speech = useSpeechSynthesis(testText, {
-  voice,
+  selectVoice,
   pitch,
   rate,
 })
 
-let synth: SpeechSynthesis
-
-const voices = ref<SpeechSynthesisVoice[]>([])
-
 const testSpeak = () => {
+  console.log('speech', speech)
+  console.log('speech.status.value', speech.status.value)
+  console.log('selectVoice', selectVoice.value)
   if (speech.status.value === 'pause') {
     console.log('resume')
     window.speechSynthesis.resume()
-  }
-  else {
+  } else {
+    console.log('speak')
     speech.speak()
   }
+}
+
+const changeVoice = () => {
+  // selectVoice.value = voices.value.filter(i => i.name == voice.value)[0];
+  console.log('change voice selectedVoice', voice.value)
+  console.log('change voice selectedVoice', selectVoice.value)
 }
 
 onMounted(() => {
@@ -57,10 +64,7 @@ onMounted(() => {
     setTimeout(() => {
       synth = window.speechSynthesis
       voices.value = synth.getVoices()
-      voice.value = voices.value[0]
-      console.log(synth)
-      console.log(voices.value)
-      console.log(voice.value)
+      selectVoice.value = voices.value[0]
     })
   }
 })
@@ -90,14 +94,11 @@ onMounted(() => {
         </InputGroupAddon>
         <Select v-model="voice"
                 :options="voices"
-                optionLabel="name"
                 optionValue="name"
                 :highlightOnSelect="false"
                 class="w-full md:w-56"
-        >
-          <template #value="slotProps">
-            {{ slotProps.value }}
-          </template>
+                @change="changeVoice">
+          >
           <template #option="slotProps">
             <div class="flex items-center">
               <div>{{ slotProps.option.name }} ( {{ slotProps.option.lang }} )</div>
