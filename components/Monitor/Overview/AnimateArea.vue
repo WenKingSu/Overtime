@@ -3,9 +3,7 @@ import {useDisplaySettingStore} from "~/store/displaySettingStore";
 import type {MaybeElement} from "@vueuse/core";
 
 const displaySettingStore = useDisplaySettingStore()
-const {
-  bgColor,
-} = storeToRefs(displaySettingStore)
+const {bgColor} = storeToRefs(displaySettingStore)
 
 const el = shallowRef<MaybeElement>()
 const {
@@ -23,9 +21,13 @@ const {
       fill: 'forwards', // 保持最终状态
     },
 )
+const show = ref(true)
 
-onMounted(()=>{
+onMounted(() => {
   console.log(el)
+  // setInterval(()=>{
+  //   show.value = !show.value
+  // }, 5000)
 })
 
 </script>
@@ -37,12 +39,14 @@ onMounted(()=>{
       :style="{backgroundColor: `#${bgColor}`}"
   >
 
-    <Button label="Show Box" @click="play"/>
+    <Button
+        label="Show Box"
+        @click="play"
+    />
 
-    <div ref="el" class="box">
+    <div v-show="show" ref="el" class="box">
       <p>This box will fade in and move up.</p>
     </div>
-
 
   </div>
 </template>
