@@ -17,7 +17,7 @@ watchDeep(messages, () => {
   scrollBarBottom()
 })
 
-onMounted(()=>{
+onMounted(() => {
   scrollBarBottom()
 })
 </script>
@@ -32,8 +32,15 @@ onMounted(()=>{
       <Avatar :image="`/images/${msg.channelType}.png`" :style="{'flex-shrink': 0, 'margin-right': '0.2rem'}"/>
 
       <span>
-        {{ msg.displayName }}: {{ msg.content }}
+        {{ msg.displayName }}
       </span>
+      <span>
+        ：
+      </span>
+      <template v-for="(item, index) of msg.contents" :key="index">
+        <Image v-if="item.contentType === 'image'" :src="item.content.url" :width="item.content.width" :height="item.content.height" />
+        <span v-else>{{item.content}}</span>
+      </template>
     </div>
   </div>
 </template>

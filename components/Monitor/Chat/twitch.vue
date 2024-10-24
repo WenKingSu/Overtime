@@ -69,13 +69,25 @@ const parseMessage = async (message) => {
       return i.id === item.id && i.displayName === item.displayName
     });
     if (!checkExist) {
-      twitchMessages.value.push({}
-      )
+      twitchMessages.value.push({
+        id: stringUtils.buildChatId(new Date(), displayName),
+        channelType: "Twitch",
+        displayName: displayName,
+        content: content,
+        contents: [{
+          contentType: 'text',
+          content: content
+        }]
+      })
       messages.value.push({
-            id: Date.now(),
+            id: stringUtils.buildChatId(new Date(), displayName),
             channelType: "Twitch",
             displayName: displayName,
-            content: content
+            content: content,
+            contents: [{
+              contentType: 'text',
+              content: content
+            }]
           }
       )
       queue.value.push(content)
@@ -104,7 +116,17 @@ onMounted(() => {
         :key="msg.id"
         class="my-2"
     >
-      {{ msg.displayName }}: {{ msg.content }}
+      <span>
+        {{ msg.displayName }}
+      </span>
+      <span>
+        ：
+      </span>
+      <template v-for="(item, index) of msg.contents" :key="index">
+        <Image v-if="item.contentType === 'image'" :src="item.content.url" :width="item.content.width"
+               :height="item.content.height"/>
+        <span v-else>{{ item.content }}</span>
+      </template>
     </div>
   </div>
 </template>

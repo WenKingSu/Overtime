@@ -13,10 +13,10 @@ const scrollBarBottom = () => {
   element.scrollTop = element.scrollHeight
 }
 
-onMounted(() => {
-  youtube.fetchLiveChat()
+onMounted(async () => {
+  await youtube.fetchLiveChat()
   scrollBarBottom()
-  setInterval(()=>{
+  setInterval(() => {
     youtube.fetchLiveChat()
     scrollBarBottom()
   }, (youtubeRefreshTime.value * 1000))
@@ -31,19 +31,18 @@ onMounted(() => {
         class="my-2"
     >
 
-      {{ msg.displayName }}:
-      <span v-html="msg.content"/>
+      <span>
+        {{ msg.displayName }}
+      </span>
+      <span>
+        ：
+      </span>
+      <template v-for="(item, index) of msg.contents" :key="index">
+        <Image v-if="item.contentType === 'image'" :src="item.content.url" :width="item.content.width" :height="item.content.height" />
+        <span v-else>{{item.content}}</span>
+      </template>
     </div>
   </div>
-<!--  <ScrollPanel ref="scrollContent" id="Youtube-Monitor" style="width: 100%; height: 100%">-->
-<!--    <div-->
-<!--        v-for="(msg, index) in youtubeMessages"-->
-<!--        :key="index"-->
-<!--        class="my-2"-->
-<!--    >-->
-<!--      {{ msg.displayName }}: {{ msg.content }}-->
-<!--    </div>-->
-<!--  </ScrollPanel>-->
 </template>
 
 <style lang="scss" scoped>

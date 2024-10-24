@@ -68,12 +68,21 @@ export const useYouTube = () => {
                 const liveChatTextMessageRenderer = item['liveChatTextMessageRenderer']
                 const runs = liveChatTextMessageRenderer['message']['runs']
                 let content = ""
+                let contents = []
                 for (let run of runs) {
                     if (run['emoji']) {
                         const imageUrl = run['emoji']['image']['thumbnails'][0]
                         content += `<Image src="${imageUrl.url}" alt="Image" />`
+                        contents.push({
+                            contentType: 'image',
+                            content: imageUrl
+                        })
                     } else {
                         content += run['text']
+                        contents.push({
+                            contentType: 'text',
+                            content: content
+                        })
                     }
                 }
                 const displayName = liveChatTextMessageRenderer['authorName']['simpleText']
@@ -82,7 +91,8 @@ export const useYouTube = () => {
                     id: id,
                     channelType: "YouTube",
                     displayName: displayName,
-                    content: content
+                    content: content,
+                    contents: contents
                 }
             }
         }
