@@ -5,6 +5,7 @@ import {useLocalStorage} from "@vueuse/core";
 export const useClockSettingStore = defineStore("ClockSettingStore", () => {
 
     const run = ref(false)
+    const addTimeQueue = ref([])
 
     const remainingTime = useLocalStorage(
         'remainingTime',
@@ -68,7 +69,7 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
     const plusMinutes = (minutes) => {
         const value = remainingMinutes.value + minutes
         if (value >= 60) {
-            remainingHour.value += value / 60
+            remainingHour.value += Math.floor(value / 60)
             remainingMinutes.value = value % 60
         } else {
             remainingMinutes.value = value % 60
@@ -114,6 +115,7 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
 
     return {
         run,
+        addTimeQueue,
         remainingTime,
         elapsedTime,
         plus1,

@@ -4,7 +4,9 @@
         "remainingTimeColor": "C1CB15",
         "elapsedTimeColor": "3FC21B",
         "clockFont": "wt014",
-        "clockFontSize": 36
+        "clockFontSize": 36,
+        "animateTime": 3,
+        "animateMoveRange": 200
     },
     "clock": {
         "remainingTime": "300:0:5",

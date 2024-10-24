@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {useDisplaySettingStore} from "~/store/displaySettingStore";
 import {useFontStore} from "~/store/fontStore";
+import {useAnimateSettingStore} from "~/store/animateSettingStore";
 
 const displaySettingStore = useDisplaySettingStore();
 const {
@@ -10,6 +11,11 @@ const {
   remainingTimeColor,
   elapsedTimeColor,
 } = storeToRefs(displaySettingStore)
+const animateSettingStore = useAnimateSettingStore()
+const {
+  animateTime,
+  animateMoveRange
+} = storeToRefs(animateSettingStore)
 
 const fontStore = useFontStore();
 
@@ -45,6 +51,46 @@ const fontStore = useFontStore();
           </InputGroupAddon>
         </InputGroup>
         <!--        <Button label="設定" icon="pi pi-cog" severity="success" @click="setClockFont"/>-->
+      </div>
+    </Fieldset>
+
+    <Fieldset legend="動畫設定" class="w-full">
+      <div class="flex flex-col justify-between gap-y-3">
+        <InputGroup class="clock-font">
+          <InputGroupAddon>
+            動畫時間
+          </InputGroupAddon>
+          <InputNumber
+              v-model="animateTime"
+              inputId="minmax-buttons"
+              mode="decimal"
+              showButtons
+              :min="1"
+              :max="60"
+              fluid
+          />
+          <InputGroupAddon>
+            秒
+          </InputGroupAddon>
+        </InputGroup>
+
+        <InputGroup class="clock-font">
+          <InputGroupAddon>
+            移動距離
+          </InputGroupAddon>
+          <InputNumber
+              v-model="animateMoveRange"
+              inputId="minmax-buttons"
+              mode="decimal"
+              showButtons
+              :min="100"
+              :max="1000"
+              fluid
+          />
+          <InputGroupAddon>
+            px
+          </InputGroupAddon>
+        </InputGroup>
       </div>
     </Fieldset>
 

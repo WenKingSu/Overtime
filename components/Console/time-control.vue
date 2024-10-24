@@ -4,6 +4,7 @@ import {useClockSettingStore} from "~/store/clockSettingStore";
 const clockSettingStore = useClockSettingStore()
 const {
   run,
+  addTimeQueue,
   plus1,
   plus2,
   plus3,
@@ -36,7 +37,7 @@ const stop = () => {
 }
 
 const plusMinutes = (value) => {
-  clockSettingStore.plusMinutes(value)
+  addTimeQueue.value.push(value)
 }
 
 </script>
@@ -139,7 +140,7 @@ const plusMinutes = (value) => {
           <InputGroupAddon>
             <i class="pi pi-clock"></i>
           </InputGroupAddon>
-          <Button icon="pi pi-check" severity="success"/>
+          <Button icon="pi pi-check" severity="success" @click="plusMinutes(calcTime)"/>
         </InputGroup>
       </div>
     </Fieldset>
