@@ -12,8 +12,7 @@
       </TabList>
       <TabPanels>
         <TabPanel value="0">
-<!--          <ConsoleTimeControl/>-->
-          <ConsoleChatSetting/>
+          <ConsoleTimeControl/>
         </TabPanel>
         <TabPanel value="1">
           <ConsoleDisplaySetting/>

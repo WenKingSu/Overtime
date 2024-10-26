@@ -5,19 +5,19 @@ const youtube = useYouTube()
 const chatSettingStore = useChatSettingStore()
 const {
   youtubeMessages,
-  youtubeRefreshTime
+  youtubeRefreshTime,
 } = storeToRefs(chatSettingStore)
 
 const scrollBarBottom = () => {
   const element = document.getElementById("Monitor-Chat-Youtube")
-  element.scrollTop = element.scrollHeight
+  nextTick(() => {
+    element.scrollTop = element.scrollHeigh
+  });
 }
 
 onMounted(async () => {
-  await youtube.fetchLiveChat()
   scrollBarBottom()
   setInterval(() => {
-    youtube.fetchLiveChat()
     scrollBarBottom()
   }, (youtubeRefreshTime.value * 1000))
 })
@@ -38,8 +38,13 @@ onMounted(async () => {
         ：
       </span>
       <template v-for="(item, index) of msg.contents" :key="index">
-        <Image v-if="item.contentType === 'image'" :src="item.content.url" :width="item.content.width" :height="item.content.height" />
-        <span v-else>{{item.content}}</span>
+        <Image
+            v-if="item.contentType === 'image'"
+            :src="item.content.url"
+            :width="item.content.width"
+            :height="item.content.height"
+        />
+        <span v-else>{{ item.content }}</span>
       </template>
     </div>
   </div>

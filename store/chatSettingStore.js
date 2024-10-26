@@ -7,7 +7,7 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
     //Twitch
     const twitchChannelInfo = useLocalStorage(
         'twitchChannelInfo',
-        localStorage.getItem('twitchChannelInfo') ? localStorage.getItem('twitchChannelInfo') : settingJson.chat.twitch.clientId,
+        localStorage.getItem('twitchChannelInfo') ? localStorage.getItem('twitchChannelInfo') : null,
         localStorage,
         {
             mergeDefaults: true,
@@ -47,8 +47,16 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
     )
     const twitchBroadcasterId = useLocalStorage(
         'twitchBroadcasterId',
-        localStorage.getItem('twitchBroadcasterId') ? localStorage.getItem('twitchBroadcasterId') : settingJson.chat.twitch.code,
+        localStorage.getItem('twitchBroadcasterId') ? localStorage.getItem('twitchBroadcasterId') : settingJson.chat.twitch.broadcasterId,
         {mergeDefaults: true}
+    )
+    const twitchActive = useLocalStorage(
+        'twitchActive',
+        localStorage.getItem('twitchActive') ? localStorage.getItem('twitchActive') : settingJson.chat.twitch.active,
+        {
+            mergeDefaults: true,
+            serializer: StorageSerializers.boolean
+        }
     )
     const twitchBadges = ref({})
     const twitchMessages = ref([])
@@ -69,11 +77,37 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         localStorage.getItem('youtubeRefreshTime') ? parseInt(localStorage.getItem('youtubeRefreshTime')) : settingJson.chat.youtube.refreshTime,
         {mergeDefaults: true}
     )
+    const youtubeActive = useLocalStorage(
+        'youtubeActive',
+        localStorage.getItem('youtubeActive') ? localStorage.getItem('youtubeActive') : settingJson.chat.youtube.active,
+        {
+            mergeDefaults: true,
+            serializer: StorageSerializers.boolean
+        }
+    )
     const youtubeMessages = ref([])
 
+    //Global
     const messages = ref([])
+    const filterPrefix = useLocalStorage(
+        'filterPrefix',
+        localStorage.getItem('filterPrefix') ? localStorage.getItem('filterPrefix') : settingJson.chat.filterPrefix,
+        {
+            mergeDefaults: true,
+            serializer: StorageSerializers.object
+        }
+    )
+    const blockUsers = useLocalStorage(
+        'blockUsers',
+        localStorage.getItem('blockUsers') ? localStorage.getItem('blockUsers') : settingJson.chat.blockUsers,
+        {
+            mergeDefaults: true,
+            serializer: StorageSerializers.object
+        }
+    )
 
     return {
+        twitchActive,
         twitchChannelInfo,
         twitchClientId,
         twitchClientSecret,
@@ -84,10 +118,13 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         twitchBadges,
         twitchMessages,
         twitchCode,
+        youtubeActive,
         youtubeToken,
         youtubeVideoId,
         youtubeMessages,
         youtubeRefreshTime,
-        messages
+        messages,
+        filterPrefix,
+        blockUsers
     }
 })

@@ -4,6 +4,7 @@ import {useSpeakSettingStore} from "~/store/speakSettingStore";
 
 const chatSettingStore = useChatSettingStore()
 const {
+  twitchActive,
   twitchClientId,
   twitchClientSecret,
   twitchChannel,
@@ -11,9 +12,12 @@ const {
   twitchAccessToken,
   twitchCode,
   twitchBroadcasterId,
+  youtubeActive,
   youtubeToken,
   youtubeVideoId,
-  youtubeRefreshTime
+  youtubeRefreshTime,
+  filterPrefix,
+  blockUsers
 } = storeToRefs(chatSettingStore)
 
 const speakSettingStore = useSpeakSettingStore()
@@ -23,6 +27,8 @@ const twitch = useTwitch()
 
 const selectVoice = ref<SpeechSynthesisVoice>(undefined as unknown as SpeechSynthesisVoice)
 const testText = ref('測試 加班台小工具')
+const filterText = ref('')
+const userName = ref('')
 
 const speech = useSpeechSynthesis(testText, {
   voice: selectVoice,
@@ -43,12 +49,30 @@ function testSpeak() {
 }
 
 const changeVoice = () => {
-  for(const v of voices.value){
-    if (v.name === voice.value){
+  for (const v of voices.value) {
+    if (v.name === voice.value) {
       selectVoice.value = v
       return
     }
   }
+}
+
+const changeTwitchActive = () => {
+  if (twitchActive.value) {
+    twitch.connectTwitchWebSocket()
+  } else {
+    twitch.disconnectTwitchWebSocket()
+  }
+}
+
+const addFilter = () =>{
+  filterPrefix.value.push(filterText.value)
+  filterText.value = ''
+}
+
+const addBlockUser = () =>{
+  blockUsers.value.push(userName.value)
+  userName.value = ''
 }
 
 onMounted(() => {
@@ -85,23 +109,23 @@ onMounted(() => {
         <InputGroupAddon>
           語音模型
         </InputGroupAddon>
-                <Select v-model="voice"
-                        :options="voices"
-                        optionLabel="name"
-                        optionValue="name"
-                        :highlightOnSelect="false"
-                        class="w-full md:w-56"
-                        @change="changeVoice">
-                  >
-                  <template #value="slotProps">
-                      <div>{{ slotProps.value }}</div>
-                  </template>
-                  <template #option="slotProps">
-                    <div class="flex items-center">
-                      <div>{{ slotProps.option.name }} ( {{ slotProps.option.lang }} )</div>
-                    </div>
-                  </template>
-                </Select>
+        <Select v-model="voice"
+                :options="voices"
+                optionLabel="name"
+                optionValue="name"
+                :highlightOnSelect="false"
+                class="w-full md:w-56"
+                @change="changeVoice">
+          >
+          <template #value="slotProps">
+            <div>{{ slotProps.value }}</div>
+          </template>
+          <template #option="slotProps">
+            <div class="flex items-center">
+              <div>{{ slotProps.option.name }} ( {{ slotProps.option.lang }} )</div>
+            </div>
+          </template>
+        </Select>
       </InputGroup>
       <InputGroup class="my-3">
         <InputGroupAddon class="w-8rem" style="justify-content: left">
@@ -112,8 +136,43 @@ onMounted(() => {
       </InputGroup>
     </Fieldset>
 
+    <Fieldset legend="語音過濾器設定" class="w-full">
+      <div class="flex flex-col justify-between gap-y-3">
+        <InputGroup>
+          <InputGroupAddon class="w-8rem" style="justify-content: left">
+            新增
+          </InputGroupAddon>
+          <InputText v-model="filterText"/>
+          <Button label="新增" icon="pi pi-send" severity="warn" @click="addFilter"/>
+        </InputGroup>
+        <div class="my-3">
+          <Chip v-for="(text, index) of filterPrefix" :key=index :label="text" class="mr-3" removable/>
+        </div>
+      </div>
+    </Fieldset>
+
+    <Fieldset legend="語音噤聲名單" class="w-full">
+      <div class="flex flex-col justify-between gap-y-3">
+        <InputGroup>
+          <InputGroupAddon class="w-8rem" style="justify-content: left">
+            新增
+          </InputGroupAddon>
+          <InputText v-model="userName"/>
+          <Button label="新增" icon="pi pi-send" severity="warn" @click="addBlockUser"/>
+        </InputGroup>
+        <div class="my-3">
+          <Chip v-for="(user, index) of blockUsers" :key=index :label="user" class="mr-3" removable/>
+        </div>
+      </div>
+    </Fieldset>
 
     <Fieldset legend="Youtube設定" class="w-full">
+      <template #legend>
+        <div class="flex items-center pl-2">
+          <ToggleSwitch v-model="youtubeActive"/>
+          <span class="font-bold p-2">Youtube設定</span>
+        </div>
+      </template>
       <div class="flex flex-col justify-between gap-y-3">
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">
@@ -137,6 +196,12 @@ onMounted(() => {
     </Fieldset>
 
     <Fieldset legend="Twitch設定" class="w-full">
+      <template #legend>
+        <div class="flex items-center pl-2">
+          <ToggleSwitch v-model="twitchActive" @change="changeTwitchActive"/>
+          <span class="font-bold p-2">Twitch設定</span>
+        </div>
+      </template>
       <div class="flex flex-col justify-between gap-y-3">
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">

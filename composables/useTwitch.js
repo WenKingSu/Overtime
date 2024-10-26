@@ -1,4 +1,5 @@
 import {useChatSettingStore} from "~/store/chatSettingStore.js";
+import {useSpeakSettingStore} from "~/store/speakSettingStore.js";
 
 export const useTwitch = () => {
     const chatSettingStore = useChatSettingStore()
@@ -14,7 +15,12 @@ export const useTwitch = () => {
         twitchBadges,
         twitchMessages,
         messages,
+        blockUsers,
+        filterPrefix
     } = storeToRefs(chatSettingStore)
+    const speakSettingStore = useSpeakSettingStore()
+    const {queue} = storeToRefs(speakSettingStore)
+
 
     const stringUtils = useStringUtils()
 
@@ -162,14 +168,17 @@ export const useTwitch = () => {
     }
 
     const fetchBadgeUrl = (badgeItem) => {
+        console.log('badgeItem', badgeItem)
         const badgeType = badgeItem[0]
         const badgeVersion = badgeItem[1]
         const badge = toRaw(twitchBadges.value[badgeType][badgeVersion])
-        if (!!badge['image_url_1x']){
+        console.log('badge', badge)
+        if (!!badge['image_url_1x']) {
             return badge['image_url_1x']
         }
         return null
     }
+
 
     const connectTwitchWebSocket = () => {
         ws = new WebSocket('wss://irc-ws.chat.twitch.tv:443');
@@ -196,6 +205,8 @@ export const useTwitch = () => {
                 messageItem.id = stringUtils.buildChatId(new Date(), messageItem.displayName)
                 messages.value.push(messageItem);
                 twitchMessages.value.push(messageItem);
+                speakSettingStore.addSpeechQueue(blockUsers.value, filterPrefix.value, messageItem.displayName, messageItem.content);
+                console.log('queue', queue.value)
             }
         };
 

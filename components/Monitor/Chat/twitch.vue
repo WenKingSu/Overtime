@@ -1,16 +1,9 @@
 <script lang="ts" setup>
 import {useChatSettingStore} from "~/store/chatSettingStore";
-import {useSpeakSettingStore} from "~/store/speakSettingStore";
 
 const chatSettingStore = useChatSettingStore()
-const {
-  twitchMessages,
-} = storeToRefs(chatSettingStore)
-const speakSettingStore = useSpeakSettingStore()
-const {
-  queue
-} = storeToRefs(speakSettingStore)
-
+const {twitchMessages,} = storeToRefs(chatSettingStore)
+const twitch = useTwitch()
 </script>
 
 <template>
@@ -18,14 +11,20 @@ const {
     <div
         v-for="msg in twitchMessages"
         :key="msg.id"
-        class="my-2"
+        class="my-2 flex items-center"
     >
+      <template v-if="msg.badges">
+        <template v-for="(badge, index) of Object.entries(msg.badges)" :key="index">
+          <Image
+              v-if="twitch.fetchBadgeUrl(badge)"
+              :src="twitch.fetchBadgeUrl(badge)"
+              class="mr-1"
+          />
+        </template>
+      </template>
       <span>
-        {{ msg.displayName }}
-      </span>
-      <span>
-        ：
-      </span>
+          {{ msg.displayName }}：
+        </span>
       <template v-for="(item, index) of msg.contents" :key="index">
         <Image
             v-if="item.contentType === 'image'"
@@ -33,7 +32,7 @@ const {
             :width="item.content.width"
             :height="item.content.height"
         />
-        <span v-else>{{ item.content }}</span>
+        <span v-if="item.contentType === 'text'">{{ item.content }}</span>
       </template>
     </div>
   </div>

@@ -72,6 +72,7 @@ export const useStringUtils = () => {
             contentType: 'text',
             content: content
         }];
+        parsedMessage.content = content
 
         return parsedMessage;
     }

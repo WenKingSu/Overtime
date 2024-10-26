@@ -21,6 +21,7 @@
     },
     "chat": {
         "twitch": {
+            "active": false,
             "broadcasterId" : "37936048",
             "clientId": "9o1hnhvop15z5ezmzx0d0sbv7nb4et",
             "clientSecret": "mjxffofavi1vk33noln5z3n4ftymnr",
@@ -30,10 +31,13 @@
             "refreshToken": "uo87gb7pm9obpxmtssyaswakqxwrak6dmv14anofg6w82183xt"
         },
         "youtube": {
+            "active": false,
             "token": "AIzaSyDfsRf-D_unyJM29u4JUY2jR9jz_o4wMuw",
             "videoId": "qKYzOdKDGws",
             "refreshTime" : 2
         },
+        "filterPrefix": [],
+        "blockUsers": [],
         "speak": {
             "rate": 1,
             "pitch": 1,

@@ -2,9 +2,7 @@
 import {useChatSettingStore} from "~/store/chatSettingStore";
 
 const chatSettingStore = useChatSettingStore()
-const {
-  messages
-} = storeToRefs(chatSettingStore)
+const {messages} = storeToRefs(chatSettingStore)
 const twitch = useTwitch()
 
 const scrollBarBottom = () => {

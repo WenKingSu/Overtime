@@ -23,12 +23,25 @@ export const useSpeakSettingStore = defineStore("SpeakSettingStore", () => {
     )
     const queue = ref([])
 
+    const addSpeechQueue = (blockUsers, filterMessages, displayName, message) => {
+        if (blockUsers.includes(displayName)) {
+            return
+        }
+        for (const prefix of filterMessages) {
+            if (message.startsWith(prefix)) {
+                return
+            }
+        }
+        queue.value.push(message);
+    }
+
     return {
         synth,
         voices,
         rate,
         pitch,
         voice,
-        queue
+        queue,
+        addSpeechQueue
     }
 })

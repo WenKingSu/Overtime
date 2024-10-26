@@ -1,9 +1,26 @@
 <script lang="ts" setup>
+import {useChatSettingStore} from "~/store/chatSettingStore";
+
+const chatSettingStore = useChatSettingStore()
+const {
+  twitchActive,
+  youtubeActive,
+  youtubeRefreshTime
+} = storeToRefs(chatSettingStore)
+
 const twitch = useTwitch()
+const youtube = useYouTube()
 
 onMounted(() => {
   twitch.fetchBadges()
-  twitch.connectTwitchWebSocket()
+  if (twitchActive.value) {
+    twitch.connectTwitchWebSocket()
+  }
+  setInterval(() => {
+    if (youtubeActive.value) {
+      youtube.fetchLiveChat()
+    }
+  }, (youtubeRefreshTime.value * 1000))
 })
 
 onUnmounted(() => {
