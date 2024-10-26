@@ -1,4 +1,16 @@
 <script lang="ts" setup>
+const twitch = useTwitch()
+
+onMounted(() => {
+  twitch.fetchBadges()
+  twitch.connectTwitchWebSocket()
+})
+
+onUnmounted(() => {
+  twitch.disconnectTwitchWebSocket()
+})
+
+
 </script>
 
 <template>
@@ -20,9 +32,9 @@
         <TabPanel value="3" class="h-full">
           <MonitorChat/>
         </TabPanel>
-<!--        <TabPanel value="2">-->
-<!--          <ConsoleCommonSetting/>-->
-<!--        </TabPanel>-->
+        <!--        <TabPanel value="2">-->
+        <!--          <ConsoleCommonSetting/>-->
+        <!--        </TabPanel>-->
         <!--        <TabPanel value="2">-->
         <!--          <p class="m-0">-->
         <!--            預留 2-->
@@ -35,7 +47,7 @@
 
 <style lang="scss" scoped>
 #monitor {
-  .p-tabpanels{
+  .p-tabpanels {
     padding: 0;
   }
 }
