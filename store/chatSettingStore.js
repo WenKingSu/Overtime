@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {useLocalStorage} from '@vueuse/core'
+import {useLocalStorage, StorageSerializers} from '@vueuse/core'
 import settingJson from "assets/json/setting.json"
 
 export const useChatSettingStore = defineStore("ChatSettingStore", () => {
@@ -9,7 +9,10 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         'twitchChannelInfo',
         localStorage.getItem('twitchChannelInfo') ? localStorage.getItem('twitchChannelInfo') : settingJson.chat.twitch.clientId,
         localStorage,
-        {mergeDefaults: true}
+        {
+            mergeDefaults: true,
+            serializer: StorageSerializers.object
+        }
     )
     const twitchClientId = useLocalStorage(
         'twitchClientId',
@@ -17,7 +20,7 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         localStorage,
         {mergeDefaults: true}
     )
-    const twitchClientSecret= useLocalStorage(
+    const twitchClientSecret = useLocalStorage(
         'twitchClientSecret',
         localStorage.getItem('twitchClientSecret') ? localStorage.getItem('twitchClientSecret') : settingJson.chat.twitch.clientSecret,
         {mergeDefaults: true}
@@ -42,7 +45,7 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         localStorage.getItem('twitchCode') ? localStorage.getItem('twitchCode') : settingJson.chat.twitch.code,
         {mergeDefaults: true}
     )
-    const twitchBroadcasterId= useLocalStorage(
+    const twitchBroadcasterId = useLocalStorage(
         'twitchBroadcasterId',
         localStorage.getItem('twitchBroadcasterId') ? localStorage.getItem('twitchBroadcasterId') : settingJson.chat.twitch.code,
         {mergeDefaults: true}

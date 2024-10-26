@@ -26,7 +26,6 @@ export const useTwitch = () => {
     const twitchBadgeUrl = '/helix/chat/badges/global'
     const twitchChatBadgeUrl = '/helix/chat/badges?broadcaster_id='
     let ws;
-    const message = ref('')
 
     const getTwitchCode = async () => {
         const url = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientId.value}&redirect_uri=${twitchCodeUrl}&response_type=code&scope=chat:read chat:edit channel:manage:vips&state=${twitchChannel.value}`
@@ -149,17 +148,27 @@ export const useTwitch = () => {
                 const badgeItems = twitchBadges.value[badgeType]
                 for (const version of item['versions']) {
                     const id = version['id']
-                    badgeItems[id] = version
+                    badgeItems[id] = toRaw(version)
                 }
             } else {
                 const badgeItems = {}
                 for (const version of item['versions']) {
                     const id = version['id']
-                    badgeItems[id] = version
+                    badgeItems[id] = toRaw(version)
                 }
                 twitchBadges.value[badgeType] = badgeItems
             }
         }
+    }
+
+    const fetchBadgeUrl = (badgeItem) => {
+        const badgeType = badgeItem[0]
+        const badgeVersion = badgeItem[1]
+        const badge = toRaw(twitchBadges.value[badgeType][badgeVersion])
+        if (!!badge['image_url_1x']){
+            return badge['image_url_1x']
+        }
+        return null
     }
 
     const connectTwitchWebSocket = () => {
@@ -212,6 +221,7 @@ export const useTwitch = () => {
         getTwitchCode,
         getTwitchAccessToken,
         getTwitchRefreshToken,
+        fetchBadgeUrl,
         fetchBadges,
         fetchDisplayName
     }

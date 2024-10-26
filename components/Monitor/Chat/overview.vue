@@ -3,18 +3,18 @@ import {useChatSettingStore} from "~/store/chatSettingStore";
 
 const chatSettingStore = useChatSettingStore()
 const {
-  twitchBadges,
   messages
 } = storeToRefs(chatSettingStore)
+const twitch = useTwitch()
 
 const scrollBarBottom = () => {
   const element = document.getElementById("Monitor-Chat-Overview")
-  console.log(element?.scrollHeight)
-  element.scrollTop = element.scrollHeight + 40
+  nextTick(() => {
+    element.scrollTop = element.scrollHeigh
+  });
 }
 
 watchDeep(messages, () => {
-  console.log('update scroll bar')
   scrollBarBottom()
 })
 
@@ -37,8 +37,8 @@ onMounted(() => {
         <template v-if="msg.badges">
           <template v-for="(badge, index) of Object.entries(msg.badges)" :key="index">
             <Image
-                v-if="twitchBadges[badge[0]][badge[1]]['image_url_1x']"
-                :src="twitchBadges[badge[0]][badge[1]]['image_url_1x']"
+                v-if="twitch.fetchBadgeUrl(badge)"
+                :src="twitch.fetchBadgeUrl(badge)"
                 class="mr-1"
             />
           </template>

@@ -85,11 +85,13 @@ export const useStringUtils = () => {
                 split = badge.split("/")
                 result[split[0]] = split[1]
             }
-            return result
         } else {
+            console.log(badges)
             const split = badges.split("/")
+            console.log(split)
             result[split[0]] = split[1]
         }
+        return result
     }
 
     return {
