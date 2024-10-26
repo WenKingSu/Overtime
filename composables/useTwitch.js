@@ -3,15 +3,17 @@ import {useChatSettingStore} from "~/store/chatSettingStore.js";
 export const useTwitch = () => {
     const chatSettingStore = useChatSettingStore()
     const {
+        twitchChannelInfo,
         twitchClientId,
         twitchClientSecret,
         twitchChannel,
         twitchRefreshToken,
         twitchAccessToken,
+        twitchBroadcasterId,
         twitchCode,
+        twitchBadges,
         twitchMessages,
         messages,
-        queue
     } = storeToRefs(chatSettingStore)
 
     const stringUtils = useStringUtils()
@@ -20,7 +22,9 @@ export const useTwitch = () => {
     const twitchCodeUrl = `http://${encodeURIComponent(useRequestURL().host)}/getTwitchCode`
     const twitchAuthUrl = "https://id.twitch.tv/oauth2/token"
     const twitchApi = 'https://api.twitch.tv'
-    const twitchBadges = '/helix/chat/badges/global'
+    const twitchChannelInfoUrl = '/helix/users?login='
+    const twitchBadgeUrl = '/helix/chat/badges/global'
+    const twitchChatBadgeUrl = '/helix/chat/badges?broadcaster_id='
     let ws;
     const message = ref('')
 
@@ -35,6 +39,26 @@ export const useTwitch = () => {
                 }
             }
         })
+        await getTwitchBroadcasterId()
+    }
+
+    const getTwitchBroadcasterId = async () => {
+        const url = `${twitchApi}${twitchChannelInfoUrl}${twitchChannel.value}`
+        try {
+            const response = await $fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + twitchAccessToken.value,
+                    'Client-ID': twitchClientId.value,
+                },
+            })
+            if (response) {
+                twitchChannelInfo.value = response['data'][0]
+                twitchBroadcasterId.value = twitchChannelInfo.value['id']
+            }
+        } catch (error) {
+            console.error('Error:', error)
+        }
     }
 
     const getTwitchAccessToken = async () => {
@@ -95,19 +119,47 @@ export const useTwitch = () => {
                 'Client-ID': twitchClientId.value,
             }
         })
-        console.log('twitch data', data)
         return data[0]['display_name']
     }
 
     const fetchBadges = async () => {
-        const url = `${twitchApi}${twitchBadges}`
+        let url = `${twitchApi}${twitchBadgeUrl}`
         const headers = {
             "Authorization": `Bearer ${twitchAccessToken.value}`,
             "Client-Id": twitchClientId.value,
         }
 
-        const {data} = await useFetch(url, {headers: headers})
-        console.log('response.data', data.value)
+        let response = await useFetch(url, {headers: headers})
+        for (const item of response.data.value.data) {
+            const badgeItems = {}
+            const badgeType = item['set_id']
+            for (const version of item['versions']) {
+                const id = version['id']
+                badgeItems[id] = version
+            }
+            twitchBadges.value[badgeType] = badgeItems
+        }
+        // Badges of Chat custom.
+        url = `${twitchApi}${twitchChatBadgeUrl}${twitchBroadcasterId.value}`
+        response = await useFetch(url, {headers: headers})
+        const badgeTypes = Object.keys(twitchBadges.value)
+        for (const item of response.data.value.data) {
+            const badgeType = item['set_id']
+            if (badgeTypes.includes(badgeType)) {
+                const badgeItems = twitchBadges.value[badgeType]
+                for (const version of item['versions']) {
+                    const id = version['id']
+                    badgeItems[id] = version
+                }
+            } else {
+                const badgeItems = {}
+                for (const version of item['versions']) {
+                    const id = version['id']
+                    badgeItems[id] = version
+                }
+                twitchBadges.value[badgeType] = badgeItems
+            }
+        }
     }
 
     const connectTwitchWebSocket = () => {
@@ -128,7 +180,14 @@ export const useTwitch = () => {
         };
 
         ws.onmessage = (event) => {
-            parseMessage(event.data);
+            const messageItem = stringUtils.parseTwitchMessage(event.data);
+            if (messageItem) {
+                messageItem.displayName = messageItem['tags']['display-name'];
+                messageItem.badges = stringUtils.parseTwitchBadges(messageItem['tags']['badges']);
+                messageItem.id = stringUtils.buildChatId(new Date(), messageItem.displayName)
+                messages.value.push(messageItem);
+                twitchMessages.value.push(messageItem);
+            }
         };
 
         ws.onclose = () => {
@@ -139,56 +198,6 @@ export const useTwitch = () => {
             console.error('WebSocket error:', error);
         };
     };
-
-
-// 解析消息
-    const parseMessage = async (message) => {
-        if (message.includes('PRIVMSG')) {
-            console.log('message', message)
-        }
-        //     const senderInfo = message.split(' ')[0];
-        //     const username = senderInfo.split('!')[0].substring(1);
-        //     const displayName = await fetchDisplayName(username)
-        //     const content = message.split('PRIVMSG')[1].split(':', 2)[1]
-        //
-        //     const item = {
-        //         id: stringUtils.buildChatId(Date.now(), displayName),
-        //         channelType: "Twitch",
-        //         displayName: displayName,
-        //         content: content
-        //     }
-        //     // 将消息添加到messages数组
-        //
-        //     const checkExist = messages.value.some(i => {
-        //         return i.id === item.id && i.displayName === item.displayName
-        //     });
-        //
-        //     if (!checkExist) {
-        //         twitchMessages.value.push({
-        //             id: stringUtils.buildChatId(new Date(), displayName),
-        //             channelType: "Twitch",
-        //             displayName: displayName,
-        //             content: content,
-        //             contents: [{
-        //                 contentType: 'text',
-        //                 content: content
-        //             }]
-        //         })
-        //         messages.value.push({
-        //                 id: stringUtils.buildChatId(new Date(), displayName),
-        //                 channelType: "Twitch",
-        //                 displayName: displayName,
-        //                 content: content,
-        //                 contents: [{
-        //                     contentType: 'text',
-        //                     content: content
-        //                 }]
-        //             }
-        //         )
-        //         queue.value.push(content)
-        //     }
-        // }
-    }
 
     const disconnectTwitchWebSocket = () => {
         if (ws) {

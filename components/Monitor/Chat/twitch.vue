@@ -27,8 +27,12 @@ const {
         ：
       </span>
       <template v-for="(item, index) of msg.contents" :key="index">
-        <Image v-if="item.contentType === 'image'" :src="item.content.url" :width="item.content.width"
-               :height="item.content.height"/>
+        <Image
+            v-if="item.contentType === 'image'"
+            :src="item.content.url"
+            :width="item.content.width"
+            :height="item.content.height"
+        />
         <span v-else>{{ item.content }}</span>
       </template>
     </div>

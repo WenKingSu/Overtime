@@ -10,6 +10,7 @@ const {
   twitchRefreshToken,
   twitchAccessToken,
   twitchCode,
+  twitchBroadcasterId,
   youtubeToken,
   youtubeVideoId,
   youtubeRefreshTime
@@ -17,6 +18,8 @@ const {
 
 const speakSettingStore = useSpeakSettingStore()
 const {pitch, rate, voice} = storeToRefs(speakSettingStore)
+
+const twitch = useTwitch()
 
 const selectVoice = ref<SpeechSynthesisVoice>(undefined as unknown as SpeechSynthesisVoice)
 const testText = ref('測試 加班台小工具')
@@ -155,9 +158,15 @@ onMounted(() => {
         </InputGroup>
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">
+            Broadcaster ID
+          </InputGroupAddon>
+          <InputText v-model="twitchBroadcasterId" disabled/>
+        </InputGroup>
+        <InputGroup>
+          <InputGroupAddon class="w-8rem" style="justify-content: left">
             Code
           </InputGroupAddon>
-          <InputText v-model="twitchCode"/>
+          <InputText v-model="twitchCode" disabled/>
         </InputGroup>
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">

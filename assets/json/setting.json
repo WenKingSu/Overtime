@@ -21,6 +21,7 @@
     },
     "chat": {
         "twitch": {
+            "broadcasterId" : "37936048",
             "clientId": "9o1hnhvop15z5ezmzx0d0sbv7nb4et",
             "clientSecret": "mjxffofavi1vk33noln5z3n4ftymnr",
             "channel": "hageeshow",

@@ -3,6 +3,7 @@ import {useChatSettingStore} from "~/store/chatSettingStore";
 
 const chatSettingStore = useChatSettingStore()
 const {
+  twitchBadges,
   messages
 } = storeToRefs(chatSettingStore)
 
@@ -31,15 +32,43 @@ onMounted(() => {
     >
       <Avatar :image="`/images/${msg.channelType}.png`" :style="{'flex-shrink': 0, 'margin-right': '0.2rem'}"/>
 
-      <span>
-        {{ msg.displayName }}
-      </span>
-      <span>
-        ：
-      </span>
-      <template v-for="(item, index) of msg.contents" :key="index">
-        <Image v-if="item.contentType === 'image'" :src="item.content.url" :width="item.content.width" :height="item.content.height" />
-        <span v-else>{{item.content}}</span>
+      <template v-if="msg.channelType === 'Twitch'">
+<!--        {{ msg.badges }}-->
+        <template v-if="msg.badges">
+          <template v-for="(badge, index) of Object.entries(msg.badges)" :key="index">
+            <Image
+                v-if="twitchBadges[badge[0]][badge[1]]['image_url_1x']"
+                :src="twitchBadges[badge[0]][badge[1]]['image_url_1x']"
+                class="mr-1"
+            />
+          </template>
+        </template>
+        <span>
+          {{ msg.displayName }}：
+        </span>
+        <template v-for="(item, index) of msg.contents" :key="index">
+          <Image
+              v-if="item.contentType === 'image'"
+              :src="item.content.url"
+              :width="item.content.width"
+              :height="item.content.height"
+          />
+          <span v-if="item.contentType === 'text'">{{ item.content }}</span>
+        </template>
+      </template>
+      <template v-else>
+        <span>
+          {{ msg.displayName }}：
+        </span>
+        <template v-for="(item, index) of msg.contents" :key="index">
+          <Image
+              v-if="item.contentType === 'image'"
+              :src="item.content.url"
+              :width="item.content.width"
+              :height="item.content.height"
+          />
+          <span v-if="item.contentType === 'text'">{{ item.content }}</span>
+        </template>
       </template>
     </div>
   </div>

@@ -5,6 +5,12 @@ import settingJson from "assets/json/setting.json"
 export const useChatSettingStore = defineStore("ChatSettingStore", () => {
 
     //Twitch
+    const twitchChannelInfo = useLocalStorage(
+        'twitchChannelInfo',
+        localStorage.getItem('twitchChannelInfo') ? localStorage.getItem('twitchChannelInfo') : settingJson.chat.twitch.clientId,
+        localStorage,
+        {mergeDefaults: true}
+    )
     const twitchClientId = useLocalStorage(
         'twitchClientId',
         localStorage.getItem('twitchClientId') ? localStorage.getItem('twitchClientId') : settingJson.chat.twitch.clientId,
@@ -36,6 +42,12 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         localStorage.getItem('twitchCode') ? localStorage.getItem('twitchCode') : settingJson.chat.twitch.code,
         {mergeDefaults: true}
     )
+    const twitchBroadcasterId= useLocalStorage(
+        'twitchBroadcasterId',
+        localStorage.getItem('twitchBroadcasterId') ? localStorage.getItem('twitchBroadcasterId') : settingJson.chat.twitch.code,
+        {mergeDefaults: true}
+    )
+    const twitchBadges = ref({})
     const twitchMessages = ref([])
 
     //YouTube
@@ -59,11 +71,14 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
     const messages = ref([])
 
     return {
+        twitchChannelInfo,
         twitchClientId,
         twitchClientSecret,
         twitchAccessToken,
         twitchRefreshToken,
         twitchChannel,
+        twitchBroadcasterId,
+        twitchBadges,
         twitchMessages,
         twitchCode,
         youtubeToken,
