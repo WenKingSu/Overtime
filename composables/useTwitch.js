@@ -16,7 +16,7 @@ export const useTwitch = () => {
     const twitchAuthUrl = "https://id.twitch.tv/oauth2/token"
 
     const getTwitchCode = async () => {
-        const url = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientId.value}&redirect_uri=${twitchCodeUrl}&response_type=code&scope=chat:read chat:edit&state=${twitchChannel.value}`
+        const url = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientId.value}&redirect_uri=${twitchCodeUrl}&response_type=code&scope=chat:read chat:edit channel:manage:vips&state=${twitchChannel.value}`
         await navigateTo(url, {
             open: {
                 target: '_blank',
@@ -86,6 +86,7 @@ export const useTwitch = () => {
                 'Client-ID': twitchClientId.value,
             }
         })
+        console.log('twitch data', data)
         return data[0]['display_name']
     }
 
