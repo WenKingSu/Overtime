@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import {useChatSettingStore} from "~/store/chatSettingStore";
 import {useSpeakSettingStore} from "~/store/speakSettingStore";
-import {useTwitch} from "~/composables/useTwitch";
 
 const chatSettingStore = useChatSettingStore()
 const {
@@ -17,45 +16,36 @@ const {
 } = storeToRefs(chatSettingStore)
 
 const speakSettingStore = useSpeakSettingStore()
-const {
-  // voices,
-  rate,
-  pitch,
-  voice
-} = storeToRefs(speakSettingStore)
+const {pitch, rate, voice} = storeToRefs(speakSettingStore)
 
-const twitch = useTwitch()
-// const speak = useSpeak()
-//
-
-const voices = ref<SpeechSynthesisVoice[]>([])
-
-let synth: SpeechSynthesis
 const selectVoice = ref<SpeechSynthesisVoice>(undefined as unknown as SpeechSynthesisVoice)
 const testText = ref('測試 加班台小工具')
+
 const speech = useSpeechSynthesis(testText, {
-  selectVoice,
+  voice: selectVoice,
   pitch,
   rate,
 })
 
-const testSpeak = () => {
-  console.log('speech', speech)
-  console.log('speech.status.value', speech.status.value)
-  console.log('selectVoice', selectVoice.value)
+let synth: SpeechSynthesis
+
+const voices = ref<SpeechSynthesisVoice[]>([])
+
+function testSpeak() {
   if (speech.status.value === 'pause') {
-    console.log('resume')
     window.speechSynthesis.resume()
   } else {
-    console.log('speak')
     speech.speak()
   }
 }
 
 const changeVoice = () => {
-  // selectVoice.value = voices.value.filter(i => i.name == voice.value)[0];
-  console.log('change voice selectedVoice', voice.value)
-  console.log('change voice selectedVoice', selectVoice.value)
+  for(const v of voices.value){
+    if (v.name === voice.value){
+      selectVoice.value = v
+      return
+    }
+  }
 }
 
 onMounted(() => {
@@ -92,19 +82,23 @@ onMounted(() => {
         <InputGroupAddon>
           語音模型
         </InputGroupAddon>
-        <Select v-model="voice"
-                :options="voices"
-                optionValue="name"
-                :highlightOnSelect="false"
-                class="w-full md:w-56"
-                @change="changeVoice">
-          >
-          <template #option="slotProps">
-            <div class="flex items-center">
-              <div>{{ slotProps.option.name }} ( {{ slotProps.option.lang }} )</div>
-            </div>
-          </template>
-        </Select>
+                <Select v-model="voice"
+                        :options="voices"
+                        optionLabel="name"
+                        optionValue="name"
+                        :highlightOnSelect="false"
+                        class="w-full md:w-56"
+                        @change="changeVoice">
+                  >
+                  <template #value="slotProps">
+                      <div>{{ slotProps.value }}</div>
+                  </template>
+                  <template #option="slotProps">
+                    <div class="flex items-center">
+                      <div>{{ slotProps.option.name }} ( {{ slotProps.option.lang }} )</div>
+                    </div>
+                  </template>
+                </Select>
       </InputGroup>
       <InputGroup class="my-3">
         <InputGroupAddon class="w-8rem" style="justify-content: left">

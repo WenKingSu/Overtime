@@ -23,10 +23,6 @@ export const useSpeakSettingStore = defineStore("SpeakSettingStore", () => {
     )
     const queue = ref([])
 
-    onMounted(() => {
-    })
-
-
     return {
         synth,
         voices,
