@@ -21,7 +21,7 @@ const {
 } = storeToRefs(chatSettingStore)
 
 const speakSettingStore = useSpeakSettingStore()
-const {pitch, rate, voice, volume} = storeToRefs(speakSettingStore)
+const {synth,pitch, rate, voice, volume} = storeToRefs(speakSettingStore)
 
 const twitch = useTwitch()
 
@@ -38,7 +38,7 @@ let speech = useSpeechSynthesis(testText, {
   volume: volume.value,
 })
 
-let synth: SpeechSynthesis
+// let synth: SpeechSynthesis
 
 const voices = ref<SpeechSynthesisVoice[]>([])
 
@@ -93,8 +93,8 @@ onMounted(async () => {
   if (speech.isSupported.value) {
     // load at last
     setTimeout(() => {
-      synth = window.speechSynthesis
-      voices.value = synth.getVoices()
+      synth.value = window.speechSynthesis
+      voices.value = synth.value.getVoices()
       changeVoice()
       // selectVoice.value = voices.value[0]
     })
