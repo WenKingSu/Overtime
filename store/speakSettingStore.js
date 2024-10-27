@@ -27,6 +27,7 @@ export const useSpeakSettingStore = defineStore("SpeakSettingStore", () => {
             serializer: StorageSerializers.string
         }
     )
+    const selectVoice = ref(null)
     const volume = useLocalStorage(
         'volume',
         localStorage.getItem('volume') ? localStorage.getItem('volume') : settingJson.chat.speak.volume,
@@ -35,6 +36,15 @@ export const useSpeakSettingStore = defineStore("SpeakSettingStore", () => {
             serializer: StorageSerializers.number
         }
     )
+    const speakActive = useLocalStorage(
+        'speakActive',
+        localStorage.getItem('speakActive') ? localStorage.getItem('speakActive') : settingJson.chat.speak.active,
+        {
+            mergeDefaults: true,
+            serializer: StorageSerializers.boolean
+        }
+    )
+
     const queue = ref([])
 
     const addSpeechQueue = (blockUsers, filterMessages, displayName, message) => {
@@ -51,12 +61,14 @@ export const useSpeakSettingStore = defineStore("SpeakSettingStore", () => {
     }
 
     return {
+        speakActive,
         synth,
         voices,
         rate,
         pitch,
         volume,
         voice,
+        selectVoice,
         queue,
         addSpeechQueue
     }

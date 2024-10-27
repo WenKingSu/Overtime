@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {useLocalStorage, StorageSerializers} from '@vueuse/core'
+import {StorageSerializers, useLocalStorage} from '@vueuse/core'
 import settingJson from "assets/json/setting.json"
 
 export const useChatSettingStore = defineStore("ChatSettingStore", () => {

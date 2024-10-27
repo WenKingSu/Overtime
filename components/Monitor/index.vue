@@ -10,9 +10,54 @@ const {
 } = storeToRefs(chatSettingStore)
 const speakSettingStore = useSpeakSettingStore()
 const {queue} = storeToRefs(speakSettingStore)
+const {
+  synth,
+  voices,
+  pitch,
+  rate,
+  voice,
+  selectVoice,
+  volume
+} = storeToRefs(speakSettingStore)
 
 const twitch = useTwitch()
 const youtube = useYouTube()
+
+const speakMessage = ref('')
+let speech = useSpeechSynthesis(speakMessage.value, {
+  voice: selectVoice,
+  lang: selectVoice.value ? selectVoice.value['lang'] : 'zh-TW',
+  pitch: pitch,
+  rate: rate,
+  volume: volume.value,
+})
+
+const speak = () => {
+  if (queue.value.length > 0) {
+    // console.log('before queue', queue.value)
+    // console.log('speech.status.value', speech.status.value)
+    // console.log('speak option', {
+    //   voice: selectVoice,
+    //   lang: selectVoice.value ? selectVoice.value['lang'] : 'zh-TW',
+    //   pitch: pitch,
+    //   rate: rate,
+    //   volume: volume.value,
+    // })
+    if (speech.status.value !== 'playing') {
+      const message = queue.value.pop()
+      speech = useSpeechSynthesis(message, {
+        voice: selectVoice,
+        lang: selectVoice.value ? selectVoice.value['lang'] : 'zh-TW',
+        pitch: pitch,
+        rate: rate,
+        volume: volume.value,
+      })
+      speech.speak()
+      // console.log('speak', message)
+    }
+    // console.log('after queue', queue.value)
+  }
+}
 
 onMounted(() => {
   twitch.fetchBadges()
@@ -27,6 +72,23 @@ onMounted(() => {
       youtube.fetchLiveChat()
     }
   }, (youtubeRefreshTime.value * 1000))
+
+  setInterval(() => {
+    speak()
+  }, 1000)
+
+  setInterval(() => {
+    twitch.getTwitchRefreshToken()
+    twitch.disconnectTwitchWebSocket()
+    twitch.connectTwitchWebSocket()
+  }, 60 * 1000)
+  // if (speech.isSupported.value) {
+  //   // load at last
+  //   setTimeout(() => {
+  //     synth.value = window.speechSynthesis
+  //     voices.value = synth.value.getVoices()
+  //   })
+  // }
 })
 
 onUnmounted(() => {

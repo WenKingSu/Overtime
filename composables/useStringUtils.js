@@ -88,9 +88,9 @@ export const useStringUtils = () => {
                     result[split[0]] = split[1]
                 }
             } else {
-                console.log(badges)
+                console.log('parseTwitchBadges badges', badges)
                 const split = badges.split("/")
-                console.log(split)
+                console.log('parseTwitchBadges split', split)
                 result[split[0]] = split[1]
             }
             return result

@@ -36,9 +36,10 @@
             "videoId": "",
             "refreshTime" : 2
         },
-        "filterPrefix": [],
-        "blockUsers": [],
+        "filterPrefix": ["!", "ACTION"],
+        "blockUsers": ["StreamElements"],
         "speak": {
+            "active": false,
             "rate": 1,
             "pitch": 1,
             "volume": 1,

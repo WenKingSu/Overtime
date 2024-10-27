@@ -21,14 +21,22 @@ const {
 } = storeToRefs(chatSettingStore)
 
 const speakSettingStore = useSpeakSettingStore()
-const {synth,pitch, rate, voice, volume} = storeToRefs(speakSettingStore)
+const {
+  synth,
+  voices,
+  pitch,
+  rate,
+  voice,
+  selectVoice,
+  volume,
+  speakActive
+} = storeToRefs(speakSettingStore)
 
 const twitch = useTwitch()
 
-const selectVoice = ref<SpeechSynthesisVoice>(undefined as unknown as SpeechSynthesisVoice)
+// const selectVoice = ref<SpeechSynthesisVoice>(undefined as unknown as SpeechSynthesisVoice)
 const testText = ref('Welcome 歡迎使用 加班台小工具')
-const filterText = ref('')
-const userName = ref('')
+const saveVolume = ref(0)
 
 let speech = useSpeechSynthesis(testText, {
   voice: selectVoice,
@@ -38,15 +46,11 @@ let speech = useSpeechSynthesis(testText, {
   volume: volume.value,
 })
 
-// let synth: SpeechSynthesis
-
-const voices = ref<SpeechSynthesisVoice[]>([])
-
 function testSpeak() {
   if (speech.status.value === 'pause') {
     window.speechSynthesis.resume()
   } else {
-    speech.speak(testText.value)
+    speech.speak()
   }
 }
 
@@ -68,7 +72,6 @@ const changeSpeech = () => {
     rate: rate,
     volume: volume.value,
   })
-
 }
 
 const changeTwitchActive = () => {
@@ -79,14 +82,13 @@ const changeTwitchActive = () => {
   }
 }
 
-const addFilter = () => {
-  filterPrefix.value.push(filterText.value)
-  filterText.value = ''
-}
-
-const addBlockUser = () => {
-  blockUsers.value.push(userName.value)
-  userName.value = ''
+const changeSpeakActive = () => {
+  if (speakActive.value) {
+    volume.value = saveVolume.value
+  } else {
+    saveVolume.value = volume.value
+    volume.value = 0
+  }
 }
 
 onMounted(async () => {
@@ -96,7 +98,6 @@ onMounted(async () => {
       synth.value = window.speechSynthesis
       voices.value = synth.value.getVoices()
       changeVoice()
-      // selectVoice.value = voices.value[0]
     })
   }
   await nextTick()
@@ -107,7 +108,14 @@ onMounted(async () => {
 
 <template>
   <div id="Chat-Setting" class="overflow-y-auto">
+
     <Fieldset legend="語音設定" class="w-full">
+      <template #legend>
+        <div class="flex items-center pl-2">
+          <ToggleSwitch v-model="speakActive" @change="changeSpeakActive"/>
+          <span class="font-bold p-2">語音設定</span>
+        </div>
+      </template>
       <InputGroup>
         <InputGroupAddon class="w-8rem" style="justify-content: left">
           語速
@@ -128,7 +136,8 @@ onMounted(async () => {
         </InputGroupAddon>
         <InputText v-model="volume" disabled/>
       </InputGroup>
-      <Slider v-model="volume" :min="0" :max="1" :step="0.05" class="my-5" @change="changeSpeech"/>
+      <Slider v-model="volume" :min="0" :max="1" :step="0.05" class="my-5" @change="changeSpeech"
+              :disabled="!speakActive"/>
       <InputGroup class="clock-font">
         <InputGroupAddon>
           語音模型
@@ -162,30 +171,23 @@ onMounted(async () => {
 
     <Fieldset legend="語音過濾器設定" class="w-full">
       <div class="flex flex-col justify-between gap-y-3">
-        <InputGroup>
-          <InputGroupAddon class="w-8rem" style="justify-content: left">
-            新增
-          </InputGroupAddon>
-          <InputText v-model="filterText"/>
-          <Button label="新增" icon="pi pi-send" severity="warn" @click="addFilter"/>
-        </InputGroup>
+        <!--        <InputGroup>-->
+        <!--          <InputGroupAddon class="w-8rem" style="justify-content: left">-->
+        <!--            新增-->
+        <!--          </InputGroupAddon>-->
+        <!--          <InputText v-model="filterText"/>-->
+        <!--          <Button label="新增" icon="pi pi-send" severity="warn" @click="addFilter"/>-->
+        <!--        </InputGroup>-->
         <div class="my-3">
-          <Chip v-for="(text, index) of filterPrefix" :key=index :label="text" class="mr-3" removable/>
+          <Chips class="w-full" v-model="filterPrefix"/>
         </div>
       </div>
     </Fieldset>
 
     <Fieldset legend="語音噤聲名單" class="w-full">
       <div class="flex flex-col justify-between gap-y-3">
-        <InputGroup>
-          <InputGroupAddon class="w-8rem" style="justify-content: left">
-            新增
-          </InputGroupAddon>
-          <InputText v-model="userName"/>
-          <Button label="新增" icon="pi pi-send" severity="warn" @click="addBlockUser"/>
-        </InputGroup>
-        <div class="my-3">
-          <Chip v-for="(user, index) of blockUsers" :key=index :label="user" class="mr-3" removable/>
+        <div class="my-3 ">
+          <Chips class="w-full" v-model="blockUsers"/>
         </div>
       </div>
     </Fieldset>

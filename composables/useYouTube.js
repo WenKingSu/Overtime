@@ -8,13 +8,12 @@ export const useYouTube = () => {
         youtubeToken,
         youtubeVideoId,
         youtubeMessages,
+        blockUsers,
+        filterPrefix,
         messages
     } = storeToRefs(chatSettingStore)
 
     const speakSettingStore = useSpeakSettingStore()
-    const {
-        queue
-    } = storeToRefs(speakSettingStore)
 
     const stringUtils = useStringUtils()
 
@@ -55,6 +54,7 @@ export const useYouTube = () => {
                     youtubeMessages.value.push(item)
                     messages.value.push(item)
                     // queue.value.push(item.content)
+                    speakSettingStore.addSpeechQueue(blockUsers.value, filterPrefix.value, item.displayName, item.content);
                 }
             }
         }
