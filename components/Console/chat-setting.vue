@@ -21,19 +21,21 @@ const {
 } = storeToRefs(chatSettingStore)
 
 const speakSettingStore = useSpeakSettingStore()
-const {pitch, rate, voice} = storeToRefs(speakSettingStore)
+const {pitch, rate, voice, volume} = storeToRefs(speakSettingStore)
 
 const twitch = useTwitch()
 
 const selectVoice = ref<SpeechSynthesisVoice>(undefined as unknown as SpeechSynthesisVoice)
-const testText = ref('測試 加班台小工具')
+const testText = ref('Welcome 歡迎使用 加班台小工具')
 const filterText = ref('')
 const userName = ref('')
 
-const speech = useSpeechSynthesis(testText, {
+let speech = useSpeechSynthesis(testText, {
   voice: selectVoice,
-  pitch,
-  rate,
+  lang: selectVoice.value ? selectVoice.value['lang'] : 'zh-TW',
+  pitch: pitch,
+  rate: rate,
+  volume: volume.value,
 })
 
 let synth: SpeechSynthesis
@@ -44,7 +46,7 @@ function testSpeak() {
   if (speech.status.value === 'pause') {
     window.speechSynthesis.resume()
   } else {
-    speech.speak()
+    speech.speak(testText.value)
   }
 }
 
@@ -55,6 +57,18 @@ const changeVoice = () => {
       return
     }
   }
+  selectVoice.value = voices.value[0]
+}
+
+const changeSpeech = () => {
+  speech = useSpeechSynthesis(testText, {
+    voice: selectVoice,
+    lang: selectVoice.value ? selectVoice.value['lang'] : 'zh-TW',
+    pitch: pitch,
+    rate: rate,
+    volume: volume.value,
+  })
+
 }
 
 const changeTwitchActive = () => {
@@ -65,25 +79,28 @@ const changeTwitchActive = () => {
   }
 }
 
-const addFilter = () =>{
+const addFilter = () => {
   filterPrefix.value.push(filterText.value)
   filterText.value = ''
 }
 
-const addBlockUser = () =>{
+const addBlockUser = () => {
   blockUsers.value.push(userName.value)
   userName.value = ''
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (speech.isSupported.value) {
     // load at last
     setTimeout(() => {
       synth = window.speechSynthesis
       voices.value = synth.getVoices()
-      selectVoice.value = voices.value[0]
+      changeVoice()
+      // selectVoice.value = voices.value[0]
     })
   }
+  await nextTick()
+  changeVoice()
 })
 
 </script>
@@ -97,14 +114,21 @@ onMounted(() => {
         </InputGroupAddon>
         <InputText v-model="rate" disabled/>
       </InputGroup>
-      <Slider v-model="rate" :min="0.5" :max="2" :step="0.1" class="my-5"/>
+      <Slider v-model="rate" :min="0.5" :max="2" :step="0.1" class="my-5" @change="changeSpeech"/>
       <InputGroup>
         <InputGroupAddon class="w-8rem" style="justify-content: left">
           音調
         </InputGroupAddon>
         <InputText v-model="pitch" disabled/>
       </InputGroup>
-      <Slider v-model="pitch" :min="0" :max="2" :step="0.1" class="my-5"/>
+      <Slider v-model="pitch" :min="0" :max="2" :step="0.1" class="my-5" @change="changeSpeech"/>
+      <InputGroup>
+        <InputGroupAddon class="w-8rem" style="justify-content: left">
+          音量
+        </InputGroupAddon>
+        <InputText v-model="volume" disabled/>
+      </InputGroup>
+      <Slider v-model="volume" :min="0" :max="1" :step="0.05" class="my-5" @change="changeSpeech"/>
       <InputGroup class="clock-font">
         <InputGroupAddon>
           語音模型

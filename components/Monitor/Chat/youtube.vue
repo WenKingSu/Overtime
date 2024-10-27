@@ -3,28 +3,24 @@ import {useChatSettingStore} from "~/store/chatSettingStore";
 
 const youtube = useYouTube()
 const chatSettingStore = useChatSettingStore()
-const {
-  youtubeMessages,
-  youtubeRefreshTime,
-} = storeToRefs(chatSettingStore)
+const {youtubeMessages} = storeToRefs(chatSettingStore)
 
-const scrollBarBottom = () => {
-  const element = document.getElementById("Monitor-Chat-Youtube")
-  nextTick(() => {
-    element.scrollTop = element.scrollHeigh
-  });
+const scrollContainer = ref(null)
+const {y} = useScroll(scrollContainer)
+
+const scrollBarBottom = async () => {
+  await nextTick()
+  y.value = scrollContainer.value.scrollHeight
 }
 
-onMounted(async () => {
+watchDeep(youtubeMessages, () => {
   scrollBarBottom()
-  setInterval(() => {
-    scrollBarBottom()
-  }, (youtubeRefreshTime.value * 1000))
 })
+
 </script>
 
 <template>
-  <div id="Monitor-Chat-Youtube" class="w-full h-full overflow-y-auto">
+  <div ref="scrollContainer"  id="Monitor-Chat-Youtube" class="w-full h-full overflow-y-auto">
     <div
         v-for="(msg, index) in youtubeMessages"
         :key="index"

@@ -45,6 +45,7 @@ export const useTwitch = () => {
             }
         })
         await getTwitchBroadcasterId()
+        await getTwitchAccessToken()
     }
 
     const getTwitchBroadcasterId = async () => {
@@ -133,48 +134,58 @@ export const useTwitch = () => {
             "Authorization": `Bearer ${twitchAccessToken.value}`,
             "Client-Id": twitchClientId.value,
         }
-
+        // Badges of Global
         let response = await useFetch(url, {headers: headers})
-        for (const item of response.data.value.data) {
-            const badgeItems = {}
-            const badgeType = item['set_id']
-            for (const version of item['versions']) {
-                const id = version['id']
-                badgeItems[id] = version
+        if (response.data.value) {
+            for (const item of response.data.value.data) {
+                const badgeItems = {}
+                const badgeType = item['set_id']
+                for (const version of item['versions']) {
+                    const id = version['id']
+                    badgeItems[id] = version
+                }
+                twitchBadges.value[badgeType] = badgeItems
             }
-            twitchBadges.value[badgeType] = badgeItems
         }
         // Badges of Chat custom.
         url = `${twitchApi}${twitchChatBadgeUrl}${twitchBroadcasterId.value}`
         response = await useFetch(url, {headers: headers})
         const badgeTypes = Object.keys(twitchBadges.value)
-        for (const item of response.data.value.data) {
-            const badgeType = item['set_id']
-            if (badgeTypes.includes(badgeType)) {
-                const badgeItems = twitchBadges.value[badgeType]
-                for (const version of item['versions']) {
-                    const id = version['id']
-                    badgeItems[id] = toRaw(version)
+        if (response.data.value) {
+            for (const item of response.data.value.data) {
+                const badgeType = item['set_id']
+                if (badgeTypes.includes(badgeType)) {
+                    const badgeItems = twitchBadges.value[badgeType]
+                    for (const version of item['versions']) {
+                        const id = version['id']
+                        badgeItems[id] = toRaw(version)
+                    }
+                } else {
+                    const badgeItems = {}
+                    for (const version of item['versions']) {
+                        const id = version['id']
+                        badgeItems[id] = toRaw(version)
+                    }
+                    twitchBadges.value[badgeType] = badgeItems
                 }
-            } else {
-                const badgeItems = {}
-                for (const version of item['versions']) {
-                    const id = version['id']
-                    badgeItems[id] = toRaw(version)
-                }
-                twitchBadges.value[badgeType] = badgeItems
             }
         }
     }
 
     const fetchBadgeUrl = (badgeItem) => {
-        console.log('badgeItem', badgeItem)
-        const badgeType = badgeItem[0]
-        const badgeVersion = badgeItem[1]
-        const badge = toRaw(twitchBadges.value[badgeType][badgeVersion])
-        console.log('badge', badge)
-        if (!!badge['image_url_1x']) {
-            return badge['image_url_1x']
+        try {
+            const badgeType = badgeItem[0]
+            const badgeVersion = badgeItem[1]
+            const badge = toRaw(twitchBadges.value[badgeType][badgeVersion])
+            if (!!badge['image_url_1x']) {
+                return badge['image_url_1x']
+            }
+        } catch (error) {
+            const badgeType = badgeItem[0]
+            const badgeVersion = badgeItem[1]
+            const badge = toRaw(twitchBadges.value[badgeType][badgeVersion])
+            console.log('badgeItem', badgeItem)
+            console.log('badge', badge)
         }
         return null
     }

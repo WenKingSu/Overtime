@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {useChatSettingStore} from "~/store/chatSettingStore";
+import {useSpeakSettingStore} from "~/store/speakSettingStore";
 
 const chatSettingStore = useChatSettingStore()
 const {
@@ -7,6 +8,8 @@ const {
   youtubeActive,
   youtubeRefreshTime
 } = storeToRefs(chatSettingStore)
+const speakSettingStore = useSpeakSettingStore()
+const {queue} = storeToRefs(speakSettingStore)
 
 const twitch = useTwitch()
 const youtube = useYouTube()
@@ -15,6 +18,9 @@ onMounted(() => {
   twitch.fetchBadges()
   if (twitchActive.value) {
     twitch.connectTwitchWebSocket()
+  }
+  if (youtubeActive.value) {
+    youtube.fetchLiveChat()
   }
   setInterval(() => {
     if (youtubeActive.value) {

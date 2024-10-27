@@ -2,12 +2,28 @@
 import {useChatSettingStore} from "~/store/chatSettingStore";
 
 const chatSettingStore = useChatSettingStore()
-const {twitchMessages,} = storeToRefs(chatSettingStore)
+const {twitchMessages} = storeToRefs(chatSettingStore)
 const twitch = useTwitch()
+
+const scrollContainer = ref(null)
+const {y} = useScroll(scrollContainer)
+
+const scrollBarBottom = async () => {
+  await nextTick()
+  y.value = scrollContainer.value.scrollHeight
+}
+
+watchDeep(twitchMessages, async () => {
+  await scrollBarBottom()
+})
+
+onMounted(() => {
+  scrollBarBottom()
+})
 </script>
 
 <template>
-  <div id="Monitor-Chat-Twitch" class="m-3">
+  <div ref="scrollContainer" id="Monitor-Chat-Twitch" class="m-3">
     <div
         v-for="msg in twitchMessages"
         :key="msg.id"

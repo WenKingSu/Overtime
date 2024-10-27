@@ -67,7 +67,7 @@ export const useStringUtils = () => {
             idx = endIdx + 1;
         }
 
-        const content = parsedMessage.params.slice(1).join("").replaceAll("\r\n", "")
+        const content = parsedMessage.params.slice(1).join("").replaceAll("\r\n", "").replaceAll(/[\x00-\x1F]/g, '')
         parsedMessage.contents = [{
             contentType: 'text',
             content: content
@@ -80,19 +80,24 @@ export const useStringUtils = () => {
     const parseTwitchBadges = (badges) => {
         if (!badges) return null
         const result = {}
-        if (badges.includes(",")) {
-            let split = badges.split(",")
-            for (const badge of split) {
-                split = badge.split("/")
+        try {
+            if (badges.includes(",")) {
+                let split = badges.split(",")
+                for (const badge of split) {
+                    split = badge.split("/")
+                    result[split[0]] = split[1]
+                }
+            } else {
+                console.log(badges)
+                const split = badges.split("/")
+                console.log(split)
                 result[split[0]] = split[1]
             }
-        } else {
-            console.log(badges)
-            const split = badges.split("/")
-            console.log(split)
-            result[split[0]] = split[1]
+            return result
+        } catch (error) {
+            console.log('badges', badges)
         }
-        return result
+
     }
 
     return {

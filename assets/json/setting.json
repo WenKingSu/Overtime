@@ -33,7 +33,7 @@
         "youtube": {
             "active": false,
             "token": "AIzaSyDfsRf-D_unyJM29u4JUY2jR9jz_o4wMuw",
-            "videoId": "qKYzOdKDGws",
+            "videoId": "",
             "refreshTime" : 2
         },
         "filterPrefix": [],
@@ -41,6 +41,7 @@
         "speak": {
             "rate": 1,
             "pitch": 1,
+            "volume": 1,
             "voice": "美佳"
         }
     }

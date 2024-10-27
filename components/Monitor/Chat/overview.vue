@@ -5,15 +5,16 @@ const chatSettingStore = useChatSettingStore()
 const {messages} = storeToRefs(chatSettingStore)
 const twitch = useTwitch()
 
-const scrollBarBottom = () => {
-  const element = document.getElementById("Monitor-Chat-Overview")
-  nextTick(() => {
-    element.scrollTop = element.scrollHeigh
-  });
+const scrollContainer = ref(null)
+const {y} = useScroll(scrollContainer)
+
+const scrollBarBottom = async () => {
+  await nextTick()
+  y.value = scrollContainer.value.scrollHeight
 }
 
-watchDeep(messages, () => {
-  scrollBarBottom()
+watchDeep(messages, async () => {
+  await scrollBarBottom()
 })
 
 onMounted(() => {
@@ -22,7 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="Monitor-Chat-Overview" class="w-full h-full overflow-y-auto">
+  <div ref="scrollContainer" id="Monitor-Chat-Overview" class="w-full h-full overflow-y-auto">
     <div
         v-for="msg in messages"
         :key="msg.id"
@@ -31,7 +32,7 @@ onMounted(() => {
       <Avatar :image="`/images/${msg.channelType}.png`" :style="{'flex-shrink': 0, 'margin-right': '0.2rem'}"/>
 
       <template v-if="msg.channelType === 'Twitch'">
-<!--        {{ msg.badges }}-->
+        <!--        {{ msg.badges }}-->
         <template v-if="msg.badges">
           <template v-for="(badge, index) of Object.entries(msg.badges)" :key="index">
             <Image
@@ -54,7 +55,7 @@ onMounted(() => {
           <span v-if="item.contentType === 'text'">{{ item.content }}</span>
         </template>
       </template>
-      <template v-else>
+      <template v-if="msg.channelType === 'YouTube'">
         <span>
           {{ msg.displayName }}：
         </span>

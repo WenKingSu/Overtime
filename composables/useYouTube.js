@@ -54,7 +54,7 @@ export const useYouTube = () => {
                 if (item && !checkExist) {
                     youtubeMessages.value.push(item)
                     messages.value.push(item)
-                    queue.value.push(item.content)
+                    // queue.value.push(item.content)
                 }
             }
         }
@@ -81,7 +81,7 @@ export const useYouTube = () => {
                         content += run['text']
                         contents.push({
                             contentType: 'text',
-                            content: content
+                            content: run['text']
                         })
                     }
                 }
