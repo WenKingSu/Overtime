@@ -1,9 +1,6 @@
 <script lang="ts" setup>
-import {useChatSettingStore} from "~/store/chatSettingStore";
-
-const chatSettingStore = useChatSettingStore()
-const {messages} = storeToRefs(chatSettingStore)
 const twitch = useTwitch()
+const messages = ref([])
 
 const scrollContainer = ref(null)
 const {y} = useScroll(scrollContainer)
@@ -14,24 +11,28 @@ const scrollBarBottom = async () => {
 }
 
 const {
-  post,
+  data,
   error,
 } = useBroadcastChannel({name: 'overtime-chat-channel'})
 
 watchDeep(messages, async () => {
   await scrollBarBottom()
-  post({
-    'messages': JSON.stringify(messages.value),
-  })
+})
+
+watch(data, () => {
+  if (data.value) {
+    messages.value = JSON.parse(data.value['messages']);
+  }
 })
 
 onMounted(() => {
+  twitch.fetchBadges()
   scrollBarBottom()
 })
 </script>
 
 <template>
-  <div ref="scrollContainer" id="Monitor-Chat-Overview" class="w-full h-full overflow-y-auto">
+  <div ref="scrollContainer" id="Popout-Chat" class="w-full h-full overflow-y-auto">
     <div
         v-for="msg in messages"
         :key="msg.id"
@@ -82,6 +83,6 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-#Monitor-Chat-Overview {
+#Popout-Clock {
 }
 </style>

@@ -23,6 +23,9 @@ const {
 const twitch = useTwitch()
 const youtube = useYouTube()
 
+
+const message = ref('')
+
 const speakMessage = ref('')
 let speech = useSpeechSynthesis(speakMessage.value, {
   voice: selectVoice,
@@ -81,13 +84,6 @@ onMounted(() => {
       twitch.connectTwitchWebSocket()
     }
   }, 60 * 1000)
-  // if (speech.isSupported.value) {
-  //   // load at last
-  //   setTimeout(() => {
-  //     synth.value = window.speechSynthesis
-  //     voices.value = synth.value.getVoices()
-  //   })
-  // }
 })
 
 onUnmounted(() => {

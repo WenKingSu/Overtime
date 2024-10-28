@@ -37,7 +37,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="main">
+  <div id="main" class="h-full">
     <Splitter class="h-full" layout="vertical">
       <SplitterPanel>
         <Monitor/>
@@ -53,4 +53,5 @@ onMounted(() => {
 #main {
   height: 100vh;
 }
+
 </style>
