@@ -42,7 +42,7 @@ onMounted(() => {
             />
           </template>
         </template>
-        <span>
+        <span style="min-width: fit-content">
           {{ msg.displayName }}：
         </span>
         <template v-for="(item, index) of msg.contents" :key="index">
@@ -56,7 +56,7 @@ onMounted(() => {
         </template>
       </template>
       <template v-if="msg.channelType === 'YouTube'">
-        <span>
+        <span style="min-width: fit-content">
           {{ msg.displayName }}：
         </span>
         <template v-for="(item, index) of msg.contents" :key="index">

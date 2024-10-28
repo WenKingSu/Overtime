@@ -38,7 +38,7 @@ onMounted(() => {
           />
         </template>
       </template>
-      <span>
+      <span style="min-width: fit-content">
           {{ msg.displayName }}：
         </span>
       <template v-for="(item, index) of msg.contents" :key="index">

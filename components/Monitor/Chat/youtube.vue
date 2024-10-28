@@ -27,7 +27,7 @@ watchDeep(youtubeMessages, () => {
         class="my-2"
     >
 
-      <span>
+      <span style="min-width: fit-content">
         {{ msg.displayName }}
       </span>
       <span>
