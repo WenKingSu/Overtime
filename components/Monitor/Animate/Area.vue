@@ -37,13 +37,15 @@ const {
 )
 
 onMounted(() => {
-  setInterval(() => {
-    if (addTimeQueue.value.length > 0 && playState.value === 'finished') {
-      addTime.value = addTimeQueue.value.pop()
-      clockSettingStore.plusMinutes(addTime.value)
-      play()
-    }
-  }, 1000)
+  addTimeQueue.value.push('15')
+  // addTimeQueue.value.push('60')
+  // setInterval(() => {
+  //   if (addTimeQueue.value.length > 0 && playState.value === 'finished') {
+  //     addTime.value = addTimeQueue.value.pop()
+  //     clockSettingStore.plusMinutes(addTime.value)
+  //     play()
+  //   }
+  // }, 1000)
 })
 </script>
 
@@ -53,22 +55,52 @@ onMounted(() => {
       class="w-full h-full flex-y-center justify-center gap-3"
       :style="{backgroundColor: `#${bgColor}`}"
   >
-    <div
-        ref="el"
-        :style="{
-      fontSize: `${clockFontSize}px`,
-      color: `#${remainingTimeColor}`,
-      fontFamily: `${clockFont}`,
-      'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
-    }"
-    >
-      <p>+ {{ addTime }}</p>
+    <div class="relative">
+      <transition-group name="fade-up" tag="div">
+        <div
+            v-for="(addTime, index) in addTimeQueue"
+            :key="index"
+            class="image-item"
+        >
+          {{ addTime }}
+        </div>
+      </transition-group>
     </div>
+<!--    <div-->
+<!--        ref="el"-->
+<!--        :style="{-->
+<!--      fontSize: `${clockFontSize}px`,-->
+<!--      color: `#${remainingTimeColor}`,-->
+<!--      fontFamily: `${clockFont}`,-->
+<!--      'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`-->
+<!--    }"-->
+<!--    >-->
+<!--      <p>+ {{ addTime }}</p>-->
+<!--    </div>-->
 
   </div>
 </template>
 
 <style lang="scss" scoped>
 #Monitor-Overview-Animate {
+  .image-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .fade-up-enter-active {
+    transition: all 0.3s ease-out;
+  }
+
+  .fade-up-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  }
+
+  .fade-up-enter-from,
+  .fade-up-leave-to {
+    transform: translateY(20px);
+    opacity: 0;
+  }
 }
 </style>
