@@ -111,6 +111,9 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
                 elapsedHour.value += 1
             }
         }
+
+        remainingTime.value = `${remainingHour.value}:${remainingMinutes.value}:${remainingSecond.value}`
+        elapsedTime.value = `${elapsedHour.value}:${elapsedMinutes.value}:${elapsedSecond.value}`
     }
 
     return {

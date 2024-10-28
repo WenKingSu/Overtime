@@ -239,13 +239,13 @@ onMounted(async () => {
           <InputGroupAddon class="w-8rem" style="justify-content: left">
             Client ID
           </InputGroupAddon>
-          <InputText v-model="twitchClientId"/>
+          <Password v-model="twitchClientId" :feedback="false" toggleMask/>
         </InputGroup>
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">
             Client Secret
           </InputGroupAddon>
-          <InputText v-model="twitchClientSecret"/>
+          <Password v-model="twitchClientSecret" :feedback="false" toggleMask/>
         </InputGroup>
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">
@@ -257,19 +257,19 @@ onMounted(async () => {
           <InputGroupAddon class="w-8rem" style="justify-content: left">
             Code
           </InputGroupAddon>
-          <InputText v-model="twitchCode" disabled/>
+          <Password v-model="twitchCode" :feedback="false" toggleMask disabled/>
         </InputGroup>
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">
             Access Token
           </InputGroupAddon>
-          <InputText v-model="twitchAccessToken" disabled/>
+          <Password v-model="twitchAccessToken" :feedback="false" toggleMask disabled/>
         </InputGroup>
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">
             Refresh Token
           </InputGroupAddon>
-          <InputText v-model="twitchRefreshToken" disabled/>
+          <Password v-model="twitchRefreshToken" :feedback="false" toggleMask disabled/>
         </InputGroup>
       </div>
       <div class="flex my-3 gap-3">

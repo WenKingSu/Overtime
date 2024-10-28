@@ -5,6 +5,8 @@
         "elapsedTimeColor": "3FC21B",
         "clockFont": "wt014",
         "clockFontSize": 36,
+        "clockBorderColor": "000000",
+        "clockBorderSize": "2",
         "animateTime": 3,
         "animateMoveRange": 200
     },

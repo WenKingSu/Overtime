@@ -5,7 +5,14 @@ import {useAnimateSettingStore} from "~/store/animateSettingStore";
 import {useClockSettingStore} from "~/store/clockSettingStore";
 
 const displaySettingStore = useDisplaySettingStore()
-const {bgColor, clockFont, clockFontSize, remainingTimeColor} = storeToRefs(displaySettingStore)
+const {
+  bgColor,
+  clockFont,
+  clockFontSize,
+  remainingTimeColor,
+  clockBorderColor,
+  clockBorderSize
+} = storeToRefs(displaySettingStore)
 const animateSettingStore = useAnimateSettingStore()
 const {animateTime, animateMoveRange} = storeToRefs(animateSettingStore)
 const clockSettingStore = useClockSettingStore()
@@ -20,9 +27,8 @@ const {
 } = useAnimate(
     el,
     [
-      {opacity: 0, transform: `translateY(${animateMoveRange.value / 2}px)`}, // 初始状态
       {opacity: 1, transform: 'translateY(0px)'}, // 出现时的最终状态
-      {opacity: 0, transform: `translateY(-${animateMoveRange.value / 2}px)`}, // 初始状态
+      {opacity: 0, transform: `translateY(-${animateMoveRange.value}px)`}, // 初始状态
     ],
     {
       duration: animateTime.value * 1000, // 动画持续时间
@@ -49,7 +55,12 @@ onMounted(() => {
   >
     <div
         ref="el"
-        :style="{fontSize: `${clockFontSize}px`, color: `#${remainingTimeColor}`, fontFamily: `${clockFont}`}"
+        :style="{
+      fontSize: `${clockFontSize}px`,
+      color: `#${remainingTimeColor}`,
+      fontFamily: `${clockFont}`,
+      'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+    }"
     >
       <p>+ {{ addTime }}</p>
     </div>

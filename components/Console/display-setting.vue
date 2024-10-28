@@ -8,6 +8,8 @@ const {
   bgColor,
   clockFont,
   clockFontSize,
+  clockBorderColor,
+  clockBorderSize,
   remainingTimeColor,
   elapsedTimeColor,
 } = storeToRefs(displaySettingStore)
@@ -44,13 +46,41 @@ const fontStore = useFontStore();
           <InputGroupAddon>
             字型大小
           </InputGroupAddon>
-          <InputNumber v-model="clockFontSize" inputId="minmax-buttons" mode="decimal" showButtons :min="12" :max="144"
-                       fluid/>
+          <InputNumber
+              v-model="clockFontSize"
+              inputId="minmax-buttons"
+              mode="decimal"
+              showButtons
+              :min="12"
+              :max="144"
+              fluid/>
           <InputGroupAddon>
             px
           </InputGroupAddon>
         </InputGroup>
-        <!--        <Button label="設定" icon="pi pi-cog" severity="success" @click="setClockFont"/>-->
+        <InputGroup class="clock-font">
+          <InputGroupAddon>
+            邊框顏色
+          </InputGroupAddon>
+          <InputText v-model="clockBorderColor"/>
+          <ColorPicker v-model="clockBorderColor" format="hex" inline/>
+        </InputGroup>
+        <InputGroup class="clock-font">
+          <InputGroupAddon>
+            邊框粗細
+          </InputGroupAddon>
+          <InputNumber
+              v-model="clockBorderSize"
+              inputId="minmax-buttons"
+              mode="decimal"
+              showButtons
+              :min="0"
+              :max="Math.floor(clockFontSize/10)"
+              fluid/>
+          <InputGroupAddon>
+            px
+          </InputGroupAddon>
+        </InputGroup>
       </div>
     </Fieldset>
 

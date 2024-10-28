@@ -62,11 +62,11 @@ const plusMinutes = (value) => {
             <InputGroupAddon>
               已過時間
             </InputGroupAddon>
-            <InputNumber v-model="elapsedHour" placeholder="Hour" disabled/>
+            <InputNumber v-model="elapsedHour" placeholder="Hour"/>
             <InputGroupAddon>小時</InputGroupAddon>
-            <InputNumber v-model="elapsedMinutes" placeholder="Minute" disabled/>
+            <InputNumber v-model="elapsedMinutes" placeholder="Minute"/>
             <InputGroupAddon>分鐘</InputGroupAddon>
-            <InputNumber v-model="elapsedSecond" placeholder="Second" disabled/>
+            <InputNumber v-model="elapsedSecond" placeholder="Second"/>
             <InputGroupAddon>秒</InputGroupAddon>
           </InputGroup>
         </div>
