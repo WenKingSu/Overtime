@@ -83,12 +83,13 @@ const changeTwitchActive = () => {
 }
 
 const changeSpeakActive = () => {
-  if (speakActive.value) {
-    volume.value = saveVolume.value
-  } else {
-    saveVolume.value = volume.value
-    volume.value = 0
-  }
+  // if (speakActive.value) {
+  //   volume.value = saveVolume.value
+  // } else {
+  //   saveVolume.value = volume.value
+  //   volume.value = 0
+  // }
+  speakSettingStore.addSpeechQueue(blockUsers.value, filterPrefix.value, 'test', testText.value);
 }
 
 onMounted(async () => {

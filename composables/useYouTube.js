@@ -17,7 +17,7 @@ export const useYouTube = () => {
 
     const stringUtils = useStringUtils()
 
-    const fetchLiveChat = async () => {
+    const fetchLiveChat = async (isInitial) => {
         try {
             if (youtubeVideoId.value) {
                 const chatHtml = ref('')
@@ -25,14 +25,14 @@ export const useYouTube = () => {
                 const popoutUrl = `/youtube-api/live_chat?is_popout=1&v=${youtubeVideoId.value}`
                 const response = await fetch(popoutUrl)
                 chatHtml.value = await response.text();
-                extractChatMessages(chatHtml.value)
+                extractChatMessages(isInitial, chatHtml.value)
             }
         } catch (error) {
             console.error('Error fetching chat data:', error);
         }
     }
 
-    const extractChatMessages = (html) => {
+    const extractChatMessages = (isInitial, html) => {
         youtubeMessages.value = []
         // 使用 DOMParser 解析 HTML
         const parser = new DOMParser();
@@ -54,7 +54,9 @@ export const useYouTube = () => {
                     youtubeMessages.value.push(item)
                     messages.value.push(item)
                     // queue.value.push(item.content)
-                    speakSettingStore.addSpeechQueue(blockUsers.value, filterPrefix.value, item.displayName, item.content);
+                    if (!isInitial) {
+                        speakSettingStore.addSpeechQueue(blockUsers.value, filterPrefix.value, item.displayName, item.textMessage);
+                    }
                 }
             }
         }
@@ -68,6 +70,7 @@ export const useYouTube = () => {
                 const liveChatTextMessageRenderer = item['liveChatTextMessageRenderer']
                 const runs = liveChatTextMessageRenderer['message']['runs']
                 let content = ""
+                let textMessage = ""
                 let contents = []
                 for (let run of runs) {
                     if (run['emoji']) {
@@ -79,6 +82,7 @@ export const useYouTube = () => {
                         })
                     } else {
                         content += run['text']
+                        textMessage += run['text']
                         contents.push({
                             contentType: 'text',
                             content: run['text']
@@ -92,6 +96,7 @@ export const useYouTube = () => {
                     channelType: "YouTube",
                     displayName: displayName,
                     content: content,
+                    textMessage: textMessage,
                     contents: contents
                 }
             }

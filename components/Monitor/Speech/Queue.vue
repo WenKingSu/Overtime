@@ -8,11 +8,13 @@ const {queue} = storeToRefs(speakSettingStore)
 <template>
   <div id="Monitor-Speech-Queue">
     <h1>語音列隊</h1>
-    <div
-        v-for="(message, index) of queue"
-        :key="index"
-    >
-      {{message}}
+    <div class="scroll-y-auto">
+      <div
+          v-for="(message, index) of queue"
+          :key="index"
+      >
+        {{message}}
+      </div>
     </div>
   </div>
 </template>

@@ -33,7 +33,7 @@ let speech = useSpeechSynthesis(speakMessage.value, {
 })
 
 const speak = () => {
-  if (speech.status.value === 'play') {
+  if (['play'].includes(speech.status.value)) {
     return
   }
   if (queue.value.length > 0) {
@@ -41,7 +41,7 @@ const speak = () => {
     if (speech.status.value === 'pause') {
       window.speechSynthesis.resume()
     } else {
-      const message = queue.value.pop()
+      const message = queue.value.shift()
       speech = useSpeechSynthesis(message, {
         voice: selectVoice,
         lang: selectVoice.value ? selectVoice.value['lang'] : 'zh-TW',
@@ -50,10 +50,10 @@ const speak = () => {
         volume: volume.value,
       })
       speech.speak()
-      // console.log('speak', message)
+      console.log('speak', message)
+      console.log('queue', queue.value)
     }
   }
-  console.log('after queue', queue.value)
 }
 
 onMounted(() => {
@@ -62,11 +62,11 @@ onMounted(() => {
     twitch.connectTwitchWebSocket()
   }
   if (youtubeActive.value) {
-    youtube.fetchLiveChat()
+    youtube.fetchLiveChat(true)
   }
   setInterval(() => {
     if (youtubeActive.value) {
-      youtube.fetchLiveChat()
+      youtube.fetchLiveChat(false)
     }
   }, (youtubeRefreshTime.value * 1000))
 
@@ -77,7 +77,9 @@ onMounted(() => {
   setInterval(() => {
     twitch.getTwitchRefreshToken()
     twitch.disconnectTwitchWebSocket()
-    twitch.connectTwitchWebSocket()
+    if (twitchActive.value){
+      twitch.connectTwitchWebSocket()
+    }
   }, 60 * 1000)
   // if (speech.isSupported.value) {
   //   // load at last
