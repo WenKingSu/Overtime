@@ -33,17 +33,14 @@ let speech = useSpeechSynthesis(speakMessage.value, {
 })
 
 const speak = () => {
+  if (speech.status.value === 'play') {
+    return
+  }
   if (queue.value.length > 0) {
-    // console.log('before queue', queue.value)
-    // console.log('speech.status.value', speech.status.value)
-    // console.log('speak option', {
-    //   voice: selectVoice,
-    //   lang: selectVoice.value ? selectVoice.value['lang'] : 'zh-TW',
-    //   pitch: pitch,
-    //   rate: rate,
-    //   volume: volume.value,
-    // })
-    if (speech.status.value !== 'playing') {
+    console.log('speech.status.value', speech.status.value)
+    if (speech.status.value === 'pause') {
+      window.speechSynthesis.resume()
+    } else {
       const message = queue.value.pop()
       speech = useSpeechSynthesis(message, {
         voice: selectVoice,
@@ -55,8 +52,8 @@ const speak = () => {
       speech.speak()
       // console.log('speak', message)
     }
-    // console.log('after queue', queue.value)
   }
+  console.log('after queue', queue.value)
 }
 
 onMounted(() => {
