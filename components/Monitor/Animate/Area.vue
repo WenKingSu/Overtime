@@ -68,18 +68,42 @@ watch(addTimeQueue.value, () => {
       :style="{backgroundColor: `#${bgColor}`}"
   >
     <div
-        v-for="item in elements"
-        :key="item.id"
-        class="absolute"
-        ref="itemRefs"
+        class="flex-center "
         :style="{
-      fontSize: `${clockFontSize}px`,
-      color: `#${remainingTimeColor}`,
-      fontFamily: `${clockFont}`,
-      'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
-    }"
+          height:`${animateMoveRange * 3}px`,
+          fontSize: `${clockFontSize}px`,
+          fontFamily: `${clockFont}`,
+        }"
     >
-      + {{ item.text }}
+      <div
+          v-for="item in elements"
+          :key="item.id"
+          class="absolute m-1rem p-1rem"
+          ref="itemRefs"
+          :style="{
+            fontSize: `${clockFontSize}px`,
+            color: `#${remainingTimeColor}`,
+            fontFamily: `${clockFont}`,
+            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+          }"
+      >
+        + {{ item.text }}
+      </div>
+
+      <!--定位用-->
+      <div
+          class="absolute m-1rem p-1rem border border-black b-b-solid"
+          :style="{
+            width: '8rem',
+            height:`${animateMoveRange}px`,
+            fontSize: `${clockFontSize}px`,
+            color: `#${remainingTimeColor}`,
+            fontFamily: `${clockFont}`,
+            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+          }"
+      >
+
+      </div>
     </div>
   </div>
 </template>

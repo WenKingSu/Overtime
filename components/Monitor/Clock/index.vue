@@ -66,8 +66,8 @@ watch(elapsedSecond, () => {
               'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
             }"
         >
-        {{ String(remainingHour).padStart(4, 0) }}:
-        {{ String(remainingMinutes).padStart(2, 0) }}:
+        {{ String(remainingHour).padStart(4, 0) }} :
+        {{ String(remainingMinutes).padStart(2, 0) }} :
         {{ String(remainingSecond).padStart(2, 0) }}
       </span>
       </div>
@@ -83,8 +83,8 @@ watch(elapsedSecond, () => {
               'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
             }"
         >
-        {{ String(elapsedHour).padStart(4, 0) }}:
-        {{ String(elapsedMinutes).padStart(2, 0) }}:
+        {{ String(elapsedHour).padStart(4, 0) }} :
+        {{ String(elapsedMinutes).padStart(2, 0) }} :
         {{ String(elapsedSecond).padStart(2, 0) }}
       </span>
       </div>
