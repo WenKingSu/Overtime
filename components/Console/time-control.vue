@@ -37,6 +37,7 @@ const stop = () => {
 }
 
 const plusMinutes = (value) => {
+  clockSettingStore.plusMinutes(value)
   addTimeQueue.value.push(value)
 }
 

@@ -44,7 +44,7 @@ watch(data, () => {
       class="w-full h-full flex-y-center justify-center"
       :style="{backgroundColor: `#${bgColor}`}"
   >
-    <div class="flex-y-center justify-center gap-3 border border-black border-solid p-2rem">
+    <div class="self-center flex-y-center justify-center gap-3 border border-black border-solid p-2rem">
       <div id="remaining-time" class="flex justify-between gap-3">
         <span :style="{fontSize: `${clockFontSize}px`}">
           剩餘開台時間：
@@ -57,15 +57,15 @@ watch(data, () => {
               'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
             }"
         >
-        {{ String(remainingHour).padStart(4, 0) }}:
-        {{ String(remainingMinutes).padStart(2, 0) }}:
-        {{ String(remainingSecond).padStart(2, 0) }}
-      </span>
+          {{ String(remainingHour).padStart(4, 0) }} :
+          {{ String(remainingMinutes).padStart(2, 0) }} :
+          {{ String(remainingSecond).padStart(2, 0) }}
+        </span>
       </div>
       <div id="elapsed-time" class="flex justify-between gap-3">
-      <span :style="{fontSize: `${clockFontSize}px`}">
-        已過開台時間：
-      </span>
+        <span :style="{fontSize: `${clockFontSize}px`}">
+          已過開台時間：
+        </span>
         <span
             :style="{
               fontSize: `${clockFontSize}px`,
@@ -74,10 +74,10 @@ watch(data, () => {
               'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
             }"
         >
-        {{ String(elapsedHour).padStart(4, 0) }}:
-        {{ String(elapsedMinutes).padStart(2, 0) }}:
-        {{ String(elapsedSecond).padStart(2, 0) }}
-      </span>
+          {{ String(elapsedHour).padStart(4, 0) }} :
+          {{ String(elapsedMinutes).padStart(2, 0) }} :
+          {{ String(elapsedSecond).padStart(2, 0) }}
+        </span>
       </div>
     </div>
   </div>

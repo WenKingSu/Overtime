@@ -17,6 +17,11 @@ const {animateTime, animateMoveRange} = storeToRefs(animateSettingStore)
 const clockSettingStore = useClockSettingStore()
 const {addTimeQueue} = storeToRefs(clockSettingStore)
 
+const {
+  post,
+  error,
+} = useBroadcastChannel({name: 'overtime-animate-channel'})
+
 const elements = ref([]);
 const itemRefs = ref([]);
 
@@ -52,19 +57,56 @@ const addElement = (value) => {
     }
   });
 };
-
-watch(addTimeQueue.value, () => {
+const postBroadcast = () =>{
+  const postData = {
+    bgColor: bgColor.value,
+    clockFont: clockFont.value,
+    clockFontSize: clockFontSize.value,
+    remainingTimeColor: remainingTimeColor.value,
+    clockBorderColor: clockBorderColor.value,
+    clockBorderSize: clockBorderSize.value,
+    animateTime: animateTime.value,
+    animateMoveRange: animateMoveRange.value,
+    addTime: addTimeQueue.value[0]
+  }
+  post(postData)
+}
+watch(addTimeQueue.value, async () => {
   if (addTimeQueue.value.length > 0) {
+    await postBroadcast()
     addElement(addTimeQueue.value.shift())
   }
 })
 
+const popoutWindow = ref(null)
+const openPopout = () => {
+  const url = useRequestURL()
+  if (!popoutWindow.value || popoutWindow.value.closed) {
+    // `${url.protocol}//${useRequestURL().host}/popout/Animate`,
+    popoutWindow.value = window.open(
+        `https://overtime.0xwen.site/popout/Animate`,
+        '_blank',
+        'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
+    )
+    setTimeout(() => {
+      postBroadcast()
+    }, 1000)
+  } else {
+    newWindow.value.focus()
+  }
+}
+
+onBeforeUnmount(() => {
+  if (popoutWindow.value && !popoutWindow.value.closed) {
+    popoutWindow.value.close()
+  }
+})
 </script>
 
 <template>
   <div
       id="Monitor-Overview-Animate"
-      class="w-full h-full flex-y-center justify-center gap-3"
+      class="w-full h-full flex-y-center justify-center gap-3 relative"
       :style="{backgroundColor: `#${bgColor}`}"
   >
     <div
@@ -104,6 +146,16 @@ watch(addTimeQueue.value, () => {
       >
 
       </div>
+    </div>
+
+    <div class="absolute bottom-4 right-4">
+      <Button
+          icon="pi pi-window-maximize"
+          severity="secondary"
+          aria-label="window-maximize"
+          rounded
+          @click="openPopout"
+      />
     </div>
   </div>
 </template>

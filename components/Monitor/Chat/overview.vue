@@ -28,10 +28,36 @@ watchDeep(messages, async () => {
 onMounted(() => {
   scrollBarBottom()
 })
+
+const popoutWindow = ref(null)
+const openPopout = () => {
+  const url = useRequestURL()
+  if (!popoutWindow.value || popoutWindow.value.closed) {
+    // `${url.protocol}//${useRequestURL().host}/popout/Chat`,
+    popoutWindow.value = window.open(
+        `https://overtime.0xwen.site/popout/Chat`,
+        '_blank',
+        'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
+    )
+    setTimeout(()=>{
+      post({
+        'messages': JSON.stringify(messages.value),
+      })
+    },1000)
+  } else {
+    newWindow.value.focus()
+  }
+}
+
+onBeforeUnmount(() => {
+  if (popoutWindow.value && !popoutWindow.value.closed) {
+    popoutWindow.value.close()
+  }
+})
 </script>
 
 <template>
-  <div ref="scrollContainer" id="Monitor-Chat-Overview" class="w-full h-full overflow-y-auto">
+  <div ref="scrollContainer" id="Monitor-Chat-Overview" class="w-full h-full overflow-y-auto relative">
     <div
         v-for="msg in messages"
         :key="msg.id"
@@ -77,6 +103,16 @@ onMounted(() => {
           <span v-if="item.contentType === 'text'">{{ item.content }}</span>
         </template>
       </template>
+    </div>
+
+    <div class="absolute bottom-4 right-4">
+      <Button
+          icon="pi pi-window-maximize"
+          severity="secondary"
+          aria-label="window-maximize"
+          rounded
+          @click="openPopout"
+      />
     </div>
   </div>
 </template>

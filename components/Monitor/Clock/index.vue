@@ -29,7 +29,7 @@ const {
 
 watch(elapsedSecond, () => {
   post({
-    bgColor:bgColor.value ,
+    bgColor: bgColor.value,
     clockFont: clockFont.value,
     clockFontSize: clockFontSize.value,
     remainingTimeColor: remainingTimeColor.value,
@@ -45,15 +45,54 @@ watch(elapsedSecond, () => {
   })
 })
 
+const popoutWindow = ref(null)
+const openPopout = () => {
+  const url = useRequestURL()
+  if (!popoutWindow.value || popoutWindow.value.closed) {
+    // `${url.protocol}//${useRequestURL().host}/popout/Clock`,
+    popoutWindow.value = window.open(
+        `https://overtime.0xwen.site/popout/Clock`,
+        '_blank',
+        'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
+    )
+    setTimeout(()=>{
+      post({
+        bgColor: bgColor.value,
+        clockFont: clockFont.value,
+        clockFontSize: clockFontSize.value,
+        remainingTimeColor: remainingTimeColor.value,
+        clockBorderColor: clockBorderColor.value,
+        clockBorderSize: clockBorderSize.value,
+        elapsedTimeColor: elapsedTimeColor.value,
+        remainingHour: remainingHour.value,
+        remainingMinutes: remainingMinutes.value,
+        remainingSecond: remainingSecond.value,
+        elapsedHour: elapsedHour.value,
+        elapsedMinutes: elapsedMinutes.value,
+        elapsedSecond: elapsedSecond.value,
+      })
+    },1000)
+  } else {
+    newWindow.value.focus()
+  }
+}
+
+onBeforeUnmount(() => {
+  if (popoutWindow.value && !popoutWindow.value.closed) {
+    popoutWindow.value.close()
+  }
+})
 </script>
 
 <template>
+
   <div
       id="monitor-clock"
-      class="w-full h-full flex-y-center justify-center"
+      class="w-full h-full flex-y-center justify-center relative"
       :style="{backgroundColor: `#${bgColor}`}"
   >
-    <div class="flex-y-center justify-center gap-3 border border-black border-solid p-2rem">
+
+    <div class="self-center flex-y-center justify-center gap-3 border border-black border-solid p-2rem">
       <div id="remaining-time" class="flex justify-between gap-3">
         <span :style="{fontSize: `${clockFontSize}px`}">
           剩餘開台時間：
@@ -65,16 +104,16 @@ watch(elapsedSecond, () => {
               fontFamily: `${clockFont}`,
               'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
             }"
-        >
-        {{ String(remainingHour).padStart(4, 0) }} :
-        {{ String(remainingMinutes).padStart(2, 0) }} :
-        {{ String(remainingSecond).padStart(2, 0) }}
-      </span>
+          >
+          {{ String(remainingHour).padStart(4, 0) }} :
+          {{ String(remainingMinutes).padStart(2, 0) }} :
+          {{ String(remainingSecond).padStart(2, 0) }}
+        </span>
       </div>
       <div id="elapsed-time" class="flex justify-between gap-3">
-      <span :style="{fontSize: `${clockFontSize}px`}">
-        已過開台時間：
-      </span>
+        <span :style="{fontSize: `${clockFontSize}px`}">
+          已過開台時間：
+        </span>
         <span
             :style="{
               fontSize: `${clockFontSize}px`,
@@ -83,11 +122,22 @@ watch(elapsedSecond, () => {
               'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
             }"
         >
-        {{ String(elapsedHour).padStart(4, 0) }} :
-        {{ String(elapsedMinutes).padStart(2, 0) }} :
-        {{ String(elapsedSecond).padStart(2, 0) }}
-      </span>
+          {{ String(elapsedHour).padStart(4, 0) }} :
+          {{ String(elapsedMinutes).padStart(2, 0) }} :
+          {{ String(elapsedSecond).padStart(2, 0) }}
+        </span>
       </div>
+    </div>
+
+
+    <div class="absolute bottom-4 right-4">
+      <Button
+          icon="pi pi-window-maximize"
+          severity="secondary"
+          aria-label="window-maximize"
+          rounded
+          @click="openPopout"
+      />
     </div>
   </div>
 </template>
