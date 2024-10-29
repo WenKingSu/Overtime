@@ -21,26 +21,18 @@ const elements = ref([]);
 const itemRefs = ref([]);
 
 const addElement = (value) => {
-  console.log('addElement elements', elements.value)
-  console.log('addElement itemRefs', itemRefs.value)
   const id = Date.now(); // 使用當前時間戳作為唯一ID
   elements.value.push({id, text: value});
 
   // 動態獲取最近添加的元素
   const newElementIndex = elements.value.length - 1;
-  console.log('newElementIndex', newElementIndex);
 
   // 確保 itemRefs 參考最新的 DOM 元素
   nextTick(() => {
     const element = itemRefs.value[newElementIndex];
-    console.log('element', element);
-    // const p = document.createElement("p");
-    // p.innerText = `+ ${value}`;
-    // element.appendChild(p);
     if (element) {
       // 在這裡你可以使用 useAnimate 進行動畫
-      useAnimate(element, {duration: 1000}); // 在這裡調整動畫選項
-      const {play} = useAnimate(
+      const animate = useAnimate(
           element,
           [
             {opacity: 1, transform: 'translateY(0px)'}, // 出现时的最终状态
@@ -51,25 +43,22 @@ const addElement = (value) => {
             fill: 'forwards', // 保持最终状态
           },
       )
-      play()
+      animate.play()
+      setTimeout(() => {
+        itemRefs.value.shift()
+        elements.value.shift()
+        element.remove()
+      }, animateTime.value * 2000)
     }
   });
 };
 
-watch(addTimeQueue.value, (v) => {
-  console.log('watch', v, addTimeQueue.value)
-  addElement(addTimeQueue.value.shift())
+watch(addTimeQueue.value, () => {
+  if (addTimeQueue.value.length > 0) {
+    addElement(addTimeQueue.value.shift())
+  }
 })
 
-onMounted(() => {
-  addTimeQueue.value.push(99)
-  // let cnt = 0;
-  // setInterval(() => {
-  //   addTimeQueue.value.push(cnt)
-  //   cnt++;
-  //   console.log('interval', addTimeQueue.value);
-  // }, 100000)
-})
 </script>
 
 <template>
@@ -81,6 +70,7 @@ onMounted(() => {
     <div
         v-for="item in elements"
         :key="item.id"
+        class="absolute"
         ref="itemRefs"
         :style="{
       fontSize: `${clockFontSize}px`,
@@ -96,8 +86,5 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 #Monitor-Overview-Animate {
-  .container {
-    margin-top: 10px;
-  }
 }
 </style>

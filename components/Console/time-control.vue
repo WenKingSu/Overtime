@@ -72,7 +72,7 @@ const plusMinutes = (value) => {
         </div>
         <Button label="開始" icon="pi pi-play" severity="success" @click="start" :disabled="run"/>
         <Button label="暫停" icon="pi pi-stop" severity="danger" @click="stop" :disabled="!run"/>
-        <Button label="重設" icon="pi pi-sync" severity="warn"/>
+<!--        <Button label="重設" icon="pi pi-sync" severity="warn"/>-->
       </div>
     </Fieldset>
 
