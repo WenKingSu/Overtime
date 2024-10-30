@@ -59,7 +59,7 @@ const addElement = (value) => {
     }
   });
 };
-const postBroadcast = () =>{
+const postBroadcast = () => {
   const postData = {
     bgColor: bgColor.value,
     clockFont: clockFont.value,
@@ -127,7 +127,7 @@ onBeforeUnmount(() => {
             fontSize: `${clockFontSize}px`,
             color: `#${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
-            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+            'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
           }"
       >
         + {{ item.text }}
@@ -142,7 +142,7 @@ onBeforeUnmount(() => {
             fontSize: `${clockFontSize}px`,
             color: `#${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
-            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+            'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
           }"
       >
 

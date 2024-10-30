@@ -19,12 +19,13 @@
         "plus4": 3,
         "plus5": 1,
         "transDonateUnit": 100,
+        "transRate": 1,
         "transTimeUnit": 8
     },
     "chat": {
         "twitch": {
             "active": false,
-            "broadcasterId" : "37936048",
+            "broadcasterId": "37936048",
             "clientId": "9o1hnhvop15z5ezmzx0d0sbv7nb4et",
             "clientSecret": "mjxffofavi1vk33noln5z3n4ftymnr",
             "channel": "hageeshow",
@@ -36,10 +37,15 @@
             "active": false,
             "token": "AIzaSyDfsRf-D_unyJM29u4JUY2jR9jz_o4wMuw",
             "videoId": "",
-            "refreshTime" : 2
+            "refreshTime": 2
         },
-        "filterPrefix": ["!", "ACTION"],
-        "blockUsers": ["StreamElements"],
+        "filterPrefix": [
+            "!",
+            "ACTION"
+        ],
+        "blockUsers": [
+            "StreamElements"
+        ],
         "speak": {
             "active": false,
             "rate": 1,

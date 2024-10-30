@@ -11,6 +11,7 @@ const {
   plus4,
   plus5,
   transDonateUnit,
+  transRate,
   transTimeUnit,
   remainingHour,
   remainingMinutes,
@@ -141,7 +142,14 @@ const plusMinutes = (value) => {
           <InputGroupAddon>
             <i class="pi pi-clock"></i>
           </InputGroupAddon>
-          <Button icon="pi pi-check" severity="success" @click="plusMinutes(calcTime)"/>
+          <InputGroupAddon>
+            <i class="pi pi-times"></i>
+          </InputGroupAddon>
+          <InputNumber v-model="transRate" placeholder="1" />
+          <InputGroupAddon>
+            倍數
+          </InputGroupAddon>
+          <Button icon="pi pi-check" severity="success" @click="plusMinutes(calcTime * transRate)"/>
         </InputGroup>
       </div>
     </Fieldset>
