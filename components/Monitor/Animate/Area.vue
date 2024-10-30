@@ -3,6 +3,8 @@ import {useDisplaySettingStore} from "~/store/displaySettingStore";
 import {useAnimateSettingStore} from "~/store/animateSettingStore";
 import {useClockSettingStore} from "~/store/clockSettingStore";
 
+const config = useRuntimeConfig()
+
 const displaySettingStore = useDisplaySettingStore()
 const {
   bgColor,
@@ -80,11 +82,10 @@ watch(addTimeQueue.value, async () => {
 
 const popoutWindow = ref(null)
 const openPopout = () => {
-  const url = useRequestURL()
   if (!popoutWindow.value || popoutWindow.value.closed) {
     // `${url.protocol}//${useRequestURL().host}/popout/Animate`,
     popoutWindow.value = window.open(
-        `https://overtime.0xwen.site/popout/Animate`,
+        `${config.url}/popout/Animate`,
         '_blank',
         'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
     )

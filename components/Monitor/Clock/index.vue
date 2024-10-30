@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {useDisplaySettingStore} from "~/store/displaySettingStore";
 import {useClockSettingStore} from "~/store/clockSettingStore";
+const config = useRuntimeConfig()
 
 const displaySettingStore = useDisplaySettingStore()
 const {
@@ -51,7 +52,7 @@ const openPopout = () => {
   if (!popoutWindow.value || popoutWindow.value.closed) {
     // `${url.protocol}//${useRequestURL().host}/popout/Clock`,
     popoutWindow.value = window.open(
-        `https://overtime.0xwen.site/popout/Clock`,
+        `${config.url}/popout/Clock`,
         '_blank',
         'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
     )
@@ -102,7 +103,7 @@ onBeforeUnmount(() => {
               fontSize: `${clockFontSize}px`,
               color: `#${remainingTimeColor}`,
               fontFamily: `${clockFont}`,
-              'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+              'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
             }"
           >
           {{ String(remainingHour).padStart(4, 0) }} :
@@ -119,7 +120,7 @@ onBeforeUnmount(() => {
               fontSize: `${clockFontSize}px`,
               color: `#${elapsedTimeColor}`,
               fontFamily: `${clockFont}`,
-              'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+              'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
             }"
         >
           {{ String(elapsedHour).padStart(4, 0) }} :

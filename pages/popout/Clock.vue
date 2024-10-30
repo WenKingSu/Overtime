@@ -54,7 +54,7 @@ watch(data, () => {
               fontSize: `${clockFontSize}px`,
               color: `#${remainingTimeColor}`,
               fontFamily: `${clockFont}`,
-              'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+              'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
             }"
         >
           {{ String(remainingHour).padStart(4, 0) }} :
@@ -71,7 +71,7 @@ watch(data, () => {
               fontSize: `${clockFontSize}px`,
               color: `#${elapsedTimeColor}`,
               fontFamily: `${clockFont}`,
-              'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+              'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
             }"
         >
           {{ String(elapsedHour).padStart(4, 0) }} :

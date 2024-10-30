@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {useChatSettingStore} from "~/store/chatSettingStore";
+const config = useRuntimeConfig()
 
 const chatSettingStore = useChatSettingStore()
 const {messages} = storeToRefs(chatSettingStore)
@@ -35,7 +36,7 @@ const openPopout = () => {
   if (!popoutWindow.value || popoutWindow.value.closed) {
     // `${url.protocol}//${useRequestURL().host}/popout/Chat`,
     popoutWindow.value = window.open(
-        `https://overtime.0xwen.site/popout/Chat`,
+        `${config.url}/popout/Chat`,
         '_blank',
         'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
     )

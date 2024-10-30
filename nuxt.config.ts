@@ -2,6 +2,10 @@
 import Aura from '@primevue/themes/aura';
 
 export default defineNuxtConfig({
+  runtimeConfig:{
+    url: 'http://localhost:3000',
+    // url: 'https://overtime.0xwen.site'
+  },
   compatibilityDate: '2024-04-03',
   devtools: {enabled: true},
   ssr: false,

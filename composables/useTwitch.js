@@ -2,6 +2,9 @@ import {useChatSettingStore} from "~/store/chatSettingStore.js";
 import {useSpeakSettingStore} from "~/store/speakSettingStore.js";
 
 export const useTwitch = () => {
+
+    const config = useRuntimeConfig()
+
     const chatSettingStore = useChatSettingStore()
     const {
         twitchChannelInfo,
@@ -26,8 +29,7 @@ export const useTwitch = () => {
 
     // const host = `http://${encodeURIComponent(useRequestURL().hostname)}`
     // const twitchCodeUrl = `http://${encodeURIComponent(useRequestURL().host)}/getTwitchCode`
-    const host = `https://overtime.0xwen.site`
-    const twitchCodeUrl = `https://overtime.0xwen.site/getTwitchCode`
+    const twitchCodeUrl = `${config.url}/getTwitchCode`
     const twitchAuthUrl = "https://id.twitch.tv/oauth2/token"
     const twitchApi = 'https://api.twitch.tv'
     const twitchChannelInfoUrl = '/helix/users?login='

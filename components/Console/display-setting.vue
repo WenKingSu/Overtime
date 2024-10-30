@@ -75,7 +75,7 @@ const fontStore = useFontStore();
               mode="decimal"
               showButtons
               :min="0"
-              :max="Math.floor(clockFontSize/10)"
+              :max="Math.floor(clockFontSize / 10)"
               fluid/>
           <InputGroupAddon>
             px
