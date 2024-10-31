@@ -58,6 +58,14 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
             serializer: StorageSerializers.boolean
         }
     )
+    const twitchSubscriptionsInfo = useLocalStorage((
+        'twitchSubscriptionsInfo',
+            localStorage.getItem('twitchSubscriptionsInfo') ? localStorage.getItem('twitchSubscriptionsInfo') : {},
+            {
+                mergeDefaults: true,
+                serializer: StorageSerializers.object
+            }
+    ))
     const twitchBadges = ref({})
     const twitchMessages = ref([])
 
@@ -115,6 +123,7 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         twitchRefreshToken,
         twitchChannel,
         twitchBroadcasterId,
+        twitchSubscriptionsInfo,
         twitchBadges,
         twitchMessages,
         twitchCode,

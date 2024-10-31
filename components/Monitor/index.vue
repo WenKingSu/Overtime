@@ -23,6 +23,10 @@ const {
 const twitch = useTwitch()
 const youtube = useYouTube()
 
+const {
+  data,
+  error,
+} = useBroadcastChannel({ name: 'overtime-channel' })
 
 const message = ref('')
 
@@ -83,7 +87,7 @@ onMounted(() => {
     if (twitchActive.value){
       twitch.connectTwitchWebSocket()
     }
-  }, 60 * 1000)
+  }, 60 * 60 * 1000)
 })
 
 onUnmounted(() => {
@@ -100,7 +104,7 @@ onUnmounted(() => {
         <Tab value="0">總覽</Tab>
         <Tab value="1">時間顯示</Tab>
         <Tab value="3">聊天室</Tab>
-        <Tab value="4">預留</Tab>
+<!--        <Tab value="4">預留</Tab>-->
       </TabList>
       <TabPanels class="h-90%">
         <TabPanel value="0" class="h-full">

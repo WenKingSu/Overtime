@@ -47,7 +47,7 @@ watch(data, () => {
     <div class="self-center flex-y-center justify-center gap-3 border border-black border-solid p-2rem">
       <div id="remaining-time" class="flex justify-between gap-3">
         <span :style="{fontSize: `${clockFontSize}px`}">
-          剩餘開台時間：
+          剩餘：
         </span>
         <span
             :style="{
@@ -57,14 +57,12 @@ watch(data, () => {
               'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
             }"
         >
-          {{ String(remainingHour).padStart(4, 0) }} :
-          {{ String(remainingMinutes).padStart(2, 0) }} :
-          {{ String(remainingSecond).padStart(2, 0) }}
+          {{ String(remainingHour).padStart(4, 0) }}:{{ String(remainingMinutes).padStart(2, 0) }}:{{ String(remainingSecond).padStart(2, 0) }}
         </span>
       </div>
       <div id="elapsed-time" class="flex justify-between gap-3">
         <span :style="{fontSize: `${clockFontSize}px`}">
-          已過開台時間：
+          已過：
         </span>
         <span
             :style="{
@@ -74,9 +72,7 @@ watch(data, () => {
               'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
             }"
         >
-          {{ String(elapsedHour).padStart(4, 0) }} :
-          {{ String(elapsedMinutes).padStart(2, 0) }} :
-          {{ String(elapsedSecond).padStart(2, 0) }}
+          {{ String(elapsedHour).padStart(4, 0) }}:{{ String(elapsedMinutes).padStart(2, 0) }}:{{ String(elapsedSecond).padStart(2, 0) }}
         </span>
       </div>
     </div>

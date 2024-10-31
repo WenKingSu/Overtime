@@ -15,6 +15,7 @@ export const useTwitch = () => {
         twitchAccessToken,
         twitchBroadcasterId,
         twitchCode,
+        twitchSubscriptionsInfo,
         twitchBadges,
         twitchMessages,
         messages,
@@ -29,7 +30,7 @@ export const useTwitch = () => {
 
     // const host = `http://${encodeURIComponent(useRequestURL().hostname)}`
     // const twitchCodeUrl = `http://${encodeURIComponent(useRequestURL().host)}/getTwitchCode`
-    const twitchCodeUrl = `${config.url}/getTwitchCode`
+    const twitchCodeUrl = `${config.public.host}/getTwitchCode`
     const twitchAuthUrl = "https://id.twitch.tv/oauth2/token"
     const twitchApi = 'https://api.twitch.tv'
     const twitchChannelInfoUrl = '/helix/users?login='
@@ -38,7 +39,8 @@ export const useTwitch = () => {
     let ws;
 
     const getTwitchCode = async () => {
-        const url = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientId.value}&redirect_uri=${twitchCodeUrl}&response_type=code&scope=chat:read chat:edit channel:manage:vips&state=${twitchChannel.value}`
+        const scope = "chat:read chat:edit channel:manage:vips channel:read:subscriptions"
+        const url = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientId.value}&redirect_uri=${twitchCodeUrl}&response_type=code&scope=${scope}&state=${twitchChannel.value}`
         await navigateTo(url, {
             open: {
                 target: '_blank',
@@ -77,7 +79,7 @@ export const useTwitch = () => {
             client_secret: twitchClientSecret.value,
             grant_type: "authorization_code",
             code: twitchCode.value,
-            redirect_uri: host
+            redirect_uri: config.public.host
         }
         try {
             const response = await $fetch(twitchAuthUrl, {
@@ -97,6 +99,30 @@ export const useTwitch = () => {
     }
 
     const getTwitchRefreshToken = async () => {
+        const postData = {
+            client_id: twitchClientId.value,
+            client_secret: twitchClientSecret.value,
+            grant_type: "refresh_token",
+            refresh_token: twitchRefreshToken.value
+        }
+        try {
+            const response = await $fetch(twitchAuthUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(postData),
+            })
+            if (response) {
+                twitchAccessToken.value = response['access_token']
+                twitchRefreshToken.value = response['refresh_token']
+            }
+        } catch (error) {
+            console.error('Error:', error)
+        }
+    }
+
+    const getTwitchSubscriptions = async () => {
         const postData = {
             client_id: twitchClientId.value,
             client_secret: twitchClientSecret.value,

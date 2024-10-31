@@ -1,10 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import Aura from '@primevue/themes/aura';
 
+// host: 'https://overtime.0xwen.site'
+// host: 'http://localhost:3000',
 export default defineNuxtConfig({
-  runtimeConfig:{
-    url: 'http://localhost:3000',
-    // url: 'https://overtime.0xwen.site'
+  runtimeConfig: {
+    public: {
+      host: 'https://overtime.0xwen.site'
+    }
   },
   compatibilityDate: '2024-04-03',
   devtools: {enabled: true},
