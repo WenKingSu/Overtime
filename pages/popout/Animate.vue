@@ -70,7 +70,7 @@ const addElement = (value) => {
   <div
       id="Popout-Animate"
       class="w-full h-full flex-y-center justify-center gap-3 relative"
-      :style="{backgroundColor: `#${bgColor}`}"
+      :style="{backgroundColor: `${bgColor}`}"
   >
     <div
         class="flex-center "
@@ -87,9 +87,9 @@ const addElement = (value) => {
           ref="itemRefs"
           :style="{
             fontSize: `${clockFontSize}px`,
-            color: `#${remainingTimeColor}`,
+            color: `${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
-            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 ${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 ${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 ${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 ${clockBorderColor}`
           }"
       >
         + {{ item.text }}
@@ -102,9 +102,9 @@ const addElement = (value) => {
             width: '8rem',
             height:`${animateMoveRange}px`,
             fontSize: `${clockFontSize}px`,
-            color: `#${remainingTimeColor}`,
+            color: `${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
-            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 #${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 #${clockBorderColor}`
+            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 ${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 ${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 ${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 ${clockBorderColor}`
           }"
       >
 

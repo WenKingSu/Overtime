@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
   <div
       id="Monitor-Overview-Animate"
       class="w-full h-full flex-y-center justify-center gap-3 relative"
-      :style="{backgroundColor: `#${bgColor}`}"
+      :style="{backgroundColor: `${bgColor}`}"
   >
     <div
         class="flex-center "
@@ -125,9 +125,9 @@ onBeforeUnmount(() => {
           ref="itemRefs"
           :style="{
             fontSize: `${clockFontSize}px`,
-            color: `#${remainingTimeColor}`,
+            color: `${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
-            'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
+            'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
           }"
       >
         + {{ item.text }}
@@ -140,9 +140,9 @@ onBeforeUnmount(() => {
             width: '8rem',
             height:`${animateMoveRange}px`,
             fontSize: `${clockFontSize}px`,
-            color: `#${remainingTimeColor}`,
+            color: `${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
-            'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
+            'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
           }"
       >
 

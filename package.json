@@ -12,6 +12,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.5",
     "@primevue/themes": "^4.1.1",
+    "naive-ui": "^2.40.1",
     "nuxt": "^3.13.2",
     "pinia": "^2.2.4",
     "primeicons": "^7.0.0",

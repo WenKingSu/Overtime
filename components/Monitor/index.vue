@@ -100,7 +100,7 @@ onUnmounted(() => {
 <template>
   <div id="monitor" class="w-full h-full">
     <Tabs value="0" class="w-full h-full">
-      <TabList class="h-10%">
+      <TabList class="tab-list-fixed h-10%">
         <Tab value="0">總覽</Tab>
         <Tab value="1">時間顯示</Tab>
         <Tab value="3">聊天室</Tab>
@@ -134,5 +134,11 @@ onUnmounted(() => {
   .p-tabpanels {
     padding: 0;
   }
+  .tab-list-fixed {
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  z-index: 10; /* 調整這個數值以確保固定元素不會被覆蓋 */
+}
 }
 </style>
