@@ -116,26 +116,27 @@ onMounted(async () => {
           <span class="font-bold p-2">語音設定</span>
         </div>
       </template>
-      <div class="grid gap-3">
+      <div>
         <Fluid>
-           <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label for="non-fluid" class="font-bold mb-2 block">語速</label>
-                <InputText v-model="rate" disabled/>
-                <Slider v-model="rate" :min="0.5" :max="2" :step="0.1" class="my-5" @change="changeSpeech"/>
-              </div>
-              <div>
-                <label for="non-fluid" class="font-bold mb-2 block">音調</label>
-                <InputText v-model="pitch" disabled/>
-                <Slider v-model="pitch" :min="0" :max="2" :step="0.1" class="my-5" @change="changeSpeech"/>
-              </div>
-              <div class="col-span-full">
-                <label for="fluid" class="font-bold mb-2 block">音量</label>
-                <InputText v-model="volume" disabled/>
-                <Slider v-model="volume" :min="0" :max="1" :step="0.05" class="my-5" @change="changeSpeech" :disabled="!speakActive"/>
-              </div>
+          <div class="grid grid-cols-2 gap-x-3">
+            <div>
+              <label for="non-fluid" class="font-bold mb-2 block">語速</label>
+              <InputText v-model="rate" disabled/>
+              <Slider v-model="rate" :min="0.5" :max="2" :step="0.1" class="my-5" @change="changeSpeech"/>
             </div>
-          </Fluid>
+            <div>
+              <label for="non-fluid" class="font-bold mb-2 block">音調</label>
+              <InputText v-model="pitch" disabled/>
+              <Slider v-model="pitch" :min="0" :max="2" :step="0.1" class="my-5" @change="changeSpeech"/>
+            </div>
+            <div class="col-span-full">
+              <label for="fluid" class="font-bold mb-2 block">音量</label>
+              <InputText v-model="volume" disabled/>
+              <Slider v-model="volume" :min="0" :max="1" :step="0.05" class="my-5" @change="changeSpeech" :disabled="!speakActive"/>
+            </div>
+          </div>
+        </Fluid>
+        <div class="grid gap-3">
           <div>
             <label for="fluid" class="font-bold mb-2 block">語音模型</label>
             <Select v-model="voice"
@@ -165,6 +166,7 @@ onMounted(async () => {
             </div>
           </div>
         </div>
+      </div>
     </Fieldset>
     <Fieldset legend="語音進階設定" class="w-full">
       <div class="grid gap-3">
