@@ -168,7 +168,7 @@ const plusMinutes = (value) => {
 #Time-Control {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; // 使整個區域靠左對齊
+  align-items: flex-start;
   
   .p-inputgroup {
     &.main {
@@ -193,12 +193,12 @@ const plusMinutes = (value) => {
   }
 
   .flex-y-center {
-    align-items: flex-start; // 子項目靠左對齊
+    align-items: flex-start;
     flex-wrap: wrap;
   }
 
   .flex {
-    justify-content: flex-start; // 子項目靠左對齊
+    justify-content: flex-start;
     flex-wrap: wrap;
   }
 
@@ -207,20 +207,20 @@ const plusMinutes = (value) => {
   }
 
   .custom-rate {
-    width: 2.5rem; // 可根據需要調整寬度
+    width: 2.5rem;
   }
 
   .donate-rate {
-    width: 3rem; // 可根據需要調整寬度
+    width: 3rem;
   }
 
   .donate2-rate {
-    width: 1.5rem; // 可根據需要調整寬度
+    width: 1.5rem;
   }
 
   .fixed-button {
-    width: 5.5rem; // 設定固定寬度，可根據需要調整
-    height: 2.5rem; // 設定固定高度，可根據需要調整
+    width: 5.5rem;
+    height: 2.5rem;
   }
 
   .donate-trans {
