@@ -26,7 +26,7 @@ const fontStore = useFontStore();
 </script>
 
 <template>
-  <NConfigProvider :theme="darkTheme" :locale="zhTW" :dateLocale="dateZhTW">
+  <NConfigProvider preflight-style-disabled :theme="darkTheme" :locale="zhTW" :dateLocale="dateZhTW">
     <div id="Display-Setting">
       <Fieldset legend="時間字型設定" class="w-full">
         <Fluid>
@@ -152,5 +152,11 @@ const fontStore = useFontStore();
 
 <style lang="scss" scoped>
 #Display-Setting {
+  .n-color-picker {
+    height: 40px;
+  }
+  .p-inputgroupaddon {
+    height: 40px;
+  }
 }
 </style>

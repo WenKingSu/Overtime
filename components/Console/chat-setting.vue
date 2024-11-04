@@ -274,5 +274,8 @@ onMounted(async () => {
     display: flex;
     justify-content: space-between;
   }
+  .p-inputgroupaddon {
+    height: 40px;
+  }
 }
 </style>
