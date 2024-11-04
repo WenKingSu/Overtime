@@ -112,10 +112,11 @@ onMounted(()=>{
             fontSize: `${clockFontSize}px`,
             color: `${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
-            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 ${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 ${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 ${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 ${clockBorderColor}`
+            'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
+            paddingTop: '140px',
           }"
       >
-        + {{ item.text }}
+        +{{ item.text }}
       </div>
 
       <!--定位用-->
@@ -127,7 +128,7 @@ onMounted(()=>{
             fontSize: `${clockFontSize}px`,
             color: `${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
-            'text-shadow': `-${clockBorderSize}px -${clockBorderSize}px 0 ${clockBorderColor}, ${clockBorderSize}px -${clockBorderSize}px 0 ${clockBorderColor}, -${clockBorderSize}px ${clockBorderSize}px 0 ${clockBorderColor}, ${clockBorderSize}px ${clockBorderSize}px 0 ${clockBorderColor}`
+            'text-stroke': `${clockBorderSize}px ${clockBorderColor}`
           }"
       >
 

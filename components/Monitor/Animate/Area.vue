@@ -111,7 +111,7 @@ onBeforeUnmount(() => {
       :style="{backgroundColor: `${bgColor}`}"
   >
     <div
-        class="flex-center "
+        class="flex-center"
         :style="{
           height:`${animateMoveRange * 3}px`,
           fontSize: `${clockFontSize}px`,
@@ -128,9 +128,10 @@ onBeforeUnmount(() => {
             color: `${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
             'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
+            paddingTop: '140px',
           }"
       >
-        + {{ item.text }}
+        +{{ item.text }}
       </div>
 
       <!--定位用-->

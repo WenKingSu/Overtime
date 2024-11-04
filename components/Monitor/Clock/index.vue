@@ -87,9 +87,8 @@ onMounted(() => {
   <div
       id="monitor-clock"
       class="w-full h-full flex-y-center justify-center relative"
-      :style="{backgroundColor: `${bgColor}`}"
+      :style="{backgroundColor: `${bgColor}`, paddingTop: '30px'}"
   >
-
     <div class="self-center flex-y-center justify-center gap-3 border border-black border-solid p-2rem">
       <div id="remaining-time" class="flex justify-between gap-3">
         <span :style="{fontSize: `${clockFontSize}px`}">
