@@ -23,6 +23,17 @@ body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
 }
 
+.p-inputgroupaddon {
+    min-height: 40px;
+    height: auto;
+}
+
+.p-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 #__nuxt{
     height: 100vh;
 }

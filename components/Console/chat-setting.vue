@@ -143,7 +143,7 @@ onMounted(async () => {
               optionLabel="name"
               optionValue="name"
               :highlightOnSelect="false"
-              class="w-full"
+              class="voicemodel w-full"
               @change="changeVoice">
               <template #value="slotProps">
                 <div>{{ slotProps.value }}</div>
@@ -274,7 +274,7 @@ onMounted(async () => {
     display: flex;
     justify-content: space-between;
   }
-  .p-inputgroupaddon {
+  .voicemodel {
     height: 40px;
   }
 }

@@ -155,8 +155,5 @@ const fontStore = useFontStore();
   .n-color-picker {
     height: 40px;
   }
-  .p-inputgroupaddon {
-    height: 40px;
-  }
 }
 </style>
