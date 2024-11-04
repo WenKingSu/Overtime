@@ -53,7 +53,7 @@ const fontStore = useFontStore();
                 </InputGroupAddon>
                 <InputNumber
                     v-model="clockFontSize"
-                    inputId="minmax-buttons"
+                    inputId="clockFontSize"
                     mode="decimal"
                     showButtons
                     :min="12"
@@ -73,7 +73,7 @@ const fontStore = useFontStore();
               <InputGroup class="clock-font">
                 <InputNumber
                     v-model="clockBorderSize"
-                    inputId="minmax-buttons"
+                    inputId="clockBorderSize"
                     mode="decimal"
                     showButtons
                     :min="0"
@@ -96,7 +96,7 @@ const fontStore = useFontStore();
             </InputGroupAddon>
             <InputNumber
                 v-model="animateTime"
-                inputId="minmax-buttons"
+                inputId="animateTime"
                 mode="decimal"
                 showButtons
                 :min="1"
@@ -114,7 +114,7 @@ const fontStore = useFontStore();
             </InputGroupAddon>
             <InputNumber
                 v-model="animateMoveRange"
-                inputId="minmax-buttons"
+                inputId="animateMoveRange"
                 mode="decimal"
                 showButtons
                 :min="100"
