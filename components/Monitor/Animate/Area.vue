@@ -85,7 +85,7 @@ const openPopout = () => {
   if (!popoutWindow.value || popoutWindow.value.closed) {
     // `${url.protocol}//${useRequestURL().host}/popout/Animate`,
     popoutWindow.value = window.open(
-        `${config.public.host}/popout/Animate`,
+        `${config.public.host}/popoutAnimate`,
         '_blank',
         'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
     )

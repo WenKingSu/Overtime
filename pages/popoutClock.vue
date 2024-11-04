@@ -25,7 +25,7 @@ const getFontList = () => {
     @font-face {
       font-family: '${fontInfo.name}';
       src: local('${fontInfo.url}'),
-      url(..${fontInfo.url}) format('truetype');
+      url(.${fontInfo.url}) format('truetype');
     }
     `
     fonts += fontItem
@@ -40,7 +40,6 @@ const {
 } = useBroadcastChannel({name: 'overtime-clock-channel'})
 
 watch(data, () => {
-  console.log('watch data', data.value)
   if (data.value) {
     bgColor.value = data.value['bgColor']
     clockFont.value = data.value['clockFont']

@@ -58,7 +58,7 @@ const openPopout = () => {
   if (!popoutWindow.value || popoutWindow.value.closed) {
     // `${url.protocol}//${useRequestURL().host}/popout/Clock`,
     popoutWindow.value = window.open(
-        `${config.public.host}/popout/Clock`,
+        `${config.public.host}/popoutClock`,
         '_blank',
         'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
     )

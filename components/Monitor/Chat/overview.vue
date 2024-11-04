@@ -36,7 +36,7 @@ const openPopout = () => {
   if (!popoutWindow.value || popoutWindow.value.closed) {
     // `${url.protocol}//${useRequestURL().host}/popout/Chat`,
     popoutWindow.value = window.open(
-        `${config.public.host}/popout/Chat`,
+        `${config.public.host}/popoutChat`,
         '_blank',
         'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
     )

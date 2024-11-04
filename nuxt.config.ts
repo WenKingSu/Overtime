@@ -6,7 +6,7 @@ import Aura from '@primevue/themes/aura';
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      host: 'https://overtime.0xwen.site'
+      host: 'http://localhost:3000',
     }
   },
   compatibilityDate: '2024-04-03',
