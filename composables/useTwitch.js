@@ -235,7 +235,7 @@ export const useTwitch = () => {
             ws.send(`CAP REQ :twitch.tv/tags twitch.tv/commands`);
             ws.send(`PASS ${oauthToken}`);
             ws.send(`NICK ${username}`);
-            ws.send(`JOIN #${channel}`);
+            ws.send(`JOIN ${channel}`);
             console.log('Connected to Twitch IRC');
         };
 

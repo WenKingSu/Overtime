@@ -1,11 +1,11 @@
 {
     "display": {
-        "bgColor": "00b140",
-        "remainingTimeColor": "C1CB15",
-        "elapsedTimeColor": "3FC21B",
+        "bgColor": "#00b140",
+        "remainingTimeColor": "#C1CB15",
+        "elapsedTimeColor": "#3FC21B",
         "clockFont": "wt014",
-        "clockFontSize": 36,
-        "clockBorderColor": "000000",
+        "clockFontSize": 40,
+        "clockBorderColor": "#000000",
         "clockBorderSize": "2",
         "animateTime": 3,
         "animateMoveRange": 200

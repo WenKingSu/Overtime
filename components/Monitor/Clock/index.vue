@@ -90,7 +90,7 @@ onBeforeUnmount(() => {
   <div
       id="monitor-clock"
       class="w-full h-full flex-y-center justify-center relative"
-      :style="{backgroundColor: `#${bgColor}`}"
+      :style="{backgroundColor: `${bgColor}`}"
   >
 
     <div class="self-center flex-y-center justify-center gap-3 border border-black border-solid p-2rem">
@@ -101,9 +101,9 @@ onBeforeUnmount(() => {
         <span
             :style="{
               fontSize: `${clockFontSize}px`,
-              color: `#${remainingTimeColor}`,
+              color: `${remainingTimeColor}`,
               fontFamily: `${clockFont}`,
-              'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
+              'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
             }"
           >
           {{ String(remainingHour).padStart(4, 0) }}:{{ String(remainingMinutes).padStart(2, 0) }}:{{ String(remainingSecond).padStart(2, 0) }}
@@ -116,9 +116,9 @@ onBeforeUnmount(() => {
         <span
             :style="{
               fontSize: `${clockFontSize}px`,
-              color: `#${elapsedTimeColor}`,
+              color: `${elapsedTimeColor}`,
               fontFamily: `${clockFont}`,
-              'text-stroke': `${clockBorderSize}px #${clockBorderColor}`,
+              'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
             }"
         >
           {{ String(elapsedHour).padStart(4, 0) }}:{{ String(elapsedMinutes).padStart(2, 0) }}:{{ String(elapsedSecond).padStart(2, 0) }}
