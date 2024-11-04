@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {useDisplaySettingStore} from "~/store/displaySettingStore";
 import {useClockSettingStore} from "~/store/clockSettingStore";
+
 const config = useRuntimeConfig()
 
 const displaySettingStore = useDisplaySettingStore()
@@ -15,6 +16,7 @@ const {
 } = storeToRefs(displaySettingStore)
 const clockSettingStore = useClockSettingStore()
 const {
+  remainingTime,
   remainingHour,
   remainingMinutes,
   remainingSecond,
@@ -28,7 +30,8 @@ const {
   error,
 } = useBroadcastChannel({name: 'overtime-clock-channel'})
 
-watch(elapsedSecond, () => {
+
+const broadcastData = () => {
   post({
     bgColor: bgColor.value,
     clockFont: clockFont.value,
@@ -44,11 +47,14 @@ watch(elapsedSecond, () => {
     elapsedMinutes: elapsedMinutes.value,
     elapsedSecond: elapsedSecond.value,
   })
+}
+
+watch(remainingTime, () => {
+  broadcastData()
 })
 
 const popoutWindow = ref(null)
 const openPopout = () => {
-  const url = useRequestURL()
   if (!popoutWindow.value || popoutWindow.value.closed) {
     // `${url.protocol}//${useRequestURL().host}/popout/Clock`,
     popoutWindow.value = window.open(
@@ -56,25 +62,8 @@ const openPopout = () => {
         '_blank',
         'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
     )
-    setTimeout(()=>{
-      post({
-        bgColor: bgColor.value,
-        clockFont: clockFont.value,
-        clockFontSize: clockFontSize.value,
-        remainingTimeColor: remainingTimeColor.value,
-        clockBorderColor: clockBorderColor.value,
-        clockBorderSize: clockBorderSize.value,
-        elapsedTimeColor: elapsedTimeColor.value,
-        remainingHour: remainingHour.value,
-        remainingMinutes: remainingMinutes.value,
-        remainingSecond: remainingSecond.value,
-        elapsedHour: elapsedHour.value,
-        elapsedMinutes: elapsedMinutes.value,
-        elapsedSecond: elapsedSecond.value,
-      })
-    },1000)
   } else {
-    newWindow.value.focus()
+    popoutWindow.value.focus()
   }
 }
 
@@ -82,6 +71,14 @@ onBeforeUnmount(() => {
   if (popoutWindow.value && !popoutWindow.value.closed) {
     popoutWindow.value.close()
   }
+})
+
+onMounted(() => {
+  setInterval(() => {
+    if (popoutWindow.value) {
+      broadcastData()
+    }
+  }, 250)
 })
 </script>
 
@@ -105,8 +102,10 @@ onBeforeUnmount(() => {
               fontFamily: `${clockFont}`,
               'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
             }"
-          >
-          {{ String(remainingHour).padStart(4, 0) }}:{{ String(remainingMinutes).padStart(2, 0) }}:{{ String(remainingSecond).padStart(2, 0) }}
+        >
+          {{ String(remainingHour).padStart(4, 0) }}:{{
+            String(remainingMinutes).padStart(2, 0)
+          }}:{{ String(remainingSecond).padStart(2, 0) }}
         </span>
       </div>
       <div id="elapsed-time" class="flex justify-between gap-3">
@@ -121,7 +120,9 @@ onBeforeUnmount(() => {
               'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
             }"
         >
-          {{ String(elapsedHour).padStart(4, 0) }}:{{ String(elapsedMinutes).padStart(2, 0) }}:{{ String(elapsedSecond).padStart(2, 0) }}
+          {{ String(elapsedHour).padStart(4, 0) }}:{{
+            String(elapsedMinutes).padStart(2, 0)
+          }}:{{ String(elapsedSecond).padStart(2, 0) }}
         </span>
       </div>
     </div>

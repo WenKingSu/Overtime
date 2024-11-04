@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import {useFontStore} from "~/store/fontStore";
 
+const fontStore = useFontStore()
 const bgColor = ref('')
 const clockFont = ref('')
 const clockFontSize = ref('')
@@ -8,6 +10,24 @@ const clockBorderColor = ref('')
 const clockBorderSize = ref(12)
 const animateTime = ref(0)
 const animateMoveRange = ref(100)
+
+const getFontList = () => {
+  const style = document.createElement('style')
+  style.type = 'text/css'
+  let fonts = ''
+  for (const fontInfo of fontStore.fontInfos) {
+    let fontItem = `
+    @font-face {
+      font-family: '${fontInfo.name}';
+      src: local('${fontInfo.url}'),
+      url(..${fontInfo.url}) format('truetype');
+    }
+    `
+    fonts += fontItem
+  }
+  style.innerHTML = fonts
+  document.head.appendChild(style)
+}
 
 const {
   data,
@@ -64,6 +84,9 @@ const addElement = (value) => {
   });
 };
 
+onMounted(()=>{
+  getFontList()
+})
 </script>
 
 <template>

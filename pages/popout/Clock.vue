@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import {useFontStore} from "~/store/fontStore";
 
+const fontStore = useFontStore()
 const bgColor = ref('')
 const clockFont = ref('')
 const clockFontSize = ref('')
@@ -14,12 +16,31 @@ const elapsedHour = ref(0)
 const elapsedMinutes = ref(0)
 const elapsedSecond = ref(0)
 
+const getFontList = () => {
+  const style = document.createElement('style')
+  style.type = 'text/css'
+  let fonts = ''
+  for (const fontInfo of fontStore.fontInfos) {
+    let fontItem = `
+    @font-face {
+      font-family: '${fontInfo.name}';
+      src: local('${fontInfo.url}'),
+      url(..${fontInfo.url}) format('truetype');
+    }
+    `
+    fonts += fontItem
+  }
+  style.innerHTML = fonts
+  document.head.appendChild(style)
+}
+
 const {
   data,
   error,
 } = useBroadcastChannel({name: 'overtime-clock-channel'})
 
 watch(data, () => {
+  console.log('watch data', data.value)
   if (data.value) {
     bgColor.value = data.value['bgColor']
     clockFont.value = data.value['clockFont']
@@ -35,6 +56,10 @@ watch(data, () => {
     elapsedMinutes.value = data.value['elapsedMinutes']
     elapsedSecond.value = data.value['elapsedSecond']
   }
+})
+
+onMounted(()=>{
+  getFontList()
 })
 </script>
 
