@@ -13,11 +13,12 @@
     "clock": {
         "remainingTime": "300:0:5",
         "elapsedTime": "33:59:55",
-        "plus1": 60,
-        "plus2": 15,
-        "plus3": 10,
-        "plus4": 3,
-        "plus5": 1,
+        "plus1": 180,
+        "plus2": 60,
+        "plus3": 15,
+        "plus4": 10,
+        "plus5": 3,
+        "plus6": 1,
         "transDonateUnit": 100,
         "transRate": 1,
         "transTimeUnit": 8

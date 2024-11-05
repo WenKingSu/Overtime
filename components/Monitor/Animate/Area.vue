@@ -128,7 +128,7 @@ onBeforeUnmount(() => {
             color: `${remainingTimeColor}`,
             fontFamily: `${clockFont}`,
             'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
-            paddingTop: '140px',
+            paddingTop: '120px',
           }"
       >
         +{{ item.text }}

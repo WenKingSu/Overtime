@@ -43,6 +43,11 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
         localStorage.getItem('plus5') ? parseInt(localStorage.getItem('plus5')) : settingJson.clock.plus5,
         {mergeDefaults: true}
     )
+    const plus6 = useLocalStorage(
+        'plus6',
+        localStorage.getItem('plus6') ? parseInt(localStorage.getItem('plus6')) : settingJson.clock.plus6,
+        {mergeDefaults: true}
+    )
 
     //金額換算時間
     const transDonateUnit = useLocalStorage(
@@ -131,6 +136,7 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
         plus3,
         plus4,
         plus5,
+        plus6,
         transDonateUnit,
         transRate,
         transTimeUnit,

@@ -10,6 +10,7 @@ const {
   plus3,
   plus4,
   plus5,
+  plus6,
   transDonateUnit,
   transRate,
   transTimeUnit,
@@ -106,6 +107,11 @@ const plusMinutes = (value) => {
           <InputNumber v-model="plus5" placeholder="0"/>
           <InputGroupAddon>分鐘</InputGroupAddon>
           <Button icon="pi pi-plus" severity="warn" @click="plusMinutes(plus5)"/>
+        </InputGroup>
+        <InputGroup class="fast">
+          <InputNumber v-model="plus6" placeholder="0"/>
+          <InputGroupAddon>分鐘</InputGroupAddon>
+          <Button icon="pi pi-plus" severity="warn" @click="plusMinutes(plus6)"/>
         </InputGroup>
       </div>
     </Fieldset>
