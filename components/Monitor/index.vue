@@ -26,7 +26,7 @@ const youtube = useYouTube()
 const {
   data,
   error,
-} = useBroadcastChannel({ name: 'overtime-channel' })
+} = useBroadcastChannel({name: 'overtime-channel'})
 
 const message = ref('')
 
@@ -84,7 +84,7 @@ onMounted(() => {
   setInterval(() => {
     twitch.getTwitchRefreshToken()
     twitch.disconnectTwitchWebSocket()
-    if (twitchActive.value){
+    if (twitchActive.value) {
       twitch.connectTwitchWebSocket()
     }
   }, 60 * 60 * 1000)
@@ -99,21 +99,21 @@ onUnmounted(() => {
 
 <template>
   <div id="monitor" class="w-full h-full">
-    <Tabs value="0" class="w-full h-full">
+    <Tabs class="w-full h-full" value="0">
       <TabList class="tab-list-fixed h-10%">
         <Tab value="0">總覽</Tab>
         <Tab value="1">時間顯示</Tab>
         <Tab value="3">聊天室</Tab>
-<!--        <Tab value="4">預留</Tab>-->
+        <!--        <Tab value="4">預留</Tab>-->
       </TabList>
-      <TabPanels class="h-90%">
+      <TabPanels class="h-95%">
         <TabPanel value="0" class="h-full">
           <MonitorOverview/>
         </TabPanel>
-        <TabPanel value="1" class="h-full">
+        <TabPanel class="h-full" value="1">
           <MonitorClock/>
         </TabPanel>
-        <TabPanel value="3" class="h-full">
+        <TabPanel class="h-full" value="3">
           <MonitorChat/>
         </TabPanel>
         <!--        <TabPanel value="2">-->
@@ -134,11 +134,13 @@ onUnmounted(() => {
   .p-tabpanels {
     padding: 0;
   }
+
   .tab-list-fixed {
-  position: sticky;
-  top: 0px;
-  width: 100%;
-  z-index: 10; /* 調整這個數值以確保固定元素不會被覆蓋 */
-}
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 10; /* 調整這個數值以確保固定元素不會被覆蓋 */
+    height: fit-content;
+  }
 }
 </style>

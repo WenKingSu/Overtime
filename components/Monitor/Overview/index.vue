@@ -3,16 +3,16 @@
 
 <template>
   <Splitter id="Monitor-Overview" class="w-full h-full">
-    <SplitterPanel class="flex items-start justify-start" :size="30">
+    <SplitterPanel :size="30" class="flex items-start justify-start">
       <MonitorClock/>
     </SplitterPanel>
-    <SplitterPanel class="flex items-start justify-start" :size="15">
+    <SplitterPanel :size="15" class="flex items-start justify-start">
       <MonitorAnimateArea/>
     </SplitterPanel>
-    <SplitterPanel class="flex items-start justify-start" :size="40">
+    <SplitterPanel :size="40" class="flex items-start justify-start">
       <MonitorChatOverview/>
     </SplitterPanel>
-    <SplitterPanel class="flex items-start justify-start" :size="15">
+    <SplitterPanel :size="15" class="flex items-start justify-start">
       <MonitorSpeechQueue/>
     </SplitterPanel>
   </Splitter>

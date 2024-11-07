@@ -32,7 +32,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="scrollContainer" id="Popout-Chat" class="w-full h-full overflow-y-auto">
+  <div id="Popout-Chat" ref="scrollContainer" class="w-full h-full overflow-y-auto">
     <div
         v-for="msg in messages"
         :key="msg.id"
@@ -57,9 +57,9 @@ onMounted(() => {
         <template v-for="(item, index) of msg.contents" :key="index">
           <Image
               v-if="item.contentType === 'image'"
+              :height="item.content.height"
               :src="item.content.url"
               :width="item.content.width"
-              :height="item.content.height"
           />
           <span v-if="item.contentType === 'text'">{{ item.content }}</span>
         </template>
@@ -71,9 +71,9 @@ onMounted(() => {
         <template v-for="(item, index) of msg.contents" :key="index">
           <Image
               v-if="item.contentType === 'image'"
+              :height="item.content.height"
               :src="item.content.url"
               :width="item.content.width"
-              :height="item.content.height"
           />
           <span v-if="item.contentType === 'text'">{{ item.content }}</span>
         </template>

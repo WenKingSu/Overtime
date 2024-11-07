@@ -10,7 +10,7 @@ export const useFontStore = defineStore("Font", () => {
             const name = fileName.split('.')[0]
             paths.push({
                 'name': name,
-                'url': path.replaceAll('/public',''),
+                'url': path.replaceAll('/public', ''),
             })
         }
         return paths

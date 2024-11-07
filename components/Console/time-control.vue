@@ -47,7 +47,7 @@ const plusMinutes = (value) => {
 
 <template>
   <div id="Time-Control" class="flex-y-center gap-y-3">
-    <Fieldset legend="主要設定" class="w-full">
+    <Fieldset class="w-full" legend="主要設定">
       <div class="flex justify-between gap-3">
         <div class="flex-y-center gap-y-3">
           <InputGroup class="main">
@@ -74,14 +74,15 @@ const plusMinutes = (value) => {
           </InputGroup>
         </div>
         <div class="flex gap-3 flex-center">
-            <Button label="開始" icon="pi pi-play" severity="success" class="fixed-button" @click="start" :disabled="run"/>
-            <Button label="暫停" icon="pi pi-stop" severity="danger" class="fixed-button" @click="stop" :disabled="!run"/>
+          <Button :disabled="run" class="fixed-button" icon="pi pi-play" label="開始" severity="success"
+                  @click="start"/>
+          <Button :disabled="!run" class="fixed-button" icon="pi pi-stop" label="暫停" severity="danger" @click="stop"/>
         </div>
-<!--        <Button label="重設" icon="pi pi-sync" severity="warn"/>-->
+        <!--        <Button label="重設" icon="pi pi-sync" severity="warn"/>-->
       </div>
     </Fieldset>
 
-    <Fieldset legend="快速加時" class="w-full">
+    <Fieldset class="w-full" legend="快速加時">
       <div class="flex justify-around gap-3">
         <InputGroup class="fast">
           <InputNumber v-model="plus1" placeholder="0"/>
@@ -116,7 +117,7 @@ const plusMinutes = (value) => {
       </div>
     </Fieldset>
 
-    <Fieldset legend="金額換算加時" class="w-full">
+    <Fieldset class="w-full" legend="金額換算加時">
       <div class="flex justify-between gap-3">
         <div class="flex-y-center gap-3">
           <InputGroup class="custom">
@@ -146,18 +147,18 @@ const plusMinutes = (value) => {
             <InputGroupAddon>
               <i class="pi pi-angle-right"></i>
             </InputGroupAddon>
-            <InputNumber v-model="calcTime" class="donate2-rate" placeholder="0" disabled/>
+            <InputNumber v-model="calcTime" class="donate2-rate" disabled placeholder="0"/>
             <InputGroupAddon>
               <i class="pi pi-clock"></i>
             </InputGroupAddon>
           </InputGroup>
         </div>
-          <div class="flex-y-center gap-3 donate-trans">
+        <div class="flex-y-center gap-3 donate-trans">
           <InputGroup class="donate-trans">
             <InputGroupAddon>
               <i class="pi pi-times"></i>
             </InputGroupAddon>
-            <InputNumber v-model="transRate" placeholder="1" />
+            <InputNumber v-model="transRate" placeholder="1"/>
             <InputGroupAddon>
               倍數
             </InputGroupAddon>
@@ -175,7 +176,7 @@ const plusMinutes = (value) => {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  
+
   .p-inputgroup {
     &.main {
       width: 380px;

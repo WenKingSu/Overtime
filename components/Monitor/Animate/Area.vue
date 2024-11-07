@@ -107,21 +107,20 @@ onBeforeUnmount(() => {
 <template>
   <div
       id="Monitor-Overview-Animate"
-      class="w-full h-full flex-y-center justify-center gap-3 relative"
       :style="{backgroundColor: `${bgColor}`}"
+      class="w-full h-full flex-y-center justify-center gap-3 relative"
   >
     <div
-        class="flex-center"
         :style="{
           height:`${animateMoveRange * 3}px`,
           fontSize: `${clockFontSize}px`,
           fontFamily: `${clockFont}`,
         }"
+        class="flex-center"
     >
       <div
           v-for="item in elements"
           :key="item.id"
-          class="absolute m-1rem p-1rem"
           ref="itemRefs"
           :style="{
             fontSize: `${clockFontSize}px`,
@@ -130,13 +129,13 @@ onBeforeUnmount(() => {
             'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
             paddingTop: '120px',
           }"
+          class="absolute m-1rem p-1rem"
       >
         +{{ item.text }}
       </div>
 
       <!--定位用-->
       <div
-          class="absolute m-1rem p-1rem border border-black b-b-solid"
           :style="{
             width: '8rem',
             height:`${animateMoveRange}px`,
@@ -145,6 +144,7 @@ onBeforeUnmount(() => {
             fontFamily: `${clockFont}`,
             'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
           }"
+          class="absolute m-1rem p-1rem border border-black b-b-solid"
       >
 
       </div>
@@ -152,10 +152,10 @@ onBeforeUnmount(() => {
 
     <div class="absolute bottom-4 right-4">
       <Button
-          icon="pi pi-window-maximize"
-          severity="secondary"
           aria-label="window-maximize"
+          icon="pi pi-window-maximize"
           rounded
+          severity="secondary"
           @click="openPopout"
       />
     </div>

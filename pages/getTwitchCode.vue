@@ -6,7 +6,7 @@ const route = useRoute()
 const chatSettingStore = useChatSettingStore()
 const {twitchCode} = storeToRefs(chatSettingStore)
 
-onMounted(()=>{
+onMounted(() => {
   twitchCode.value = route.query.code
   window.close()
 })

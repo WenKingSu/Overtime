@@ -13,7 +13,7 @@ const {queue} = storeToRefs(speakSettingStore)
           v-for="(message, index) of queue"
           :key="index"
       >
-        {{message}}
+        {{ message }}
       </div>
     </div>
   </div>

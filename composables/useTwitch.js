@@ -39,7 +39,8 @@ export const useTwitch = () => {
     let ws;
 
     const getTwitchCode = async () => {
-        const scope = "chat:read chat:edit channel:manage:vips channel:read:subscriptions"
+        // const scope = "chat:read chat:edit channel:manage:vips channel:read:subscriptions"
+        const scope = "chat:read chat:edit channel:manage:vips"
         const url = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientId.value}&redirect_uri=${twitchCodeUrl}&response_type=code&scope=${scope}&state=${twitchChannel.value}`
         await navigateTo(url, {
             open: {
@@ -235,7 +236,7 @@ export const useTwitch = () => {
             ws.send(`CAP REQ :twitch.tv/tags twitch.tv/commands`);
             ws.send(`PASS ${oauthToken}`);
             ws.send(`NICK ${username}`);
-            ws.send(`JOIN ${channel}`);
+            ws.send(`JOIN #${channel}`);
             console.log('Connected to Twitch IRC');
         };
 

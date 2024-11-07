@@ -109,7 +109,7 @@ onMounted(async () => {
 
 <template>
   <div id="Chat-Setting" class="overflow-y-auto">
-    <Fieldset legend="語音設定" class="w-full">
+    <Fieldset class="w-full" legend="語音設定">
       <template #legend>
         <div class="flex items-center">
           <ToggleSwitch v-model="speakActive" @change="changeSpeakActive"/>
@@ -120,32 +120,33 @@ onMounted(async () => {
         <Fluid>
           <div class="grid grid-cols-2 gap-x-3">
             <div>
-              <label for="non-fluid" class="font-bold mb-2 block">語速</label>
+              <label class="font-bold mb-2 block" for="non-fluid">語速</label>
               <InputText v-model="rate" disabled/>
-              <Slider v-model="rate" :min="0.5" :max="2" :step="0.1" class="my-5" @change="changeSpeech"/>
+              <Slider v-model="rate" :max="2" :min="0.5" :step="0.1" class="my-5" @change="changeSpeech"/>
             </div>
             <div>
-              <label for="non-fluid" class="font-bold mb-2 block">音調</label>
+              <label class="font-bold mb-2 block" for="non-fluid">音調</label>
               <InputText v-model="pitch" disabled/>
-              <Slider v-model="pitch" :min="0" :max="2" :step="0.1" class="my-5" @change="changeSpeech"/>
+              <Slider v-model="pitch" :max="2" :min="0" :step="0.1" class="my-5" @change="changeSpeech"/>
             </div>
             <div class="col-span-full">
-              <label for="fluid" class="font-bold mb-2 block">音量</label>
+              <label class="font-bold mb-2 block" for="fluid">音量</label>
               <InputText v-model="volume" disabled/>
-              <Slider v-model="volume" :min="0" :max="1" :step="0.05" class="my-5" @change="changeSpeech" :disabled="!speakActive"/>
+              <Slider v-model="volume" :disabled="!speakActive" :max="1" :min="0" :step="0.05" class="my-5"
+                      @change="changeSpeech"/>
             </div>
           </div>
         </Fluid>
         <div class="grid gap-3">
           <div>
-            <label for="fluid" class="font-bold mb-2 block">語音模型</label>
+            <label class="font-bold mb-2 block" for="fluid">語音模型</label>
             <Select v-model="voice"
-              :options="voices"
-              optionLabel="name"
-              optionValue="name"
-              :highlightOnSelect="false"
-              class="voicemodel w-full"
-              @change="changeVoice">
+                    :highlightOnSelect="false"
+                    :options="voices"
+                    class="voicemodel w-full"
+                    optionLabel="name"
+                    optionValue="name"
+                    @change="changeVoice">
               <template #value="slotProps">
                 <div>{{ slotProps.value }}</div>
               </template>
@@ -157,31 +158,31 @@ onMounted(async () => {
             </Select>
           </div>
           <div class="flex testText gap-3">
-            <FloatLabel variant="in" class="flex-1">
+            <FloatLabel class="flex-1" variant="in">
               <InputText id="testText" v-model="testText" class="w-full"/>
               <label for="testText">語音測試區</label>
             </FloatLabel>
             <div class="flex gap-3 flex-center">
-              <Button label="測試" icon="pi pi-send" severity="warn" @click="testSpeak"/>
+              <Button icon="pi pi-send" label="測試" severity="warn" @click="testSpeak"/>
             </div>
           </div>
         </div>
       </div>
     </Fieldset>
-    <Fieldset legend="語音進階設定" class="w-full">
+    <Fieldset class="w-full" legend="語音進階設定">
       <div class="grid gap-3">
         <div class="col-span-full">
-          <label for="fluid" class="font-bold mb-2 block">過濾詞彙</label>
-          <Chips class="w-full" v-model="filterPrefix"/>
+          <label class="font-bold mb-2 block" for="fluid">過濾詞彙</label>
+          <Chips v-model="filterPrefix" class="w-full"/>
         </div>
         <div class="col-span-full">
-          <label for="fluid" class="font-bold mb-2 block">噤聲名單</label>
-          <Chips class="w-full" v-model="blockUsers"/>
+          <label class="font-bold mb-2 block" for="fluid">噤聲名單</label>
+          <Chips v-model="blockUsers" class="w-full"/>
         </div>
       </div>
     </Fieldset>
 
-    <Fieldset legend="Youtube 設定" class="w-full">
+    <Fieldset class="w-full" legend="Youtube 設定">
       <template #legend>
         <div class="flex items-center">
           <ToggleSwitch v-model="youtubeActive"/>
@@ -210,7 +211,7 @@ onMounted(async () => {
       </div>
     </Fieldset>
 
-    <Fieldset legend="Twitch 設定" class="w-full">
+    <Fieldset class="w-full" legend="Twitch 設定">
       <template #legend>
         <div class="flex items-center">
           <ToggleSwitch v-model="twitchActive" @change="changeTwitchActive"/>
@@ -246,24 +247,26 @@ onMounted(async () => {
           <InputGroupAddon class="w-8rem" style="justify-content: left">
             Code
           </InputGroupAddon>
-          <Password v-model="twitchCode" :feedback="false" toggleMask disabled/>
+          <Password v-model="twitchCode" :feedback="false" disabled toggleMask/>
         </InputGroup>
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">
             Access Token
           </InputGroupAddon>
-          <Password v-model="twitchAccessToken" :feedback="false" toggleMask disabled/>
+          <Password v-model="twitchAccessToken" :feedback="false" disabled toggleMask/>
         </InputGroup>
         <InputGroup>
           <InputGroupAddon class="w-8rem" style="justify-content: left">
             Refresh Token
           </InputGroupAddon>
-          <Password v-model="twitchRefreshToken" :feedback="false" toggleMask disabled/>
+          <Password v-model="twitchRefreshToken" :feedback="false" disabled toggleMask/>
         </InputGroup>
         <div class="flex gap-3" style="flex-wrap: wrap;">
-          <Button label="Step 1. 取得授權" icon="pi pi-play" severity="success" @click="twitch.getTwitchCode()"/>
-          <Button label="Step 2. 取得 Access Token" icon="pi pi-play" severity="success" @click="twitch.getTwitchAccessToken()"/>
-          <Button label="Step 3. 更新憑證" icon="pi pi-play" severity="success" @click="twitch.getTwitchRefreshToken()"/>
+          <Button icon="pi pi-play" label="Step 1. 取得授權" severity="success" @click="twitch.getTwitchCode()"/>
+          <Button icon="pi pi-play" label="Step 2. 取得 Access Token" severity="success"
+                  @click="twitch.getTwitchAccessToken()"/>
+          <Button icon="pi pi-play" label="Step 3. 更新憑證" severity="success"
+                  @click="twitch.getTwitchRefreshToken()"/>
         </div>
       </div>
     </Fieldset>
@@ -276,6 +279,7 @@ onMounted(async () => {
     display: flex;
     justify-content: space-between;
   }
+
   .voicemodel {
     height: 40px;
   }

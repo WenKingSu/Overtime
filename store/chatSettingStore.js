@@ -102,7 +102,10 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         localStorage.getItem('filterPrefix') ? localStorage.getItem('filterPrefix') : settingJson.chat.filterPrefix,
         {
             mergeDefaults: true,
-            serializer: StorageSerializers.object
+            serializer: {
+                read: (v) => v ? JSON.parse(v) : null,
+                write: (v) => JSON.stringify(v),
+            },
         }
     )
     const blockUsers = useLocalStorage(
@@ -110,7 +113,10 @@ export const useChatSettingStore = defineStore("ChatSettingStore", () => {
         localStorage.getItem('blockUsers') ? localStorage.getItem('blockUsers') : settingJson.chat.blockUsers,
         {
             mergeDefaults: true,
-            serializer: StorageSerializers.object
+            serializer: {
+                read: (v) => v ? JSON.parse(v) : null,
+                write: (v) => JSON.stringify(v),
+            },
         }
     )
 

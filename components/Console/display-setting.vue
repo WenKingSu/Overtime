@@ -2,8 +2,7 @@
 import {useDisplaySettingStore} from "~/store/displaySettingStore";
 import {useFontStore} from "~/store/fontStore";
 import {useAnimateSettingStore} from "~/store/animateSettingStore";
-import { NColorPicker, NConfigProvider, darkTheme } from 'naive-ui'
-import { zhTW, dateZhTW } from 'naive-ui'
+import {darkTheme, dateZhTW, NColorPicker, NConfigProvider, zhTW} from 'naive-ui'
 
 const displaySettingStore = useDisplaySettingStore();
 const {
@@ -26,24 +25,24 @@ const fontStore = useFontStore();
 </script>
 
 <template>
-  <NConfigProvider preflight-style-disabled :theme="darkTheme" :locale="zhTW" :dateLocale="dateZhTW">
+  <NConfigProvider :dateLocale="dateZhTW" :locale="zhTW" :theme="darkTheme" preflight-style-disabled>
     <div id="Display-Setting">
-      <Fieldset legend="時間字型設定" class="w-full">
+      <Fieldset class="w-full" legend="時間字型設定">
         <Fluid>
-        <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-2 gap-3">
             <div class="col-span-full">
               <InputGroup class="clock-font">
-              <InputGroupAddon>
-                時間字型
-              </InputGroupAddon>
+                <InputGroupAddon>
+                  時間字型
+                </InputGroupAddon>
                 <Select v-model="clockFont"
+                        :highlightOnSelect="false"
                         :options="fontStore.fontOptions"
+                        checkmark
+                        class="w-full md:w-56"
                         optionLabel="name"
                         optionValue="value"
-                        placeholder="時間字型"
-                        checkmark
-                        :highlightOnSelect="false"
-                        class="w-full md:w-56"/>
+                        placeholder="時間字型"/>
               </InputGroup>
             </div>
             <div class="col-span-full">
@@ -53,32 +52,33 @@ const fontStore = useFontStore();
                 </InputGroupAddon>
                 <InputNumber
                     v-model="clockFontSize"
+                    :max="144"
+                    :min="12"
+                    fluid
                     inputId="clockFontSize"
                     mode="decimal"
-                    showButtons
-                    :min="12"
-                    :max="144"
-                    fluid/>
+                    showButtons/>
                 <InputGroupAddon>
                   px
                 </InputGroupAddon>
               </InputGroup>
             </div>
             <div>
-              <label for="non-fluid" class="font-bold mb-2 block">邊框顏色</label>
-              <n-color-picker v-model:value="clockBorderColor" :modes="['hex']" :actions="['clear']" size="large" placement="bottom" :show-alpha="false"/>
+              <label class="font-bold mb-2 block" for="non-fluid">邊框顏色</label>
+              <n-color-picker v-model:value="clockBorderColor" :actions="['clear']" :modes="['hex']" :show-alpha="false"
+                              placement="bottom" size="large"/>
             </div>
             <div>
-              <label for="non-fluid" class="font-bold mb-2 block">邊框粗細</label>
+              <label class="font-bold mb-2 block" for="non-fluid">邊框粗細</label>
               <InputGroup class="clock-font">
                 <InputNumber
                     v-model="clockBorderSize"
+                    :max="Math.floor(clockFontSize / 10)"
+                    :min="0"
+                    fluid
                     inputId="clockBorderSize"
                     mode="decimal"
-                    showButtons
-                    :min="0"
-                    :max="Math.floor(clockFontSize / 10)"
-                    fluid/>
+                    showButtons/>
                 <InputGroupAddon>
                   px
                 </InputGroupAddon>
@@ -88,7 +88,7 @@ const fontStore = useFontStore();
         </Fluid>
       </Fieldset>
 
-      <Fieldset legend="動畫設定" class="w-full">
+      <Fieldset class="w-full" legend="動畫設定">
         <div class="flex flex-col justify-between gap-y-3">
           <InputGroup class="clock-font">
             <InputGroupAddon>
@@ -96,12 +96,12 @@ const fontStore = useFontStore();
             </InputGroupAddon>
             <InputNumber
                 v-model="animateTime"
+                :max="60"
+                :min="1"
+                fluid
                 inputId="animateTime"
                 mode="decimal"
                 showButtons
-                :min="1"
-                :max="60"
-                fluid
             />
             <InputGroupAddon>
               秒
@@ -114,12 +114,12 @@ const fontStore = useFontStore();
             </InputGroupAddon>
             <InputNumber
                 v-model="animateMoveRange"
+                :max="1000"
+                :min="100"
+                fluid
                 inputId="animateMoveRange"
                 mode="decimal"
                 showButtons
-                :min="100"
-                :max="1000"
-                fluid
             />
             <InputGroupAddon>
               px
@@ -128,20 +128,23 @@ const fontStore = useFontStore();
         </div>
       </Fieldset>
 
-      <Fieldset legend="顏色設定" class="w-full">
+      <Fieldset class="w-full" legend="顏色設定">
         <Fluid>
-         <div class="grid grid-cols-3 gap-3">
+          <div class="grid grid-cols-3 gap-3">
             <div>
-              <label for="non-fluid" class="font-bold mb-2 block">背景顏色</label>
-              <n-color-picker v-model:value="bgColor" :modes="['hex']" :actions="['clear']" size="large" placement="bottom" :show-alpha="false"/>
+              <label class="font-bold mb-2 block" for="non-fluid">背景顏色</label>
+              <n-color-picker v-model:value="bgColor" :actions="['clear']" :modes="['hex']" :show-alpha="false"
+                              placement="bottom" size="large"/>
             </div>
             <div>
-              <label for="non-fluid" class="font-bold mb-2 block">剩餘時間</label>
-              <n-color-picker v-model:value="remainingTimeColor" :modes="['hex']" :actions="['clear']" size="large" placement="bottom" :show-alpha="false"/>
+              <label class="font-bold mb-2 block" for="non-fluid">剩餘時間</label>
+              <n-color-picker v-model:value="remainingTimeColor" :actions="['clear']" :modes="['hex']" :show-alpha="false"
+                              placement="bottom" size="large"/>
             </div>
             <div>
-              <label for="non-fluid" class="font-bold mb-2 block">已過時間</label>
-              <n-color-picker v-model:value="elapsedTimeColor" :modes="['hex']" :actions="['clear']" size="large" placement="bottom" :show-alpha="false"/>
+              <label class="font-bold mb-2 block" for="non-fluid">已過時間</label>
+              <n-color-picker v-model:value="elapsedTimeColor" :actions="['clear']" :modes="['hex']" :show-alpha="false"
+                              placement="bottom" size="large"/>
             </div>
           </div>
         </Fluid>

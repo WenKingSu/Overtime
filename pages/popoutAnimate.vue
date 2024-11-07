@@ -84,7 +84,7 @@ const addElement = (value) => {
   });
 };
 
-onMounted(()=>{
+onMounted(() => {
   getFontList()
 })
 </script>
@@ -92,21 +92,20 @@ onMounted(()=>{
 <template>
   <div
       id="Popout-Animate"
-      class="w-full h-full flex-y-center justify-center gap-3 relative"
       :style="{backgroundColor: `${bgColor}`}"
+      class="w-full h-full flex-y-center justify-center gap-3 relative"
   >
     <div
-        class="flex-center "
         :style="{
           height:`${animateMoveRange * 3}px`,
           fontSize: `${clockFontSize}px`,
           fontFamily: `${clockFont}`,
         }"
+        class="flex-center "
     >
       <div
           v-for="item in elements"
           :key="item.id"
-          class="absolute m-1rem p-1rem"
           ref="itemRefs"
           :style="{
             fontSize: `${clockFontSize}px`,
@@ -115,13 +114,13 @@ onMounted(()=>{
             'text-stroke': `${clockBorderSize}px ${clockBorderColor}`,
             paddingTop: '120px',
           }"
+          class="absolute m-1rem p-1rem"
       >
         +{{ item.text }}
       </div>
 
       <!--定位用-->
       <div
-          class="absolute m-1rem p-1rem border border-black b-b-solid"
           :style="{
             width: '8rem',
             height:`${animateMoveRange}px`,
@@ -130,6 +129,7 @@ onMounted(()=>{
             fontFamily: `${clockFont}`,
             'text-stroke': `${clockBorderSize}px ${clockBorderColor}`
           }"
+          class="absolute m-1rem p-1rem border border-black b-b-solid"
       >
 
       </div>

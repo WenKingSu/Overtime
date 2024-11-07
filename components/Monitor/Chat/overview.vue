@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {useChatSettingStore} from "~/store/chatSettingStore";
+
 const config = useRuntimeConfig()
 
 const chatSettingStore = useChatSettingStore()
@@ -32,7 +33,6 @@ onMounted(() => {
 
 const popoutWindow = ref(null)
 const openPopout = () => {
-  const url = useRequestURL()
   if (!popoutWindow.value || popoutWindow.value.closed) {
     // `${url.protocol}//${useRequestURL().host}/popout/Chat`,
     popoutWindow.value = window.open(
@@ -40,11 +40,11 @@ const openPopout = () => {
         '_blank',
         'width=800,height=600,location=yes,menubar=no,toolbar=no,status=no'
     )
-    setTimeout(()=>{
+    setTimeout(() => {
       post({
         'messages': JSON.stringify(messages.value),
       })
-    },1000)
+    }, 1000)
   } else {
     newWindow.value.focus()
   }
@@ -58,7 +58,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="scrollContainer" id="Monitor-Chat-Overview" class="w-full h-full overflow-y-auto relative">
+  <div id="Monitor-Chat-Overview" ref="scrollContainer" class="w-full h-full overflow-y-auto relative">
     <div
         v-for="msg in messages"
         :key="msg.id"
@@ -83,9 +83,9 @@ onBeforeUnmount(() => {
         <template v-for="(item, index) of msg.contents" :key="index">
           <Image
               v-if="item.contentType === 'image'"
+              :height="item.content.height"
               :src="item.content.url"
               :width="item.content.width"
-              :height="item.content.height"
           />
           <span v-if="item.contentType === 'text'">{{ item.content }}</span>
         </template>
@@ -97,9 +97,9 @@ onBeforeUnmount(() => {
         <template v-for="(item, index) of msg.contents" :key="index">
           <Image
               v-if="item.contentType === 'image'"
+              :height="item.content.height"
               :src="item.content.url"
               :width="item.content.width"
-              :height="item.content.height"
           />
           <span v-if="item.contentType === 'text'">{{ item.content }}</span>
         </template>
@@ -108,10 +108,10 @@ onBeforeUnmount(() => {
 
     <div class="absolute bottom-4 right-4">
       <Button
-          icon="pi pi-window-maximize"
-          severity="secondary"
           aria-label="window-maximize"
+          icon="pi pi-window-maximize"
           rounded
+          severity="secondary"
           @click="openPopout"
       />
     </div>

@@ -86,8 +86,8 @@ onMounted(() => {
 
   <div
       id="monitor-clock"
-      class="w-full h-full flex-y-center justify-center relative"
       :style="{backgroundColor: `${bgColor}`, paddingTop: '30px'}"
+      class="w-full h-full flex-y-center justify-center relative"
   >
     <div class="self-center flex-y-center justify-center gap-3 border border-black border-solid p-2rem">
       <div id="remaining-time" class="flex justify-between gap-3">
@@ -129,10 +129,10 @@ onMounted(() => {
 
     <div class="absolute bottom-4 right-4">
       <Button
-          icon="pi pi-window-maximize"
-          severity="secondary"
           aria-label="window-maximize"
+          icon="pi pi-window-maximize"
           rounded
+          severity="secondary"
           @click="openPopout"
       />
     </div>

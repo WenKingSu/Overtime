@@ -23,7 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="scrollContainer" id="Monitor-Chat-Twitch" class="m-3">
+  <div id="Monitor-Chat-Twitch" ref="scrollContainer" class="m-3">
     <div
         v-for="msg in twitchMessages"
         :key="msg.id"
@@ -44,9 +44,9 @@ onMounted(() => {
       <template v-for="(item, index) of msg.contents" :key="index">
         <Image
             v-if="item.contentType === 'image'"
+            :height="item.content.height"
             :src="item.content.url"
             :width="item.content.width"
-            :height="item.content.height"
         />
         <span v-if="item.contentType === 'text'">{{ item.content }}</span>
       </template>

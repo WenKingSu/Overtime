@@ -55,7 +55,7 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
         localStorage.getItem('transDonateUnit') ? parseInt(localStorage.getItem('transDonateUnit')) : settingJson.clock.transDonateUnit,
         {mergeDefaults: true}
     )
-    const transRate= useLocalStorage(
+    const transRate = useLocalStorage(
         'transRate',
         localStorage.getItem('transRate') ? parseInt(localStorage.getItem('transRate')) : settingJson.clock.transRate,
         {mergeDefaults: true}
@@ -67,14 +67,38 @@ export const useClockSettingStore = defineStore("ClockSettingStore", () => {
     )
 
     // 剩餘時間
-    let remainingHour = ref(parseInt(remainingTime.value.split(":")[0]))
-    let remainingMinutes = ref(parseInt(remainingTime.value.split(":")[1]))
-    let remainingSecond = ref(parseInt(remainingTime.value.split(":")[2]))
+    let remainingHour = useLocalStorage(
+        'remainingHour',
+        localStorage.getItem('remainingHour') ? ref(parseInt(remainingTime.value.split(":")[0])) : 0,
+        {mergeDefaults: true}
+    )
+    let remainingMinutes = useLocalStorage(
+        'remainingMinutes',
+        localStorage.getItem('remainingMinutes') ? ref(parseInt(remainingTime.value.split(":")[1])) : 0,
+        {mergeDefaults: true}
+    )
+    let remainingSecond = useLocalStorage(
+        'remainingSecond',
+        localStorage.getItem('remainingSecond') ? ref(parseInt(remainingTime.value.split(":")[2])) : 0,
+        {mergeDefaults: true}
+    )
 
     // 經過時間
-    const elapsedHour = ref(parseInt(elapsedTime.value.split(":")[0]))
-    const elapsedMinutes = ref(parseInt(elapsedTime.value.split(":")[1]))
-    const elapsedSecond = ref(parseInt(elapsedTime.value.split(":")[2]))
+    const elapsedHour = useLocalStorage(
+        'elapsedHour',
+        localStorage.getItem('elapsedHour') ? ref(parseInt(elapsedTime.value.split(":")[0])) : 0,
+        {mergeDefaults: true}
+    )
+    const elapsedMinutes = useLocalStorage(
+        'elapsedMinutes',
+        localStorage.getItem('elapsedMinutes') ? ref(parseInt(elapsedTime.value.split(":")[1])) : 0,
+        {mergeDefaults: true}
+    )
+    const elapsedSecond = useLocalStorage(
+        'elapsedSecond',
+        localStorage.getItem('elapsedSecond') ? ref(parseInt(elapsedTime.value.split(":")[2])) : 0,
+        {mergeDefaults: true}
+    )
 
     const plusMinutes = (minutes) => {
         const value = remainingMinutes.value + minutes
