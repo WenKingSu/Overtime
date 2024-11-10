@@ -86,7 +86,7 @@ onMounted(() => {
 
   <div
       id="monitor-clock"
-      :style="{backgroundColor: `${bgColor}`, paddingTop: '30px'}"
+      :style="{backgroundColor: `${bgColor}`}"
       class="w-full h-full flex-y-center justify-center relative"
   >
     <div class="self-center flex-y-center justify-center gap-3 border border-black border-solid p-2rem">
