@@ -44,7 +44,6 @@ const speak = () => {
     return
   }
   if (queue.value.length > 0) {
-    console.log('speech.status.value', speech.status.value)
     if (speech.status.value === 'pause') {
       window.speechSynthesis.resume()
     } else {
@@ -64,7 +63,6 @@ const speak = () => {
 }
 
 onMounted(() => {
-  twitch.fetchBadges()
   if (twitchActive.value) {
     twitch.connectTwitchWebSocket()
   }

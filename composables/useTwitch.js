@@ -224,6 +224,9 @@ export const useTwitch = () => {
 
 
     const connectTwitchWebSocket = () => {
+        if (!twitchBadges.value){
+            fetchBadges()
+        }
         ws = new WebSocket('wss://irc-ws.chat.twitch.tv:443');
 
         ws.onopen = () => {
